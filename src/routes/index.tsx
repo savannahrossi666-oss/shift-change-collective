@@ -51,7 +51,7 @@ const sections = [
     id: "earn",
     kicker: "03 — Earn",
     title: "Get paid on the frontier.",
-    body: "From data labeling and model evals to residencies and grants — the income streams emerging alongside AI, surfaced early and vetted.",
+    body: "Find income where AI is creating opportunity—not replacing people. Explore AI training jobs, model evaluations, research studies, creator programs, freelance projects, grants, fellowships, and other emerging income streams. Every opportunity is carefully curated so users can discover what's next before it becomes mainstream.",
     image: earnImg.url,
     icon: Coins,
   },

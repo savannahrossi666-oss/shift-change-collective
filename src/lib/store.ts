@@ -99,22 +99,24 @@ export const store = {
   setAuthed: (v: boolean) => write(KEYS.auth, v),
 };
 
+import { useSyncExternalStore } from "react";
+
 export function useStoreVersion() {
-  // returns a value that changes when store writes happen — for cheap re-renders.
-  if (!isBrowser()) return 0;
-  const { useSyncExternalStore } = require("react") as typeof import("react");
   return useSyncExternalStore(
-    (cb: () => void) => {
-      const h = () => cb();
-      window.addEventListener("sc:store", h);
-      window.addEventListener("storage", h);
+    (cb) => {
+      if (!isBrowser()) return () => {};
+      window.addEventListener("sc:store", cb);
+      window.addEventListener("storage", cb);
       return () => {
-        window.removeEventListener("sc:store", h);
-        window.removeEventListener("storage", h);
+        window.removeEventListener("sc:store", cb);
+        window.removeEventListener("storage", cb);
       };
     },
-    () => localStorage.length + ":" + (localStorage.getItem("sc.saved")?.length ?? 0),
-    () => 0,
+    () =>
+      isBrowser()
+        ? String(localStorage.length) + ":" + (localStorage.getItem("sc.saved") ?? "")
+        : "ssr",
+    () => "ssr",
   );
 }
 

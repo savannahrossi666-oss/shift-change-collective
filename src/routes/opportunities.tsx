@@ -72,12 +72,12 @@ function OpportunitiesPage() {
         {/* Search + filters */}
         <div className="relative">
           <div className="flex items-center gap-3 rounded-full border border-white/15 bg-white/[0.03] px-5 py-3 backdrop-blur-md">
-            <Search className="h-4 w-4 text-white/50" />
+            <SearchIcon className="h-4 w-4 text-white/50" />
             <input
               autoFocus
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              onKeyDown={(e) => { if (e.key === "Enter") nav({ search: (s) => ({ ...s, q }) }); }}
+              onKeyDown={(e) => { if (e.key === "Enter") nav({ search: (s: SearchParams) => ({ ...s, q }) }); }}
               placeholder="Search title, company, skill…"
               className="w-full bg-transparent text-sm text-white placeholder:text-white/40 focus:outline-none"
             />
@@ -110,7 +110,7 @@ function OpportunitiesPage() {
             return (
               <button
                 key={c}
-                onClick={() => nav({ search: (s) => ({ ...s, cat: c === "All" ? undefined : c }) })}
+                onClick={() => nav({ search: (s: SearchParams) => ({ ...s, cat: c === "All" ? undefined : c }) })}
                 className={`rounded-full border px-3 py-1.5 text-xs uppercase tracking-[0.2em] transition ${
                   active ? "border-white bg-white text-black" : "border-white/15 text-white/60 hover:border-white/40 hover:text-white"
                 }`}
@@ -127,7 +127,7 @@ function OpportunitiesPage() {
             <input
               type="checkbox"
               checked={remoteOnly}
-              onChange={(e) => nav({ search: (s) => ({ ...s, remote: e.target.checked ? "1" : undefined }) })}
+              onChange={(e) => nav({ search: (s: SearchParams) => ({ ...s, remote: e.target.checked ? "1" : undefined }) })}
               className="h-3.5 w-3.5 rounded border-white/30 bg-transparent accent-white"
             />
             Remote only
@@ -136,7 +136,7 @@ function OpportunitiesPage() {
             Sort
             <select
               value={sort}
-              onChange={(e) => nav({ search: (s) => ({ ...s, sort: e.target.value }) })}
+              onChange={(e) => nav({ search: (s: SearchParams) => ({ ...s, sort: e.target.value }) })}
               className="rounded-full border border-white/15 bg-black px-3 py-1.5 text-xs uppercase tracking-[0.25em] text-white/80 focus:outline-none"
             >
               <option value="newest">Newest</option>

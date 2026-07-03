@@ -107,7 +107,7 @@ function OpportunityDetail() {
           <div className="mt-10">
             <div className="text-[10px] uppercase tracking-[0.35em] text-white/40">Required skills</div>
             <div className="mt-3 flex flex-wrap gap-2">
-              {o.skills.map((s) => (
+              {o.skills.map((s: string) => (
                 <span key={s} className="rounded-full border border-white/15 px-3 py-1.5 text-xs text-white/80">
                   {s}
                 </span>

@@ -1,14 +1,14 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Search, X } from "lucide-react";
+import { Search as SearchIcon, X } from "lucide-react";
 import { PageShell, PageHeader } from "@/components/page-shell";
 import { OpportunityCard } from "@/components/opportunity-card";
 import { CATEGORIES, OPPORTUNITIES } from "@/lib/opportunities";
 
-type Search = { q?: string; cat?: string; sort?: string; remote?: string };
+type SearchParams = { q?: string; cat?: string; sort?: string; remote?: string };
 
 export const Route = createFileRoute("/opportunities")({
-  validateSearch: (s: Record<string, unknown>): Search => ({
+  validateSearch: (s: Record<string, unknown>): SearchParams => ({
     q: typeof s.q === "string" ? s.q : undefined,
     cat: typeof s.cat === "string" ? s.cat : undefined,
     sort: typeof s.sort === "string" ? s.sort : undefined,

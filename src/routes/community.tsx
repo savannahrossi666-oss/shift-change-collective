@@ -7,31 +7,31 @@ import { OpportunityCard } from "@/components/opportunity-card";
 export const Route = createFileRoute("/community")({
   head: () => ({
     meta: [
-      { title: "Community — Shift Change" },
-      { name: "description", content: "Neighbor stories, local heroes, and the impact of money that stays in your community." },
-      { property: "og:title", content: "Community — Shift Change" },
-      { property: "og:description", content: "The neighbors making Shift Change what it is." },
+      { title: "Creators — Shift Change" },
+      { name: "description", content: "Creator stories, featured talent, and the impact of a marketplace where creativity becomes instant income." },
+      { property: "og:title", content: "Creators — Shift Change" },
+      { property: "og:description", content: "The creators making Shift Change what it is." },
     ],
   }),
   component: CommunityPage,
 });
 
 const stories = [
-  { name: "Rachel & Malik", role: "Furniture move • Riverside", quote: "I posted a task at 9am. Malik was at my door by 10:15. Cash paid before lunch. It felt like the internet used to feel." },
-  { name: "Linda's family", role: "Weekly grocery pickup", quote: "The same neighbor drops off my mom's groceries every Thursday. She knows him by name now. That means everything." },
-  { name: "Devon", role: "Guitar lessons for his 10-year-old", quote: "Not looking for a virtuoso. Looking for kindness. Shift Change matched us with the perfect person in a day." },
+  { name: "Rachel & Malik", role: "Logo → video for a startup", quote: "I posted at 9am. Malik shipped a full brand kit and video by 6pm. Paid on Venmo same night. It felt like the internet used to feel." },
+  { name: "Priya's podcast", role: "Weekly audio mixing", quote: "The same editor delivers every Monday. Paid every Wednesday. No invoicing dance, no ghosting. It's an actual creative partnership." },
+  { name: "Devon", role: "AI album covers", quote: "Not looking for a virtuoso. Looking for original vision. Shift Change matched us with an AI artist in a day and the work blew us away." },
 ];
 
 const heroes = [
-  { name: "Jonas W.", craft: "Handy Helper — Northside", stat: "142 tasks completed" },
-  { name: "Rin T.", craft: "Community Connector — Downtown", stat: "38 neighbor vouches" },
-  { name: "Nadia F.", craft: "Same-Day Earner — Southbank", stat: "5.0 ★ from 61 tasks" },
+  { name: "Jonas W.", craft: "Motion + video — Remote", stat: "142 gigs delivered" },
+  { name: "Rin T.", craft: "AI content director — Remote", stat: "38 client vouches" },
+  { name: "Nadia F.", craft: "Same-Day Creator — Brand identity", stat: "5.0 ★ from 61 gigs" },
 ];
 
 const impact = [
-  { label: "Dollars kept in-neighborhood this month", value: "$284,110" },
-  { label: "Tasks completed same-day", value: "1,203" },
-  { label: "First-time earners this week", value: "87" },
+  { label: "Paid directly to creators this month", value: "$412,830" },
+  { label: "Gigs delivered same-day", value: "1,203" },
+  { label: "First-time paid creators this week", value: "87" },
   { label: "Average time from post → matched", value: "8 min" },
 ];
 
@@ -41,15 +41,15 @@ function CommunityPage() {
   return (
     <PageShell>
       <PageHeader
-        kicker="Community"
-        title="Neighbors helping neighbors, one task at a time."
-        subtitle="Small jobs. Big impact. Money that stays right where it was earned."
+        kicker="Creators"
+        title="Creativity, rewarded immediately."
+        subtitle="Real creators. Real work. Real pay — today. Money stays with the people making the things."
       />
       <div className="mx-auto max-w-7xl px-6 py-16 space-y-24">
         {/* Impact */}
         <section>
           <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.4em] text-white/40">
-            <TrendingUp className="h-3 w-3" /> Local impact
+            <TrendingUp className="h-3 w-3" /> Creator impact
           </div>
           <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
             {impact.map((s) => (
@@ -61,10 +61,10 @@ function CommunityPage() {
           </div>
         </section>
 
-        {/* Neighbor stories */}
+        {/* Creator stories */}
         <section>
           <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.4em] text-white/40">
-            <Sparkles className="h-3 w-3" /> Neighbor stories
+            <Sparkles className="h-3 w-3" /> Creator stories
           </div>
           <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
             {stories.map((s) => (
@@ -77,10 +77,10 @@ function CommunityPage() {
           </div>
         </section>
 
-        {/* Local heroes */}
+        {/* Featured creators */}
         <section>
           <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.4em] text-white/40">
-            <HeartHandshake className="h-3 w-3" /> Local heroes
+            <HeartHandshake className="h-3 w-3" /> Featured creators
           </div>
           <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
             {heroes.map((c) => (
@@ -101,19 +101,19 @@ function CommunityPage() {
         {/* Invite */}
         <section className="rounded-3xl border border-white/10 bg-white/[0.02] p-10 text-center">
           <Users className="mx-auto h-6 w-6 text-white/70" />
-          <h2 className="mt-6 text-3xl font-light">Your neighborhood is stronger with more of you in it.</h2>
+          <h2 className="mt-6 text-3xl font-light">Every creator makes the whole marketplace better.</h2>
           <p className="mx-auto mt-3 max-w-xl text-white/60">
-            Invite a neighbor who could use a hand — or use the extra income. Every new person makes the whole thing better.
+            Invite a talented friend who could turn their creativity into instant income. Or a founder who needs help shipping the thing they've been putting off.
           </p>
           <Link to="/assessment" className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-xs uppercase tracking-[0.3em] text-black hover:bg-white/90 transition">
-            Invite a neighbor →
+            Invite a creator →
           </Link>
         </section>
 
         {/* Trending */}
         <section>
           <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.4em] text-white/40">
-            <TrendingUp className="h-3 w-3" /> Trending near you
+            <TrendingUp className="h-3 w-3" /> Trending gigs
           </div>
           <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
             {trending.map((o) => (

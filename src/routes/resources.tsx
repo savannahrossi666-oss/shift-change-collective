@@ -1,37 +1,37 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell, PageHeader } from "@/components/page-shell";
-import { BookOpen, FileText, Briefcase, Sparkles, Camera, Code2, Palette, Wand2 } from "lucide-react";
+import { BookOpen, Zap, ShieldCheck, HeartHandshake, DollarSign, Plus, Users, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/resources")({
   head: () => ({
     meta: [
-      { title: "Resources — Shift Change" },
-      { name: "description", content: "Guides for building a career in the AI economy." },
-      { property: "og:title", content: "Resources — Shift Change" },
-      { property: "og:description", content: "Career guides, portfolio advice, and learning paths." },
+      { title: "How it works — Shift Change" },
+      { name: "description", content: "Step-by-step guides for earning today, posting a task, staying safe, and building trust in your neighborhood." },
+      { property: "og:title", content: "How it works — Shift Change" },
+      { property: "og:description", content: "Everything a neighbor needs to earn, get help, and stay safe." },
     ],
   }),
   component: ResourcesPage,
 });
 
 const guides = [
-  { icon: BookOpen, title: "The AI Career Playbook", body: "A field guide to the seven kinds of work AI is opening up — and how to position yourself for each.", read: "18 min" },
-  { icon: FileText, title: "Resume Tips for AI-Native Work", body: "How to translate a traditional CV into a resume that lands interviews for RLHF, eval, and prompt roles.", read: "8 min" },
-  { icon: Briefcase, title: "Portfolio Advice for the AI Era", body: "Case studies from creators who've turned public builds into paid work — and what to steal.", read: "12 min" },
-  { icon: Sparkles, title: "Interview Prep for Frontier Companies", body: "What to expect from Anthropic, OpenAI, Runway, and small-lab interviews. Sample questions, rubrics, prep plan.", read: "22 min" },
-  { icon: Wand2, title: "Prompt Engineering Resources", body: "The canon of prompting: papers, playbooks, evals, and libraries — curated, ranked, and dated.", read: "10 min" },
-  { icon: Code2, title: "Freelancing in the AI Economy", body: "Pricing, contracts, scope, and payment for AI-adjacent freelance work.", read: "15 min" },
-  { icon: Palette, title: "Creative AI Resources", body: "Tools, communities, and residencies for artists, musicians, and filmmakers.", read: "9 min" },
-  { icon: Camera, title: "Beginner Learning Paths", body: "Zero-to-hire paths for four common starting points: writer, designer, developer, researcher.", read: "20 min" },
+  { icon: DollarSign, title: "Earn your first $100 today", body: "How to open the feed, accept your first task, and get paid same-day. Written for total first-timers.", read: "5 min" },
+  { icon: Plus, title: "Post a great task in 60 seconds", body: "The three details that get you matched fastest — and the ones that scare neighbors off.", read: "4 min" },
+  { icon: Zap, title: "Getting paid: same-day options", body: "Cash, instant transfer, or same-day payout — pick what fits and how it protects both sides.", read: "6 min" },
+  { icon: ShieldCheck, title: "Building trust in your profile", body: "Which optional badges to add first, and why they help neighbors say yes faster.", read: "5 min" },
+  { icon: HeartHandshake, title: "Safety, before/during/after", body: "How our check-ins work, when to tap Report, and simple habits that keep everyone comfortable.", read: "7 min" },
+  { icon: BookOpen, title: "Pricing your time fairly", body: "What neighbors expect to pay for common tasks in your area — and when to charge more.", read: "6 min" },
+  { icon: Users, title: "Turning one task into a regular", body: "The friendly follow-ups that convert one-off tasks into weekly, reliable income.", read: "4 min" },
+  { icon: Sparkles, title: "Everyday tax basics for earners", body: "The stuff nobody tells you the first time — plain-language, no legalese.", read: "8 min" },
 ];
 
 function ResourcesPage() {
   return (
     <PageShell>
       <PageHeader
-        kicker="Resources"
-        title="Everything we wish we'd been handed."
-        subtitle="Guides, playbooks, and reading lists for the shift underway."
+        kicker="How it works"
+        title="Everything a neighbor needs to get started."
+        subtitle="Simple guides for earning today, posting a task, and building trust in your community."
       />
       <div className="mx-auto max-w-7xl px-6 py-16">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">

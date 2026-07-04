@@ -8,8 +8,8 @@ import { PageShell } from "@/components/page-shell";
 export const Route = createFileRoute("/assessment")({
   head: () => ({
     meta: [
-      { title: "Onboarding Assessment — Shift Change" },
-      { name: "description", content: "Build your Opportunity Profile in 3 minutes." },
+      { title: "Join the neighborhood — Shift Change" },
+      { name: "description", content: "Tell us a little about you so neighbors can trust you faster. Takes 3 minutes." },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -70,12 +70,12 @@ function AssessmentPage() {
             <Sparkles className="h-6 w-6" />
           </div>
           <div className="mt-6 text-[10px] uppercase tracking-[0.4em] text-white/50">
-            Your Opportunity Profile
+            Welcome to the neighborhood
           </div>
           <h1 className="mt-4 text-4xl md:text-6xl font-light tracking-tight">{profile.archetype}</h1>
           <p className="mt-4 max-w-xl text-white/60">{profile.tagline}</p>
           <p className="mt-8 text-xs uppercase tracking-[0.3em] text-white/40">
-            Taking you to your dashboard…
+            Opening your feed…
           </p>
         </div>
       </PageShell>

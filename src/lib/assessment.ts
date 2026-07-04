@@ -1,3 +1,7 @@
+// Onboarding — a "Neighbor Profile", not a resume.
+// The goal is trust, not gatekeeping. Every question exists to help neighbors
+// find each other faster and feel safer showing up.
+
 export type Question = {
   id: string;
   section: string;
@@ -10,39 +14,67 @@ export type Question = {
 };
 
 export const QUESTIONS: Question[] = [
-  { id: "experience", section: "About you", prompt: "Where are you in your career?", type: "single",
-    options: ["Just starting out", "Early career (1–3 yrs)", "Mid-career (4–9 yrs)", "Senior (10+ yrs)", "Between things"] },
-  { id: "goal", section: "About you", prompt: "What are you trying to do in the next 6 months?", type: "single",
-    options: ["Earn more income", "Pivot into AI work", "Find creative projects", "Land a full-time role", "Explore what's out there"] },
-  { id: "interests", section: "Interests", prompt: "Pick the areas that pull you in.", helper: "Choose 2–5.", type: "multi", min: 2, max: 5,
-    options: ["AI research", "Writing", "Design", "Programming", "Music", "Photography", "Video", "Marketing", "Product", "Science", "Policy & ethics", "Education"] },
-  { id: "skills", section: "Skills", prompt: "Which creative skills are strongest for you?", type: "multi", min: 1, max: 6,
-    options: ["Writing", "Visual design", "Filmmaking", "Music production", "Storytelling", "Illustration", "Photography", "Product taste"] },
-  { id: "tech", section: "Skills", prompt: "Which technical skills do you have?", type: "multi", min: 0, max: 8,
-    options: ["Python", "JavaScript / TypeScript", "SQL", "ML / data", "Prompt engineering", "Design tools (Figma)", "Video tools", "Audio tools", "None yet"] },
-  { id: "style", section: "How you work", prompt: "What working style suits you?", type: "single",
-    options: ["Solo and independent", "Small team", "Structured full-time", "Cohort-based programs", "Whatever fits the project"] },
-  { id: "income", section: "How you work", prompt: "How would you prefer to get paid?", type: "single",
-    options: ["Hourly / gig", "Project-based", "Salary", "Grants & residencies", "Passive / creator", "Flexible income"] },
-  { id: "industries", section: "Interests", prompt: "Which industries excite you most?", type: "multi", min: 1, max: 5,
-    options: ["Consumer tech", "Enterprise / SaaS", "Media & entertainment", "Health & science", "Education", "Climate", "Games", "Finance", "Public sector"] },
-  { id: "ai_familiarity", section: "Skills", prompt: "How comfortable are you with AI tools today?", type: "single",
-    options: ["Curious beginner", "Casual user", "Power user", "Building with it", "Working on it professionally"] },
-  { id: "remote", section: "How you work", prompt: "Where do you want to work from?", type: "single",
-    options: ["Fully remote", "Hybrid", "In person", "Doesn't matter"] },
-  { id: "availability", section: "How you work", prompt: "How much time can you commit each week?", type: "single",
-    options: ["Under 5 hrs", "5–15 hrs", "15–30 hrs", "30+ hrs", "Full-time"] },
-  { id: "education", section: "About you", prompt: "What's your highest level of formal education?", type: "single",
-    options: ["Self-taught", "Some college", "Bachelor's", "Graduate degree", "PhD"] },
-  { id: "portfolio", section: "Assets", prompt: "Do you have a portfolio you're proud of?", type: "single",
-    options: ["Yes, polished", "Yes, needs updating", "In progress", "Not yet"] },
-  { id: "resume", section: "Assets", prompt: "Is your resume ready to send?", type: "single",
-    options: ["Ready", "Needs a refresh", "Rebuilding it", "Not yet"] },
-  { id: "software", section: "Skills", prompt: "Which of these do you use regularly?", type: "multi", min: 0, max: 10,
-    options: ["ChatGPT / Claude", "Cursor / Copilot", "Midjourney / SD", "Runway / Pika", "Figma", "Notion", "Excel / Sheets", "Descript", "Ableton / Logic"] },
-  { id: "pay", section: "Preferences", prompt: "What's your target hourly rate or salary band?", type: "single",
-    options: ["Any — I'm learning", "$20–40/hr", "$40–80/hr", "$80–150/hr", "$150k+/yr", "$250k+/yr"] },
-  { id: "long_term", section: "Preferences", prompt: "Where do you want to be in 3 years?", type: "single",
-    options: ["Running my own studio", "Leading a team inside a startup", "Independent creator", "Researcher / academic", "Financial freedom, flexible life"] },
-  { id: "north_star", section: "Preferences", prompt: "One sentence: what does 'a good week' look like?", helper: "Optional. Shapes your feed.", type: "text" },
+  // Why you're here
+  { id: "intent", section: "You & your neighbors", prompt: "What brings you to Shift Change today?", type: "single",
+    helper: "You can always switch later. Most neighbors do both.",
+    options: ["I want to earn money today", "I need help today", "A little of both", "Just looking around"] },
+  { id: "urgency", section: "You & your neighbors", prompt: "How soon do you need this to happen?", type: "single",
+    helper: "So we sort your feed to what actually helps.",
+    options: ["Today", "This week", "This month", "No rush — I'm building for later"] },
+
+  // Where you are
+  { id: "neighborhood", section: "Where you are", prompt: "What neighborhood or ZIP are you in?", helper: "So we show tasks and neighbors close by.", type: "text" },
+  { id: "radius", section: "Where you are", prompt: "How far are you willing to travel?", type: "single",
+    options: ["Walking distance", "Within 2 miles", "Within 5 miles", "Anywhere in town"] },
+  { id: "transport", section: "Where you are", prompt: "How do you get around?", type: "multi", min: 1, max: 4,
+    options: ["Walk", "Bike", "Car", "Public transit"] },
+
+  // Earner side
+  { id: "skills", section: "What you can offer", prompt: "What kinds of help are you comfortable offering?", helper: "Pick as many as fit. Everyone has something.", type: "multi", min: 1, max: 12,
+    options: [
+      "Moving & lifting", "Yard work", "Cleaning", "Dog walking / pet care",
+      "Grocery + errands", "Tech help", "Tutoring", "Babysitting",
+      "Painting", "Furniture assembly", "Snow removal", "Event setup",
+      "Photography", "Music lessons", "Elder companionship", "Delivery",
+    ] },
+  { id: "physical", section: "What you can offer", prompt: "Comfortable with physical work?", type: "single",
+    options: ["Yes, love it", "Sometimes", "Prefer non-physical work", "Not right now"] },
+  { id: "availability", section: "What you can offer", prompt: "When are you usually free?", type: "multi", min: 1, max: 5,
+    options: ["Weekday mornings", "Weekday afternoons", "Weekday evenings", "Weekends", "On call — text me"] },
+  { id: "hours", section: "What you can offer", prompt: "How much time a week are you hoping to earn?", type: "single",
+    options: ["A few hours", "5–15 hrs", "15–30 hrs", "As many as I can get"] },
+  { id: "pay_speed", section: "What you can offer", prompt: "How fast do you need to get paid?", helper: "We support cash, instant transfer, and same-day payout.", type: "single",
+    options: ["Today, cash preferred", "Same day, any method", "Within a couple days is fine", "Doesn't matter"] },
+
+  // Help-needed side
+  { id: "help_types", section: "What you might need help with", prompt: "What do you typically need a hand with?", type: "multi", min: 0, max: 10,
+    options: [
+      "Moving heavy stuff", "Yard & lawn", "House cleaning", "Pet care",
+      "Errands & pickup", "Tech setup", "Tutoring / homework", "Childcare",
+      "Repairs", "Someone to check on a loved one",
+    ] },
+  { id: "budget", section: "What you might need help with", prompt: "Comfortable budget for the average task?", type: "single",
+    options: ["Under $30", "$30–75", "$75–150", "$150+ when it's a big one", "Depends — I'll decide per task"] },
+
+  // Trust
+  { id: "trust", section: "Building trust", prompt: "Which of these are you willing to add to your profile?", helper: "None are required. Each one just helps neighbors trust you faster.", type: "multi", min: 0, max: 5,
+    options: ["Verify my phone", "Verify my ID", "Optional background check", "Ask a neighbor to vouch for me", "Upload a friendly profile photo"] },
+  { id: "checkin", section: "Building trust", prompt: "Do you want us to send safety check-ins during tasks?", type: "single",
+    options: ["Yes — text me during and after", "Only for bigger tasks", "No thanks"] },
+
+  // Community
+  { id: "why_here", section: "Why you're really here", prompt: "What matters most to you about how this platform works?", type: "single",
+    options: [
+      "Earn money today, no waiting",
+      "Get help today, no hunting",
+      "Keep dollars inside my neighborhood",
+      "Meet the people who live around me",
+      "Flexible work that fits my life",
+    ] },
+  { id: "connect", section: "Why you're really here", prompt: "Open to becoming a regular for the same neighbors?", helper: "The best matches turn into ongoing relationships.", type: "single",
+    options: ["Absolutely — that's the goal", "Sure, when it fits", "One-off tasks are fine too", "Not sure yet"] },
+
+  // Human touch
+  { id: "bio", section: "Introduce yourself", prompt: "A sentence or two your neighbors will see. Warm > polished.", helper: "Optional. This is how it feels to meet you before you meet them.", type: "text" },
+  { id: "value", section: "Introduce yourself", prompt: "One thing you're proud you're good at.", helper: "Optional. Might be exactly what someone needs help with.", type: "text" },
 ];

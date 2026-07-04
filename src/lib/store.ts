@@ -1,4 +1,4 @@
-// Client-side persistence for user profile, saved opps, assessment, and applications.
+// Client-side persistence for the neighbor profile, saved tasks, and status.
 // All localStorage — no backend required to demo the product.
 
 export type AssessmentAnswers = Record<string, string | string[]>;
@@ -120,27 +120,67 @@ export function useStoreVersion() {
   );
 }
 
-export function computeProfile(answers: AssessmentAnswers): OpportunityProfile {
-  const income = (answers["income"] as string) ?? "Flexible income";
-  const style = (answers["style"] as string) ?? "Independent";
-  const interests = ((answers["interests"] as string[]) ?? []).slice(0, 3);
-  const skills = ((answers["skills"] as string[]) ?? []).slice(0, 3);
+// Skill → category map, so what a neighbor says they can do maps to real task
+// categories in the seed data.
+const SKILL_TO_CAT: Record<string, string[]> = {
+  "Moving & lifting": ["Moving", "Furniture Assembly", "Delivery"],
+  "Yard work": ["Yard Work", "Seasonal Work", "Snow Removal"],
+  "Cleaning": ["Cleaning", "Organization"],
+  "Dog walking / pet care": ["Dog Walking", "House Sitting"],
+  "Grocery + errands": ["Grocery Pickup", "Delivery"],
+  "Tech help": ["Tech Help", "Computer Repair"],
+  "Tutoring": ["Tutoring"],
+  "Babysitting": ["Babysitting"],
+  "Painting": ["Painting"],
+  "Furniture assembly": ["Furniture Assembly"],
+  "Snow removal": ["Snow Removal"],
+  "Event setup": ["Event Setup"],
+  "Photography": ["Photography"],
+  "Music lessons": ["Music Lessons"],
+  "Elder companionship": ["Elder Assistance", "House Sitting"],
+  "Delivery": ["Delivery", "Grocery Pickup"],
+};
 
-  const map: Record<string, { archetype: string; cats: string[] }> = {
-    "Hourly / gig": { archetype: "The Frontier Freelancer", cats: ["AI Training", "Model Evaluation", "Annotation", "Freelance"] },
-    "Project-based": { archetype: "The Independent Operator", cats: ["Freelance", "Prompt Engineering", "Design", "Programming"] },
-    "Salary": { archetype: "The Embedded Builder", cats: ["Remote Jobs", "Programming", "Marketing"] },
-    "Grants & residencies": { archetype: "The Studio Artist", cats: ["Grants", "Residencies", "Creator Programs", "Fellowships"] },
-    "Passive / creator": { archetype: "The Creator", cats: ["Creator Programs", "Writing", "Video", "Music"] },
-    "Flexible income": { archetype: "The Portfolio Worker", cats: ["Research Studies", "UX Research", "AI Training", "Freelance"] },
-  };
-  const pick = map[income] ?? map["Flexible income"];
+export function computeProfile(answers: AssessmentAnswers): OpportunityProfile {
+  const intent = (answers["intent"] as string) ?? "A little of both";
+  const urgency = (answers["urgency"] as string) ?? "This week";
+  const skills = ((answers["skills"] as string[]) ?? []).slice(0, 4);
+  const neighborhood = (answers["neighborhood"] as string) ?? "your neighborhood";
+  const why = (answers["why_here"] as string) ?? "";
+
+  // Archetype from intent + urgency + skills breadth
+  let archetype = "The Good Neighbor";
+  if (intent.startsWith("I want to earn")) {
+    archetype = urgency === "Today" ? "Same-Day Earner" : skills.length >= 4 ? "Handy Helper" : "Everyday Earner";
+  } else if (intent.startsWith("I need help")) {
+    archetype = urgency === "Today" ? "Busy Household" : "Home Base";
+  } else if (intent.startsWith("A little")) {
+    archetype = "Community Connector";
+  }
+
+  // Recommended categories — either what they said they can do, or a friendly
+  // starter set so a "just looking" neighbor still sees a useful feed.
+  const cats = new Set<string>();
+  for (const s of skills) (SKILL_TO_CAT[s] ?? []).forEach((c) => cats.add(c));
+  if (cats.size === 0) ["Moving", "Yard Work", "Cleaning", "Tech Help", "Delivery"].forEach((c) => cats.add(c));
+
+  const strengths = skills.length ? skills : ["Showing up", "Being kind", "Following through"];
+
+  const taglineParts: string[] = [];
+  if (neighborhood.trim()) taglineParts.push(`Rooted in ${neighborhood}`);
+  if (urgency === "Today") taglineParts.push("ready to move today");
+  else if (urgency === "This week") taglineParts.push("looking this week");
+  if (why) taglineParts.push(why.toLowerCase());
+
+  const tagline = taglineParts.length
+    ? taglineParts.join(" • ")
+    : "Ready to help your neighbors — and be helped back.";
 
   return {
-    archetype: pick.archetype,
-    tagline: `${style} worker leaning into ${interests.join(", ") || "AI-native work"}.`,
-    strengths: skills.length ? skills : ["Curiosity", "Adaptability", "Judgment"],
-    recommendedCategories: pick.cats,
+    archetype,
+    tagline,
+    strengths,
+    recommendedCategories: Array.from(cats),
     answers,
     completedAt: new Date().toISOString(),
   };

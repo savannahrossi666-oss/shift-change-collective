@@ -50,7 +50,7 @@ function OpportunityDetail() {
 
   const related = OPPORTUNITIES.filter((x) => x.id !== o.id && x.category === o.category).slice(0, 3);
   const similar = OPPORTUNITIES.filter((x) => x.id !== o.id && x.tags.some((t) => o.tags.includes(t))).slice(0, 3);
-  const initials = o.company.split(" ").map((n) => n[0]).slice(0, 2).join("");
+  const initials = o.company.split(" ").map((n: string) => n[0]).slice(0, 2).join("");
   const sameDay = /today|same-day/i.test(o.tags.join(" ")) || /today/i.test(o.deadline);
 
   async function share() {

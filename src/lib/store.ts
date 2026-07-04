@@ -120,61 +120,75 @@ export function useStoreVersion() {
   );
 }
 
-// Skill → category map, so what a neighbor says they can do maps to real task
-// categories in the seed data.
+// Skill → category map. The onboarding skills already match the seed categories
+// one-to-one for creative services, so this is largely a passthrough with a few
+// friendly aliases.
 const SKILL_TO_CAT: Record<string, string[]> = {
-  "Moving & lifting": ["Moving", "Furniture Assembly", "Delivery"],
-  "Yard work": ["Yard Work", "Seasonal Work", "Snow Removal"],
-  "Cleaning": ["Cleaning", "Organization"],
-  "Dog walking / pet care": ["Dog Walking", "House Sitting"],
-  "Grocery + errands": ["Grocery Pickup", "Delivery"],
-  "Tech help": ["Tech Help", "Computer Repair"],
-  "Tutoring": ["Tutoring"],
-  "Babysitting": ["Babysitting"],
-  "Painting": ["Painting"],
-  "Furniture assembly": ["Furniture Assembly"],
-  "Snow removal": ["Snow Removal"],
-  "Event setup": ["Event Setup"],
-  "Photography": ["Photography"],
-  "Music lessons": ["Music Lessons"],
-  "Elder companionship": ["Elder Assistance", "House Sitting"],
-  "Delivery": ["Delivery", "Grocery Pickup"],
+  "Graphic Design": ["Graphic Design", "Logo Design", "Brand Identity"],
+  "Logo Design": ["Logo Design", "Brand Identity", "Graphic Design"],
+  "Brand Identity": ["Brand Identity", "Logo Design", "Graphic Design"],
+  "AI Prompt Engineering": ["AI Prompt Engineering", "AI Content Creation"],
+  "AI Content Creation": ["AI Content Creation", "AI Prompt Engineering", "Digital Art"],
+  "Video Editing": ["Video Editing", "Motion Graphics"],
+  "Motion Graphics": ["Motion Graphics", "Animation", "Video Editing"],
+  "Animation": ["Animation", "Motion Graphics"],
+  "Music Production": ["Music Production", "Audio Mixing"],
+  "Audio Mixing": ["Audio Mixing", "Music Production", "Podcast Editing"],
+  "Voice Acting": ["Voice Acting", "Podcast Editing"],
+  "Podcast Editing": ["Podcast Editing", "Audio Mixing"],
+  "Photography": ["Photography", "Photo Editing"],
+  "Photo Editing": ["Photo Editing", "Photography"],
+  "Digital Art": ["Digital Art", "Illustration"],
+  "Illustration": ["Illustration", "Digital Art"],
+  "3D Modeling": ["3D Modeling", "Animation"],
+  "UI/UX Design": ["UI/UX Design", "Web Design"],
+  "Web Design": ["Web Design", "UI/UX Design", "Web Development"],
+  "Web Development": ["Web Development", "Web Design"],
+  "Copywriting": ["Copywriting", "Social Media Content"],
+  "Social Media Content": ["Social Media Content", "Copywriting", "Graphic Design"],
+  "Presentation Design": ["Presentation Design", "Graphic Design"],
+  "Creative Consulting": ["Creative Consulting", "Brand Identity"],
 };
 
 export function computeProfile(answers: AssessmentAnswers): OpportunityProfile {
   const intent = (answers["intent"] as string) ?? "A little of both";
   const urgency = (answers["urgency"] as string) ?? "This week";
   const skills = ((answers["skills"] as string[]) ?? []).slice(0, 4);
-  const neighborhood = (answers["neighborhood"] as string) ?? "your neighborhood";
+  const location = (answers["location"] as string) ?? "";
+  const level = (answers["level"] as string) ?? "";
   const why = (answers["why_here"] as string) ?? "";
 
-  // Archetype from intent + urgency + skills breadth
-  let archetype = "The Good Neighbor";
+  // Archetype from intent + urgency + level + skills breadth
+  let archetype = "Creative Multihyphenate";
   if (intent.startsWith("I want to earn")) {
-    archetype = urgency === "Today" ? "Same-Day Earner" : skills.length >= 4 ? "Handy Helper" : "Everyday Earner";
-  } else if (intent.startsWith("I need help")) {
-    archetype = urgency === "Today" ? "Busy Household" : "Home Base";
+    if (urgency === "Today") archetype = "Same-Day Creator";
+    else if (level.startsWith("Senior")) archetype = "Senior Creative-for-Hire";
+    else if (skills.length >= 4) archetype = "Creative Multihyphenate";
+    else archetype = "Rising Creator";
+  } else if (intent.startsWith("I need creative help")) {
+    archetype = urgency === "Today" ? "Fast-Moving Founder" : "Creative Client";
   } else if (intent.startsWith("A little")) {
-    archetype = "Community Connector";
+    archetype = "Creative Collaborator";
   }
 
   // Recommended categories — either what they said they can do, or a friendly
-  // starter set so a "just looking" neighbor still sees a useful feed.
+  // starter set so an "exploring" user still sees a useful feed.
   const cats = new Set<string>();
   for (const s of skills) (SKILL_TO_CAT[s] ?? []).forEach((c) => cats.add(c));
-  if (cats.size === 0) ["Moving", "Yard Work", "Cleaning", "Tech Help", "Delivery"].forEach((c) => cats.add(c));
+  if (cats.size === 0)
+    ["Graphic Design", "AI Content Creation", "Video Editing", "Web Design", "Photography"].forEach((c) => cats.add(c));
 
-  const strengths = skills.length ? skills : ["Showing up", "Being kind", "Following through"];
+  const strengths = skills.length ? skills : ["Fast turnaround", "Warm collaboration", "Original work"];
 
   const taglineParts: string[] = [];
-  if (neighborhood.trim()) taglineParts.push(`Rooted in ${neighborhood}`);
-  if (urgency === "Today") taglineParts.push("ready to move today");
-  else if (urgency === "This week") taglineParts.push("looking this week");
+  if (location.trim()) taglineParts.push(`Based in ${location}`);
+  if (urgency === "Today") taglineParts.push("ready to ship today");
+  else if (urgency === "This week") taglineParts.push("booking this week");
   if (why) taglineParts.push(why.toLowerCase());
 
   const tagline = taglineParts.length
     ? taglineParts.join(" • ")
-    : "Ready to help your neighbors — and be helped back.";
+    : "Ready to turn creativity into income — today.";
 
   return {
     archetype,

@@ -7,25 +7,25 @@ export const Route = createFileRoute("/faq")({
   head: () => ({
     meta: [
       { title: "FAQ — Shift Change" },
-      { name: "description", content: "How Shift Change works: same-day pay, trust, safety, and keeping money local." },
+      { name: "description", content: "How Shift Change works: same-day pay, trust, portfolio, and getting discovered instantly." },
       { property: "og:title", content: "FAQ — Shift Change" },
-      { property: "og:description", content: "Answers about speed, payment, trust, safety, and community." },
+      { property: "og:description", content: "Answers about speed, payment, trust, and creative work." },
     ],
   }),
   component: FaqPage,
 });
 
 const faqs = [
-  { q: "How fast can I actually get paid?", a: "Most tasks pay same-day — cash, instant transfer, or same-day payout. You finish the task, the neighbor releases payment, and you get paid. No two-week wait, no corporate holdback." },
-  { q: "Do I really not need a resume?", a: "Correct. Nothing to submit, nothing to interview for. Your ratings and completed tasks become your reputation — the only résumé that matters here." },
-  { q: "How does trust work?", a: "Trust is a tool, not a gate. Optional ID verification, phone verification, background checks, neighbor vouches, and ratings from real completed tasks. You choose how many badges to add — each one just helps neighbors trust you faster." },
-  { q: "How safe is it?", a: "We text safety check-ins before, during, and after tasks. Meet at the door. Agree on scope. Release payment when it's done. If anything feels off, tap Report and we're on it. Bigger tasks unlock stronger protections." },
-  { q: "How local is 'local'?", a: "As local as your street. You set your radius — walking distance, 2 miles, 5 miles, or anywhere in town — and only see tasks and neighbors that fit." },
-  { q: "What if I don't have any special skills?", a: "Everyone is skilled at something. Being strong. Being patient. Being kind. Being on time. The most-posted tasks on Shift Change are 'please help me for an hour' — you're already qualified." },
-  { q: "Does Shift Change take a big cut?", a: "No. We take a small, transparent service fee so we can keep the lights on. The vast majority of every dollar stays with the neighbor who earned it, and it stays in your community." },
-  { q: "How is this different from TaskRabbit, Thumbtack, or Fiverr?", a: "Those platforms are freelancer directories built around applications, quotes, and long waits. Shift Change is a same-day, hyper-local marketplace built around neighbors helping neighbors — with speed, trust, and community as the whole point." },
-  { q: "How do I post a task?", a: "In about 60 seconds. Tap Post a Task, tell us what you need, where you are, and when. A trusted neighbor accepts and heads over — often within minutes." },
-  { q: "Can this become a recurring thing?", a: "Yes — and it often does. Weekly dog walks, biweekly mowing, seasonal snow removal. The best matches turn into ongoing relationships." },
+  { q: "How fast can I actually get paid?", a: "Most gigs pay same-day — cash, instant transfer, or same-day payout. You deliver, the client releases, you get paid. No two-week wait, no corporate holdback." },
+  { q: "Do I really not need a resume?", a: "Correct. Nothing to submit, nothing to interview for. Your portfolio and completed gigs become your reputation — the only résumé that matters here." },
+  { q: "How does trust work?", a: "Trust is a tool, not a gate. Optional ID verification, portfolio links, past-client vouches, and ratings from real completed gigs. You choose which badges to add — each one just helps clients say yes faster." },
+  { q: "Is the work local or remote?", a: "Both. Most creative work — design, editing, AI content, code — is remote and global. Some — photography, in-person shoots, local branding — happens in your city. You choose." },
+  { q: "What if I'm just starting out as a creator?", a: "Everyone is creative at something. Prompt design. Editing. Illustration. Sound. Warm writing. The first gig is the hardest — your ratings and portfolio build fast from there." },
+  { q: "Does Shift Change take a big cut?", a: "No. We take a small, transparent service fee so we can keep the lights on. The vast majority of every dollar stays with the creator — no agency skim, no publisher middleman." },
+  { q: "How is this different from Fiverr, Upwork, or 99designs?", a: "Those platforms are freelancer directories built around proposals, quotes, contests, and long waits. Shift Change is a same-day marketplace built around instant discovery, human creativity, and payment on delivery." },
+  { q: "How do I post a gig?", a: "In about 60 seconds. Tap Post a Gig, describe what you need, share your budget, and hit publish. A talented creator accepts and starts working — often within minutes." },
+  { q: "Can this become recurring work?", a: "Yes — and it often does. Weekly podcast edits, monthly social content, ongoing brand identity. The best matches turn into ongoing creative relationships." },
+  { q: "Does AI replace creators here?", a: "No. AI is creating opportunity — not replacing people. Prompt engineering, AI content direction, and custom workflows are some of our fastest-growing categories, and a human is always behind the work." },
 ];
 
 function FaqPage() {
@@ -34,7 +34,7 @@ function FaqPage() {
     <PageShell>
       <PageHeader
         kicker="FAQ"
-        title="Answers about speed, trust, and community."
+        title="Answers about speed, trust, and creative work."
         subtitle="Missing something? Ask us on the contact page — we add it here."
       />
       <div className="mx-auto max-w-3xl px-6 py-16">

@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef } from "react";
 import {
-  ArrowRight, Plus, Search, ShieldCheck, Zap, HeartHandshake, Home, Truck, Leaf, Dog,
-  Sparkles, ShoppingBag, Laptop, GraduationCap, Baby, PaintRoller, Wrench, Snowflake,
-  PartyPopper, Camera, Music, Package, Car, Sun, DollarSign, Users, MapPin, Clock,
+  ArrowRight, Plus, ShieldCheck, Zap, Sparkles, Palette, Type as TypeIcon, Video, Film, Music,
+  Mic, Camera, Image as ImageIcon, Brush, Layers, Box, Play, Layout, Code, Globe, PenTool,
+  Share2, Presentation, Wand2, DollarSign, Users, Clock, HeartHandshake,
 } from "lucide-react";
 
 import logo from "@/assets/logo.png.asset.json";
@@ -19,17 +19,17 @@ import { OPPORTUNITIES } from "@/lib/opportunities";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Shift Change — Neighbors helping neighbors. Same-day work. Same-day pay." },
+      { title: "Shift Change — Sell your creativity. Get paid today." },
       {
         name: "description",
         content:
-          "Need money today? Need help today? Shift Change connects neighbors instantly for local tasks — no resumes, no interviews, paid same day.",
+          "A creative marketplace where talented people earn from their skills instantly. No resumes, no interviews, no waiting weeks. Human creativity, paid the same day.",
       },
-      { property: "og:title", content: "Shift Change — People helping people." },
+      { property: "og:title", content: "Shift Change — Your creativity deserves immediate opportunity." },
       {
         property: "og:description",
         content:
-          "Post a task, find work nearby, get paid the same day. A community-powered local marketplace that keeps money in your neighborhood.",
+          "Post a creative gig, get discovered instantly, earn from your talent today. AI is creating opportunity — not replacing people.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -39,80 +39,86 @@ export const Route = createFileRoute("/")({
 });
 
 const categories = [
-  { label: "Moving", icon: Truck },
-  { label: "Yard Work", icon: Leaf },
-  { label: "Dog Walking", icon: Dog },
-  { label: "Cleaning", icon: Sparkles },
-  { label: "Grocery Pickup", icon: ShoppingBag },
-  { label: "Tech Help", icon: Laptop },
-  { label: "Tutoring", icon: GraduationCap },
-  { label: "Babysitting", icon: Baby },
-  { label: "Painting", icon: PaintRoller },
-  { label: "Furniture Assembly", icon: Wrench },
-  { label: "Snow Removal", icon: Snowflake },
-  { label: "Event Setup", icon: PartyPopper },
+  { label: "Graphic Design", icon: Palette },
+  { label: "Logo Design", icon: PenTool },
+  { label: "Brand Identity", icon: TypeIcon },
+  { label: "AI Prompt Engineering", icon: Wand2 },
+  { label: "AI Content Creation", icon: Sparkles },
+  { label: "Video Editing", icon: Video },
+  { label: "Motion Graphics", icon: Film },
+  { label: "Animation", icon: Play },
+  { label: "Music Production", icon: Music },
+  { label: "Audio Mixing", icon: Layers },
+  { label: "Voice Acting", icon: Mic },
+  { label: "Podcast Editing", icon: Mic },
   { label: "Photography", icon: Camera },
-  { label: "Music Lessons", icon: Music },
-  { label: "Elder Assistance", icon: HeartHandshake },
-  { label: "Delivery", icon: Package },
-  { label: "Car Washing", icon: Car },
-  { label: "Seasonal Work", icon: Sun },
+  { label: "Photo Editing", icon: ImageIcon },
+  { label: "Digital Art", icon: Brush },
+  { label: "Illustration", icon: PenTool },
+  { label: "3D Modeling", icon: Box },
+  { label: "UI/UX Design", icon: Layout },
+  { label: "Web Design", icon: Globe },
+  { label: "Web Development", icon: Code },
+  { label: "Copywriting", icon: TypeIcon },
+  { label: "Social Media Content", icon: Share2 },
+  { label: "Presentation Design", icon: Presentation },
+  { label: "Creative Consulting", icon: Sparkles },
 ];
 
 const sections = [
   {
     id: "earn",
     kicker: "01 — Earn Today",
-    title: "Open the app. Accept a task. Get paid today.",
-    body: "No applications. No waiting weeks for a paycheck. Real work near you, posted by real neighbors — and paid the same day you finish. Everyone has something valuable to offer, and this is how you finally get to offer it.",
+    title: "Sell your creativity. Get paid today.",
+    body: "No resumes. No interviews. No two-week wait for a paycheck. Open the app, showcase what you create, and connect with someone who needs exactly that. AI is opening doors — not closing them. Your talent has value. Get paid the same day you deliver.",
     image: discoverImg.url,
     icon: DollarSign,
     motion: "zoom",
   },
   {
-    id: "help",
-    kicker: "02 — Get Help Today",
-    title: "Post what you need. A trusted neighbor shows up.",
-    body: "Sometimes you just need a hand. Furniture moved, a driveway shoveled, a laptop that finally boots. Post a task and a nearby neighbor accepts within minutes — friendly, trusted, and paid fairly for their time.",
+    id: "discover",
+    kicker: "02 — Get Discovered Instantly",
+    title: "Post what you need. A creator answers within minutes.",
+    body: "Sometimes an idea needs a designer, an editor, a voice, an illustrator — right now, not next month. Post a creative gig and a talented person accepts within minutes. Skip the platforms that skim, the agencies that gatekeep, and the hiring cycles that waste weeks.",
     image: createImg.url,
     icon: HeartHandshake,
     motion: "float",
   },
   {
-    id: "local",
-    kicker: "03 — Keep It Local",
-    title: "Money that stays in your neighborhood.",
-    body: "Every dollar earned here goes to the person a few doors down — not a corporation with a headquarters two thousand miles away. Small jobs, big impact. Stronger streets are built one task at a time.",
+    id: "community",
+    kicker: "03 — Community Over Corporations",
+    title: "Money that stays with creators.",
+    body: "Every dollar earned here goes to the person doing the work — not a distant corporation with a headquarters two thousand miles away. Human creativity is rewarded immediately, and communities grow by investing in one another. That's the whole point.",
     image: earnImg.url,
-    icon: Home,
+    icon: Users,
     motion: "zoom",
   },
 ];
 
 const stories = [
   {
-    quote: "I posted a task at 9am for someone to move a fridge. By 10:15 it was done and I paid the neighbor in cash. It felt like the internet used to feel.",
-    name: "Rachel, neighbor",
-    role: "Posted a moving task",
+    quote: "I posted a logo gig at 9am. By lunchtime a designer had shipped it and I paid her on Venmo. It felt like the internet used to feel.",
+    name: "Rachel, founder",
+    role: "Posted a logo project",
   },
   {
-    quote: "I picked up my first task on a Tuesday afternoon and had $80 in my hand before dinner. I've never had a job that fast.",
-    name: "Malik, earner",
-    role: "Furniture assembly + tech help",
+    quote: "I picked up my first video edit on a Tuesday and had $400 in my account before dinner. I've never had freelance work move that fast.",
+    name: "Malik, video editor",
+    role: "Video + motion graphics",
   },
   {
-    quote: "My mom lives across town. Every week the same neighbor delivers her groceries. She knows him by name now. That means everything.",
-    name: "Linda, family member",
-    role: "Recurring grocery pickup",
+    quote: "I make Midjourney art. Nobody at a traditional agency would've hired me. Here I've booked five projects in a month, all paid on delivery.",
+    name: "Devon, AI artist",
+    role: "AI content + digital art",
   },
 ];
 
 const faqs = [
-  { q: "How fast can I actually get paid?", a: "Most tasks pay same-day — cash, instant transfer, or same-day payout. You finish, they release, you get paid. No two-week wait." },
-  { q: "Do I need a resume or interviews?", a: "No. Show up, do the task well, get rated. Your ratings and completed tasks become your résumé — the only one that matters here." },
-  { q: "How do you keep it safe?", a: "Optional ID checks, phone verification, background checks, neighbor vouches, and ratings. Trust is a tool, not a gate. You choose how much to add — every step just helps neighbors trust you faster." },
-  { q: "How local is 'local'?", a: "As local as your street. You set your radius — walking distance, 2 miles, 5 miles, or anywhere in town — and only see tasks that fit." },
-  { q: "What if I'm not skilled?", a: "Everyone is skilled at something. Lifting a couch. Watching a dog. Setting up a TV. Being reliable. The most common task on the platform is 'please help me for an hour' — you're already qualified." },
+  { q: "How fast can I actually get paid?", a: "Most gigs pay same-day — cash, instant transfer, or same-day payout. You deliver, they release, you get paid. No two-week wait." },
+  { q: "Do I need a resume or interviews?", a: "No. Show your work, deliver well, get rated. Your portfolio and completed gigs become your résumé — the only one that matters here." },
+  { q: "How do you keep it trusted?", a: "Optional ID checks, portfolio verification, past-client vouches, and ratings from real completed gigs. Trust is a tool, not a gate. Each step just helps creators and clients say yes faster." },
+  { q: "Local or remote?", a: "Both. Most creative work is remote and global. Some — photography, in-person shoots, local branding — happens in your city. You choose." },
+  { q: "What if I'm just starting out?", a: "Everyone has a creative skill. Prompt design, editing, illustration, sound. If you can make something someone needs, you're already qualified. Ratings come with your first gig — not before it." },
 ];
 
 function Index() {
@@ -128,14 +134,14 @@ function Index() {
         <div className="flex whitespace-nowrap gap-16 text-sm uppercase tracking-[0.4em] text-white/40 animate-[marquee_50s_linear_infinite]">
           {Array.from({ length: 2 }).map((_, i) => (
             <div key={i} className="flex gap-16">
-              <span>Same-day pay</span><span>•</span>
-              <span>Neighbors helping neighbors</span><span>•</span>
+              <span>Earn today</span><span>•</span>
+              <span>Sell your creativity</span><span>•</span>
               <span>No resumes</span><span>•</span>
-              <span>No interviews</span><span>•</span>
+              <span>Get discovered instantly</span><span>•</span>
+              <span>Human creativity has value</span><span>•</span>
               <span>Fast</span><span>•</span>
-              <span>Simple</span><span>•</span>
-              <span>Human</span><span>•</span>
-              <span>Local money stays local</span><span>•</span>
+              <span>Trusted</span><span>•</span>
+              <span>Community over corporations</span><span>•</span>
             </div>
           ))}
         </div>
@@ -150,9 +156,9 @@ function Index() {
           </h2>
           <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3">
             {[
-              { n: "01", t: "Post or find", d: "Post a task in 60 seconds, or open the feed and see paid work near you right now." },
-              { n: "02", t: "Match in minutes", d: "A trusted neighbor accepts and heads over. Chat, meet, get it done — usually the same day." },
-              { n: "03", t: "Pay same day", d: "Release payment when it's finished. Cash, instant transfer, or same-day payout. Everyone leaves happy." },
+              { n: "01", t: "Show or post", d: "Show what you create in 60 seconds, or post the creative help you need. No resumes. No proposals." },
+              { n: "02", t: "Match in minutes", d: "A talented creator accepts and starts working. Chat, share drafts, get it done — often the same day." },
+              { n: "03", t: "Pay on delivery", d: "Release payment when the work is delivered. Cash, instant transfer, or same-day payout. Everyone leaves happy." },
             ].map((s) => (
               <div key={s.n} className="rounded-2xl border border-white/10 bg-white/[0.02] p-8">
                 <div className="text-xs uppercase tracking-[0.4em] text-white/40">{s.n}</div>
@@ -173,13 +179,13 @@ function Index() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="flex items-end justify-between">
             <div>
-              <div className="text-[10px] uppercase tracking-[0.4em] text-white/50">Everyone has something to offer</div>
+              <div className="text-[10px] uppercase tracking-[0.4em] text-white/50">Everyone has a creative skill</div>
               <h2 className="mt-4 text-3xl md:text-5xl font-light tracking-tight">
-                All the ways neighbors help neighbors.
+                Every craft. Every medium. Instant income.
               </h2>
             </div>
             <Link to="/opportunities" className="hidden md:inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-white/60 hover:text-white">
-              See all tasks <ArrowRight className="h-3 w-3" />
+              See all gigs <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
           <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
@@ -197,16 +203,16 @@ function Index() {
         </div>
       </section>
 
-      {/* NEARBY RIGHT NOW */}
+      {/* LIVE NOW */}
       <section className="border-t border-white/10 py-24">
         <div className="mx-auto max-w-7xl px-6">
           <div className="flex items-end justify-between">
             <div>
               <div className="text-[10px] uppercase tracking-[0.4em] text-white/50 inline-flex items-center gap-2">
-                <Zap className="h-3 w-3" /> Nearby right now
+                <Zap className="h-3 w-3" /> Open gigs right now
               </div>
               <h2 className="mt-4 text-3xl md:text-5xl font-light tracking-tight">
-                Real tasks. Real neighbors. Real pay — today.
+                Real creators. Real briefs. Real pay — today.
               </h2>
             </div>
             <Link to="/opportunities" className="hidden md:inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-white/60 hover:text-white">
@@ -226,17 +232,17 @@ function Index() {
         <div className="mx-auto max-w-6xl px-6">
           <div className="text-[10px] uppercase tracking-[0.4em] text-white/50">Built on trust</div>
           <h2 className="mt-4 text-3xl md:text-5xl font-light tracking-tight">
-            Tools that help neighbors trust neighbors.
+            Tools that help creators and clients trust each other.
           </h2>
           <p className="mt-6 max-w-2xl text-white/60">
-            Verification isn't a gate — it's a handshake. Every badge, every rating, every optional check is here to help you feel comfortable inviting someone to your door, and comfortable knocking on theirs.
+            Verification isn't a gate — it's a handshake. Every badge, every rating, every portfolio link is here so you can start work with confidence and get paid without friction.
           </p>
           <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             {[
               { i: ShieldCheck, t: "Identity verified", d: "Optional ID check adds a badge — never a barrier." },
-              { i: Users, t: "Neighbor vouches", d: "A trusted neighbor can vouch for you in one tap." },
-              { i: Sparkles, t: "Ratings from real jobs", d: "Every completed task builds real, portable reputation." },
-              { i: HeartHandshake, t: "Safety check-ins", d: "We text before, during, and after bigger tasks." },
+              { i: Users, t: "Client vouches", d: "Past clients can vouch for you in one tap." },
+              { i: Sparkles, t: "Ratings from real gigs", d: "Every delivered project builds real, portable reputation." },
+              { i: HeartHandshake, t: "Payment on delivery", d: "Money's held ready. You deliver, you get paid same day." },
             ].map((f) => (
               <div key={f.t} className="rounded-2xl border border-white/10 bg-white/[0.02] p-6">
                 <f.i className="h-5 w-5 text-white/80" />
@@ -251,9 +257,9 @@ function Index() {
       {/* STORIES */}
       <section className="border-t border-white/10 py-24">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="text-[10px] uppercase tracking-[0.4em] text-white/50">Neighbor stories</div>
+          <div className="text-[10px] uppercase tracking-[0.4em] text-white/50">Creator stories</div>
           <h2 className="mt-4 text-3xl md:text-5xl font-light tracking-tight">
-            Small jobs. Big impact.
+            Creativity, rewarded immediately.
           </h2>
           <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
             {stories.map((s) => (
@@ -281,7 +287,7 @@ function Index() {
               Need money today?
             </div>
             <p className="mt-3 text-white/60">
-              Skip resumes. Skip interviews. Open the feed and see paid work waiting in your neighborhood.
+              Skip resumes. Skip interviews. Open the feed, showcase what you create, and get paid the same day.
             </p>
             <div className="mt-8 inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-white group-hover:translate-x-1 transition-transform">
               Find work now <ArrowRight className="h-3 w-3" />
@@ -293,13 +299,13 @@ function Index() {
           >
             <Plus className="h-6 w-6" />
             <div className="mt-8 text-3xl md:text-4xl font-light tracking-tight">
-              Need help today?
+              Need creative help today?
             </div>
             <p className="mt-3 text-black/70">
-              Post a task in 60 seconds. A trusted neighbor accepts in minutes. Done, paid, moving on.
+              Post a gig in 60 seconds. A talented creator accepts in minutes. Delivered, paid, moving on.
             </p>
             <div className="mt-8 inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] group-hover:translate-x-1 transition-transform">
-              Post a task <ArrowRight className="h-3 w-3" />
+              Post a gig <ArrowRight className="h-3 w-3" />
             </div>
           </Link>
         </div>
@@ -332,12 +338,12 @@ function Index() {
       {/* FINAL CTA */}
       <section className="relative border-t border-white/10 py-32">
         <div className="mx-auto max-w-4xl px-6 text-center">
-          <p className="text-xs uppercase tracking-[0.4em] text-white/50">Your neighborhood is hiring — and helping</p>
+          <p className="text-xs uppercase tracking-[0.4em] text-white/50">Your creativity deserves immediate opportunity</p>
           <h2 className="mt-6 text-4xl md:text-6xl font-light tracking-tight">
-            Real people. <em className="italic font-serif">Real</em> help. Right now.
+            One person needs money. <em className="italic font-serif">Another</em> needs creativity. We connect them instantly.
           </h2>
           <p className="mt-6 text-white/60 max-w-xl mx-auto">
-            Life happens fast. Unexpected bills. Unexpected chores. Unexpected chances to earn. Shift Change is where neighbors meet in the moment.
+            Talent shouldn't have to wait weeks to earn. Ideas shouldn't have to wait weeks to find the right person. Shift Change is where creativity becomes instant income.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row justify-center gap-3">
             <Link
@@ -352,7 +358,7 @@ function Index() {
               className="group inline-flex items-center justify-center gap-3 rounded-full bg-white px-8 py-4 text-sm uppercase tracking-[0.3em] text-black transition hover:bg-white/90"
             >
               <Plus className="h-4 w-4" />
-              Post a task
+              Post a gig
             </Link>
           </div>
         </div>
@@ -405,7 +411,7 @@ function Hero() {
           />
         </div>
         <p className="mt-8 text-xs md:text-sm uppercase tracking-[0.6em] text-white/70 animate-[fade-in_1.6s_ease-out]">
-          People helping people
+          Sell your creativity • Earn today
         </p>
 
         {/* Dual question hero */}
@@ -416,26 +422,26 @@ function Hero() {
           >
             <DollarSign className="h-5 w-5 text-white/80" />
             <div className="text-xl md:text-2xl font-light text-white">Need money today?</div>
-            <div className="text-xs uppercase tracking-[0.3em] text-white/60">Find work now →</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-white/60">Find creative work →</div>
           </Link>
           <Link
             to="/assessment"
             className="group flex flex-col items-start gap-3 rounded-2xl bg-white p-6 text-left text-black transition hover:bg-white/90"
           >
-            <HeartHandshake className="h-5 w-5" />
-            <div className="text-xl md:text-2xl font-light">Need help today?</div>
-            <div className="text-xs uppercase tracking-[0.3em] text-black/70">Post a task →</div>
+            <Sparkles className="h-5 w-5" />
+            <div className="text-xl md:text-2xl font-light">Need creative help today?</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-black/70">Post a gig →</div>
           </Link>
         </div>
 
         <p className="mt-10 max-w-xl text-sm md:text-base text-white/70 animate-[fade-in_2.2s_ease-out]">
-          Real people helping real people. Paid the same day. Right in your neighborhood.
+          One person needs money. Another needs creativity. We connect them instantly — paid the same day.
         </p>
 
         <div className="mt-10 flex items-center gap-6 text-[10px] uppercase tracking-[0.35em] text-white/50 animate-[fade-in_2.4s_ease-out]">
           <span className="inline-flex items-center gap-2"><Zap className="h-3 w-3" /> Same-day pay</span>
-          <span className="inline-flex items-center gap-2"><ShieldCheck className="h-3 w-3" /> Trusted neighbors</span>
-          <span className="hidden md:inline-flex items-center gap-2"><MapPin className="h-3 w-3" /> Hyper-local</span>
+          <span className="inline-flex items-center gap-2"><ShieldCheck className="h-3 w-3" /> Trusted creators</span>
+          <span className="hidden md:inline-flex items-center gap-2"><Sparkles className="h-3 w-3" /> Local + digital</span>
         </div>
       </div>
 
@@ -488,7 +494,7 @@ function EditorialSection({
               to={index === 1 ? "/assessment" : "/opportunities"}
               className="group inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-white/80 transition hover:text-white"
             >
-              {index === 0 ? "Start earning" : index === 1 ? "Post a task" : "Explore local tasks"}
+              {index === 0 ? "Start earning" : index === 1 ? "Post a gig" : "Explore creators"}
               <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
             </Link>
             <span className="text-xs uppercase tracking-[0.3em] text-white/30">

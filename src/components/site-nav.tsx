@@ -5,7 +5,7 @@ import logo from "@/assets/logo.png.asset.json";
 
 const links = [
   { to: "/opportunities", label: "Find Work" },
-  { to: "/community", label: "Community" },
+  { to: "/community", label: "Creators" },
   { to: "/resources", label: "How It Works" },
   { to: "/about", label: "About" },
 ] as const;
@@ -53,7 +53,7 @@ export function SiteNav({ transparent = false }: { transparent?: boolean }) {
             className="group hidden md:inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs uppercase tracking-[0.25em] text-black transition hover:bg-white/90"
           >
             <Plus className="h-3 w-3" />
-            Post a Task
+            Post a Gig
           </Link>
           <Link
             to="/opportunities"
@@ -103,7 +103,7 @@ export function SiteNav({ transparent = false }: { transparent?: boolean }) {
               onClick={() => setOpen(false)}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-4 py-3 text-xs text-black"
             >
-              <Plus className="h-3 w-3" /> Post a Task
+              <Plus className="h-3 w-3" /> Post a Gig
             </Link>
           </div>
         </div>

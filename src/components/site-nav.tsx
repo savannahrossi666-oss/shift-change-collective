@@ -50,7 +50,6 @@ export function SiteNav({ transparent = false }: { transparent?: boolean }) {
         <div className="flex items-center gap-3">
           <Link
             to="/assessment"
-            search={{ mode: "help" } as never}
             className="group hidden md:inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs uppercase tracking-[0.25em] text-black transition hover:bg-white/90"
           >
             <Plus className="h-3 w-3" />

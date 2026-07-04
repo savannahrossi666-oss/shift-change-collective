@@ -77,13 +77,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Shift Change — Neighbors helping neighbors. Same-day work. Same-day pay." },
+      { title: "Shift Change — Sell your creativity. Get paid today." },
       {
         name: "description",
         content:
           "Need money today? Need help today? Shift Change connects neighbors instantly for local tasks — no resumes, no interviews, paid same day.",
       },
-      { property: "og:title", content: "Shift Change — People helping people. Paid same day." },
+      { property: "og:title", content: "Shift Change — Sell your creativity. Get paid today." },
       {
         property: "og:description",
         content:
@@ -91,6 +91,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Shift Change — Sell your creativity. Get paid today." },
+      { name: "description", content: "A creative marketplace where talented people earn from their skills instantly. No resumes, no interviews, no waiting weeks. Human creativity, paid the same day." },
+      { property: "og:description", content: "A creative marketplace where talented people earn from their skills instantly. No resumes, no interviews, no waiting weeks. Human creativity, paid the same day." },
+      { name: "twitter:description", content: "A creative marketplace where talented people earn from their skills instantly. No resumes, no interviews, no waiting weeks. Human creativity, paid the same day." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5b49cafe-f3cb-4b3d-9eb8-076ee08398e7/id-preview-12a575a4--821e0833-5f13-4290-af18-b15ef9eb5293.lovable.app-1783128570896.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/5b49cafe-f3cb-4b3d-9eb8-076ee08398e7/id-preview-12a575a4--821e0833-5f13-4290-af18-b15ef9eb5293.lovable.app-1783128570896.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

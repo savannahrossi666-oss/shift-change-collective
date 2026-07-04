@@ -1,25 +1,25 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Search as SearchIcon, X } from "lucide-react";
+import { Search as SearchIcon, X, MapPin, Zap } from "lucide-react";
 import { PageShell, PageHeader } from "@/components/page-shell";
 import { OpportunityCard } from "@/components/opportunity-card";
 import { CATEGORIES, OPPORTUNITIES } from "@/lib/opportunities";
 
-type SearchParams = { q?: string; cat?: string; sort?: string; remote?: string };
+type SearchParams = { q?: string; cat?: string; sort?: string; today?: string };
 
 export const Route = createFileRoute("/opportunities")({
   validateSearch: (s: Record<string, unknown>): SearchParams => ({
     q: typeof s.q === "string" ? s.q : undefined,
     cat: typeof s.cat === "string" ? s.cat : undefined,
     sort: typeof s.sort === "string" ? s.sort : undefined,
-    remote: typeof s.remote === "string" ? s.remote : undefined,
+    today: typeof s.today === "string" ? s.today : undefined,
   }),
   head: () => ({
     meta: [
-      { title: "Opportunity Directory — Shift Change" },
-      { name: "description", content: "Browse curated AI training, research, fellowships, freelance, and creator opportunities." },
-      { property: "og:title", content: "Opportunity Directory — Shift Change" },
-      { property: "og:description", content: "Curated opportunities across the AI economy." },
+      { title: "Tasks near you — Shift Change" },
+      { name: "description", content: "Local tasks posted by neighbors. Same-day work, same-day pay. No resumes." },
+      { property: "og:title", content: "Tasks near you — Shift Change" },
+      { property: "og:description", content: "Find paid work in your neighborhood right now." },
     ],
   }),
   component: OpportunitiesPage,
@@ -31,13 +31,13 @@ function OpportunitiesPage() {
   const [q, setQ] = useState(search.q ?? "");
   const cat = search.cat ?? "All";
   const sort = search.sort ?? "newest";
-  const remoteOnly = search.remote === "1";
+  const todayOnly = search.today === "1";
 
   const suggestions = useMemo(() => {
     if (!q.trim()) return [];
     const needle = q.toLowerCase();
     return OPPORTUNITIES.filter((o) =>
-      o.title.toLowerCase().includes(needle) || o.company.toLowerCase().includes(needle),
+      o.title.toLowerCase().includes(needle) || o.company.toLowerCase().includes(needle) || o.category.toLowerCase().includes(needle),
     ).slice(0, 5);
   }, [q]);
 
@@ -50,26 +50,27 @@ function OpportunitiesPage() {
           o.title.toLowerCase().includes(n) ||
           o.company.toLowerCase().includes(n) ||
           o.summary.toLowerCase().includes(n) ||
+          o.category.toLowerCase().includes(n) ||
           o.skills.some((s) => s.toLowerCase().includes(n)),
       );
     }
     if (cat !== "All") list = list.filter((o) => o.category === cat);
-    if (remoteOnly) list = list.filter((o) => o.remote);
+    if (todayOnly) list = list.filter((o) => /today|same-day/i.test(o.tags.join(" ")) || /today/i.test(o.deadline));
     if (sort === "pay") list.sort((a, b) => b.payMax - a.payMax);
     else if (sort === "trending") list.sort((a, b) => Number(!!b.trending) - Number(!!a.trending));
     else list.sort((a, b) => a.postedDaysAgo - b.postedDaysAgo);
     return list;
-  }, [q, cat, sort, remoteOnly]);
+  }, [q, cat, sort, todayOnly]);
 
   return (
     <PageShell>
       <PageHeader
-        kicker="Directory"
-        title="Every opportunity, one feed."
-        subtitle="Curated weekly. No aggregator noise. No dead links."
+        kicker="Tasks near you"
+        title="Real work, posted by real neighbors."
+        subtitle="No applications. No interviews. Accept a task and get paid the same day."
       />
       <div className="mx-auto max-w-7xl px-6 py-12">
-        {/* Search + filters */}
+        {/* Search */}
         <div className="relative">
           <div className="flex items-center gap-3 rounded-full border border-white/15 bg-white/[0.03] px-5 py-3 backdrop-blur-md">
             <SearchIcon className="h-4 w-4 text-white/50" />
@@ -78,7 +79,7 @@ function OpportunitiesPage() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               onKeyDown={(e) => { if (e.key === "Enter") nav({ search: (s: SearchParams) => ({ ...s, q }) }); }}
-              placeholder="Search title, company, skill…"
+              placeholder="Search tasks, categories, neighborhoods…"
               className="w-full bg-transparent text-sm text-white placeholder:text-white/40 focus:outline-none"
             />
             {q && (
@@ -96,7 +97,9 @@ function OpportunitiesPage() {
                   className="flex w-full items-center justify-between px-5 py-3 text-left text-sm hover:bg-white/5"
                 >
                   <span className="truncate">{s.title}</span>
-                  <span className="ml-4 text-xs text-white/50">{s.company}</span>
+                  <span className="ml-4 text-xs text-white/50 inline-flex items-center gap-1">
+                    <MapPin className="h-3 w-3" />{s.location}
+                  </span>
                 </button>
               ))}
             </div>
@@ -123,15 +126,14 @@ function OpportunitiesPage() {
 
         {/* Meta filters */}
         <div className="mt-6 flex flex-wrap items-center gap-4 text-xs uppercase tracking-[0.25em] text-white/60">
-          <label className="inline-flex items-center gap-2">
-            <input
-              type="checkbox"
-              checked={remoteOnly}
-              onChange={(e) => nav({ search: (s: SearchParams) => ({ ...s, remote: e.target.checked ? "1" : undefined }) })}
-              className="h-3.5 w-3.5 rounded border-white/30 bg-transparent accent-white"
-            />
-            Remote only
-          </label>
+          <button
+            onClick={() => nav({ search: (s: SearchParams) => ({ ...s, today: todayOnly ? undefined : "1" }) })}
+            className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 transition ${
+              todayOnly ? "border-white bg-white text-black" : "border-white/15 text-white/70 hover:border-white/40 hover:text-white"
+            }`}
+          >
+            <Zap className="h-3 w-3" /> Same-day only
+          </button>
           <div className="flex items-center gap-2">
             Sort
             <select
@@ -145,7 +147,7 @@ function OpportunitiesPage() {
             </select>
           </div>
           <div className="ml-auto text-white/50 normal-case tracking-normal">
-            {results.length} opportunities
+            {results.length} {results.length === 1 ? "task" : "tasks"} nearby
           </div>
         </div>
 
@@ -157,7 +159,7 @@ function OpportunitiesPage() {
         </div>
         {results.length === 0 && (
           <div className="mt-12 rounded-2xl border border-dashed border-white/15 p-12 text-center text-sm text-white/50">
-            Nothing matched. Try broadening filters.
+            No tasks match those filters yet. Try broadening — or post one yourself and get help today.
           </div>
         )}
       </div>

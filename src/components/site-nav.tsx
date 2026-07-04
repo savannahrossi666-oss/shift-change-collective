@@ -1,12 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight, Plus } from "lucide-react";
 import logo from "@/assets/logo.png.asset.json";
 
 const links = [
-  { to: "/opportunities", label: "Opportunities" },
+  { to: "/opportunities", label: "Find Work" },
   { to: "/community", label: "Community" },
-  { to: "/resources", label: "Resources" },
+  { to: "/resources", label: "How It Works" },
   { to: "/about", label: "About" },
 ] as const;
 
@@ -50,9 +50,16 @@ export function SiteNav({ transparent = false }: { transparent?: boolean }) {
         <div className="flex items-center gap-3">
           <Link
             to="/assessment"
-            className="group hidden md:inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.25em] backdrop-blur-md transition hover:bg-white hover:text-black"
+            className="group hidden md:inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs uppercase tracking-[0.25em] text-black transition hover:bg-white/90"
           >
-            Enter
+            <Plus className="h-3 w-3" />
+            Post a Task
+          </Link>
+          <Link
+            to="/opportunities"
+            className="hidden md:inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.25em] backdrop-blur-md transition hover:bg-white/10"
+          >
+            Earn Today
             <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
           </Link>
           <button
@@ -85,11 +92,18 @@ export function SiteNav({ transparent = false }: { transparent?: boolean }) {
               Dashboard
             </Link>
             <Link
+              to="/opportunities"
+              onClick={() => setOpen(false)}
+              className="mt-2 inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-3 text-xs"
+            >
+              Find Work Now <ArrowRight className="h-3 w-3" />
+            </Link>
+            <Link
               to="/assessment"
               onClick={() => setOpen(false)}
-              className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-white px-4 py-3 text-xs text-black"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-4 py-3 text-xs text-black"
             >
-              Enter Shift Change <ArrowRight className="h-3 w-3" />
+              <Plus className="h-3 w-3" /> Post a Task
             </Link>
           </div>
         </div>

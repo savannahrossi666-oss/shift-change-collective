@@ -3,25 +3,26 @@ import logo from "@/assets/logo.png.asset.json";
 
 const groups = [
   {
-    title: "Discover",
+    title: "Get Started",
     links: [
-      { to: "/opportunities", label: "All opportunities" },
-      { to: "/opportunities", label: "Trending" },
-      { to: "/community", label: "Featured creators" },
+      { to: "/opportunities", label: "Find work near me" },
+      { to: "/assessment", label: "Post a task" },
+      { to: "/resources", label: "How it works" },
     ],
   },
   {
-    title: "Members",
+    title: "Your account",
     links: [
-      { to: "/assessment", label: "Take the assessment" },
-      { to: "/dashboard", label: "Dashboard" },
-      { to: "/profile", label: "Profile" },
+      { to: "/assessment", label: "Join the neighborhood" },
+      { to: "/dashboard", label: "My dashboard" },
+      { to: "/profile", label: "My profile" },
     ],
   },
   {
-    title: "Company",
+    title: "Community",
     links: [
-      { to: "/about", label: "About" },
+      { to: "/community", label: "Neighbor stories" },
+      { to: "/about", label: "About us" },
       { to: "/contact", label: "Contact" },
       { to: "/faq", label: "FAQ" },
     ],
@@ -42,7 +43,7 @@ export function SiteFooter() {
         <div className="col-span-2 md:col-span-2">
           <img src={logo.url} alt="Shift Change" className="h-6 w-auto invert brightness-0" />
           <p className="mt-4 max-w-xs text-sm text-white/50 leading-relaxed">
-            A curated feed of emerging ways to work, create, and earn in the age of AI.
+            People helping people. A local marketplace built for immediate work, immediate help, and money that stays in your community.
           </p>
         </div>
         {groups.map((g) => (
@@ -61,7 +62,7 @@ export function SiteFooter() {
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-7xl flex-col md:flex-row items-center justify-between gap-4 px-6 py-6 text-[10px] uppercase tracking-[0.35em] text-white/40">
           <span>© {new Date().getFullYear()} Shift Change</span>
-          <span>Discover • Create • Earn</span>
+          <span>Fast • Simple • Human • Local</span>
         </div>
       </div>
     </footer>

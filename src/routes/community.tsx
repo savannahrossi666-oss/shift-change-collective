@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, MessageCircle, Sparkles, TrendingUp } from "lucide-react";
+import { ArrowUpRight, HeartHandshake, Sparkles, TrendingUp, Users } from "lucide-react";
 import { PageShell, PageHeader } from "@/components/page-shell";
 import { OPPORTUNITIES } from "@/lib/opportunities";
 import { OpportunityCard } from "@/components/opportunity-card";
@@ -8,31 +8,31 @@ export const Route = createFileRoute("/community")({
   head: () => ({
     meta: [
       { title: "Community — Shift Change" },
-      { name: "description", content: "Success stories, featured creators, discussions, and weekly highlights." },
+      { name: "description", content: "Neighbor stories, local heroes, and the impact of money that stays in your community." },
       { property: "og:title", content: "Community — Shift Change" },
-      { property: "og:description", content: "The people making Shift Change what it is." },
+      { property: "og:description", content: "The neighbors making Shift Change what it is." },
     ],
   }),
   component: CommunityPage,
 });
 
 const stories = [
-  { name: "Maya Chen", role: "Composer → Suno resident", quote: "Six weeks in, I released the first thing I've made in years that felt actually mine." },
-  { name: "Ade Ogunleye", role: "Copywriter → RLHF trainer", quote: "I doubled my income before I finished the paperwork on my old job." },
-  { name: "Priya Raman", role: "PhD candidate → Hugging Face fellow", quote: "The fellowship funded the dataset my whole thesis rests on." },
+  { name: "Rachel & Malik", role: "Furniture move • Riverside", quote: "I posted a task at 9am. Malik was at my door by 10:15. Cash paid before lunch. It felt like the internet used to feel." },
+  { name: "Linda's family", role: "Weekly grocery pickup", quote: "The same neighbor drops off my mom's groceries every Thursday. She knows him by name now. That means everything." },
+  { name: "Devon", role: "Guitar lessons for his 10-year-old", quote: "Not looking for a virtuoso. Looking for kindness. Shift Change matched us with the perfect person in a day." },
 ];
 
-const creators = [
-  { name: "Jonas Weller", craft: "AI-native filmmaker", stat: "12 shorts / yr" },
-  { name: "Rin Takeda", craft: "Prompt archaeologist", stat: "8k+ subscribers" },
-  { name: "Nadia Ford", craft: "Editorial illustrator", stat: "3 covers this year" },
+const heroes = [
+  { name: "Jonas W.", craft: "Handy Helper — Northside", stat: "142 tasks completed" },
+  { name: "Rin T.", craft: "Community Connector — Downtown", stat: "38 neighbor vouches" },
+  { name: "Nadia F.", craft: "Same-Day Earner — Southbank", stat: "5.0 ★ from 61 tasks" },
 ];
 
-const discussions = [
-  { title: "Best pricing for model-eval contracts?", replies: 42 },
-  { title: "How do you structure a Runway pitch?", replies: 28 },
-  { title: "Fellowships that actually pay a living wage", replies: 61 },
-  { title: "Show your assessment archetype", replies: 118 },
+const impact = [
+  { label: "Dollars kept in-neighborhood this month", value: "$284,110" },
+  { label: "Tasks completed same-day", value: "1,203" },
+  { label: "First-time earners this week", value: "87" },
+  { label: "Average time from post → matched", value: "8 min" },
 ];
 
 function CommunityPage() {
@@ -42,14 +42,29 @@ function CommunityPage() {
     <PageShell>
       <PageHeader
         kicker="Community"
-        title="The people making this real."
-        subtitle="Members trading playbooks, stories, and unreleased opportunities."
+        title="Neighbors helping neighbors, one task at a time."
+        subtitle="Small jobs. Big impact. Money that stays right where it was earned."
       />
       <div className="mx-auto max-w-7xl px-6 py-16 space-y-24">
-        {/* Success stories */}
+        {/* Impact */}
         <section>
           <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.4em] text-white/40">
-            <Sparkles className="h-3 w-3" /> Success stories
+            <TrendingUp className="h-3 w-3" /> Local impact
+          </div>
+          <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
+            {impact.map((s) => (
+              <div key={s.label} className="rounded-2xl border border-white/10 bg-white/[0.02] p-6">
+                <div className="text-3xl font-light">{s.value}</div>
+                <div className="mt-2 text-xs text-white/60 leading-relaxed">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Neighbor stories */}
+        <section>
+          <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.4em] text-white/40">
+            <Sparkles className="h-3 w-3" /> Neighbor stories
           </div>
           <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
             {stories.map((s) => (
@@ -62,13 +77,13 @@ function CommunityPage() {
           </div>
         </section>
 
-        {/* Featured creators */}
+        {/* Local heroes */}
         <section>
           <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.4em] text-white/40">
-            Featured creators
+            <HeartHandshake className="h-3 w-3" /> Local heroes
           </div>
           <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
-            {creators.map((c) => (
+            {heroes.map((c) => (
               <div key={c.name} className="group flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.02] p-6 hover:border-white/25 transition">
                 <div>
                   <div className="text-lg font-light">{c.name}</div>
@@ -83,35 +98,27 @@ function CommunityPage() {
           </div>
         </section>
 
-        {/* Discussions */}
-        <section>
-          <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.4em] text-white/40">
-            <MessageCircle className="h-3 w-3" /> Weekly discussions
-          </div>
-          <div className="mt-6 overflow-hidden rounded-2xl border border-white/10">
-            {discussions.map((d) => (
-              <div key={d.title} className="flex items-center justify-between border-b border-white/10 px-5 py-4 last:border-0 hover:bg-white/[0.03]">
-                <div className="text-sm text-white">{d.title}</div>
-                <div className="text-xs text-white/50">{d.replies} replies</div>
-              </div>
-            ))}
-          </div>
+        {/* Invite */}
+        <section className="rounded-3xl border border-white/10 bg-white/[0.02] p-10 text-center">
+          <Users className="mx-auto h-6 w-6 text-white/70" />
+          <h2 className="mt-6 text-3xl font-light">Your neighborhood is stronger with more of you in it.</h2>
+          <p className="mx-auto mt-3 max-w-xl text-white/60">
+            Invite a neighbor who could use a hand — or use the extra income. Every new person makes the whole thing better.
+          </p>
+          <Link to="/assessment" className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-xs uppercase tracking-[0.3em] text-black hover:bg-white/90 transition">
+            Invite a neighbor →
+          </Link>
         </section>
 
         {/* Trending */}
         <section>
           <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.4em] text-white/40">
-            <TrendingUp className="h-3 w-3" /> Trending opportunities
+            <TrendingUp className="h-3 w-3" /> Trending near you
           </div>
           <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
             {trending.map((o) => (
               <OpportunityCard key={o.id} o={o} />
             ))}
-          </div>
-          <div className="mt-6">
-            <Link to="/opportunities" className="text-xs uppercase tracking-[0.3em] text-white/60 hover:text-white">
-              See the full directory →
-            </Link>
           </div>
         </section>
       </div>

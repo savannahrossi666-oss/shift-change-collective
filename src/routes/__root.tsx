@@ -77,26 +77,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Shift Change — The future of work" },
+      { title: "Shift Change — Neighbors helping neighbors. Same-day work. Same-day pay." },
       {
         name: "description",
         content:
-          "Discover emerging ways to work, create, and earn in the age of AI.",
+          "Need money today? Need help today? Shift Change connects neighbors instantly for local tasks — no resumes, no interviews, paid same day.",
       },
-      { property: "og:title", content: "Shift Change" },
+      { property: "og:title", content: "Shift Change — People helping people. Paid same day." },
       {
         property: "og:description",
         content:
-          "Discover emerging ways to work, create, and earn in the age of AI.",
+          "A community-powered local marketplace. Post a task, find work nearby, and get paid the same day. Keep money in your neighborhood.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
+      { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),

@@ -7,23 +7,25 @@ export const Route = createFileRoute("/faq")({
   head: () => ({
     meta: [
       { title: "FAQ — Shift Change" },
-      { name: "description", content: "Answers to common questions about Shift Change." },
+      { name: "description", content: "How Shift Change works: same-day pay, trust, safety, and keeping money local." },
       { property: "og:title", content: "FAQ — Shift Change" },
-      { property: "og:description", content: "How Shift Change works, who it's for, and how opportunities are curated." },
+      { property: "og:description", content: "Answers about speed, payment, trust, safety, and community." },
     ],
   }),
   component: FaqPage,
 });
 
 const faqs = [
-  { q: "What is Shift Change?", a: "Shift Change is a curated feed of emerging ways to work, create, and earn in the age of AI. Think of it as a small editorial team's private list — published." },
-  { q: "How are opportunities selected?", a: "A small editorial team reviews every listing. We favor opportunities where AI is creating income and creative surface area rather than replacing people. Everything gets a real read." },
-  { q: "Is everything verified?", a: "Yes. We verify the company, the pay range, the application link, and the deadline before publishing. Broken links get flagged fast." },
-  { q: "How often are listings updated?", a: "Continuously. New listings are added throughout the week, and expired ones are archived within 24 hours of their deadline." },
-  { q: "Is Shift Change free?", a: "Yes — browsing, the assessment, saved opportunities, and the dashboard are free. A future paid tier will unlock earlier access to select opportunities and deeper filters. Free members will always have full access to the core directory." },
-  { q: "Who is Shift Change for?", a: "Writers, designers, developers, researchers, artists, musicians, and career-changers looking for real ways to earn in the AI economy — from $30/hr eval gigs to $250k+ frontier roles and grants." },
-  { q: "Do you take a cut when I get hired?", a: "No. We never take a placement fee, referral fee, or affiliate commission from listings." },
-  { q: "Can I suggest an opportunity?", a: "Please do. Use the Contact form or email hello@shiftchange.co with a link." },
+  { q: "How fast can I actually get paid?", a: "Most tasks pay same-day — cash, instant transfer, or same-day payout. You finish the task, the neighbor releases payment, and you get paid. No two-week wait, no corporate holdback." },
+  { q: "Do I really not need a resume?", a: "Correct. Nothing to submit, nothing to interview for. Your ratings and completed tasks become your reputation — the only résumé that matters here." },
+  { q: "How does trust work?", a: "Trust is a tool, not a gate. Optional ID verification, phone verification, background checks, neighbor vouches, and ratings from real completed tasks. You choose how many badges to add — each one just helps neighbors trust you faster." },
+  { q: "How safe is it?", a: "We text safety check-ins before, during, and after tasks. Meet at the door. Agree on scope. Release payment when it's done. If anything feels off, tap Report and we're on it. Bigger tasks unlock stronger protections." },
+  { q: "How local is 'local'?", a: "As local as your street. You set your radius — walking distance, 2 miles, 5 miles, or anywhere in town — and only see tasks and neighbors that fit." },
+  { q: "What if I don't have any special skills?", a: "Everyone is skilled at something. Being strong. Being patient. Being kind. Being on time. The most-posted tasks on Shift Change are 'please help me for an hour' — you're already qualified." },
+  { q: "Does Shift Change take a big cut?", a: "No. We take a small, transparent service fee so we can keep the lights on. The vast majority of every dollar stays with the neighbor who earned it, and it stays in your community." },
+  { q: "How is this different from TaskRabbit, Thumbtack, or Fiverr?", a: "Those platforms are freelancer directories built around applications, quotes, and long waits. Shift Change is a same-day, hyper-local marketplace built around neighbors helping neighbors — with speed, trust, and community as the whole point." },
+  { q: "How do I post a task?", a: "In about 60 seconds. Tap Post a Task, tell us what you need, where you are, and when. A trusted neighbor accepts and heads over — often within minutes." },
+  { q: "Can this become a recurring thing?", a: "Yes — and it often does. Weekly dog walks, biweekly mowing, seasonal snow removal. The best matches turn into ongoing relationships." },
 ];
 
 function FaqPage() {
@@ -32,8 +34,8 @@ function FaqPage() {
     <PageShell>
       <PageHeader
         kicker="FAQ"
-        title="Answers to what people ask most."
-        subtitle="Missing something? Ask on the contact page — we'll add it here."
+        title="Answers about speed, trust, and community."
+        subtitle="Missing something? Ask us on the contact page — we add it here."
       />
       <div className="mx-auto max-w-3xl px-6 py-16">
         <div className="overflow-hidden rounded-2xl border border-white/10">

@@ -101,7 +101,7 @@ function AssessmentPage() {
 
         {/* Question */}
         <div key={q.id} className="mt-16 animate-[fade-in_0.5s_ease-out]">
-          <h1 className="text-3xl md:text-5xl font-light leading-tight tracking-tight">
+          <h1 id="question-prompt" className="text-3xl md:text-5xl font-light leading-tight tracking-tight">
             {q.prompt}
           </h1>
           {q.helper && <p className="mt-3 text-sm text-white/50">{q.helper}</p>}
@@ -113,6 +113,7 @@ function AssessmentPage() {
                 onChange={(e) => setSingle(e.target.value)}
                 placeholder="A few words…"
                 rows={4}
+                aria-labelledby="question-prompt"
                 className="w-full rounded-2xl border border-white/15 bg-white/[0.02] px-5 py-4 text-base text-white placeholder:text-white/30 focus:border-white/50 focus:outline-none"
               />
             )}

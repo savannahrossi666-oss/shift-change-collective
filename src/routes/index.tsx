@@ -410,9 +410,9 @@ function Hero() {
             style={{ filter: "invert(1) drop-shadow(0 0 40px rgba(255,255,255,0.25))" }}
           />
         </div>
-        <p className="mt-8 text-xs md:text-sm uppercase tracking-[0.6em] text-white/70 animate-[fade-in_1.6s_ease-out]">
+        <h1 className="mt-8 text-xs md:text-sm uppercase tracking-[0.6em] text-white/70 animate-[fade-in_1.6s_ease-out]">
           Sell your creativity • Earn today
-        </p>
+        </h1>
 
         {/* Dual question hero */}
         <div className="mt-12 grid w-full max-w-3xl grid-cols-1 gap-3 sm:grid-cols-2 animate-[fade-in_2s_ease-out]">

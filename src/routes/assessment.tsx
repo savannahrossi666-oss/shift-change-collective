@@ -101,7 +101,7 @@ function AssessmentPage() {
 
         {/* Question */}
         <div key={q.id} className="mt-16 animate-[fade-in_0.5s_ease-out]">
-          <h1 className="text-3xl md:text-5xl font-light leading-tight tracking-tight">
+          <h1 id="question-prompt" className="text-3xl md:text-5xl font-light leading-tight tracking-tight">
             {q.prompt}
           </h1>
           {q.helper && <p className="mt-3 text-sm text-white/50">{q.helper}</p>}

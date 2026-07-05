@@ -217,6 +217,34 @@ function Dashboard() {
             </Section>
           )}
 
+          {/* Craft Assessments */}
+          <Section
+            title="Your craft assessments"
+            kicker="Prove your craft — earn verified badges"
+            href="/assessments"
+          >
+            {(() => {
+              const all = submissions.all();
+              const inProgress = ASSESSMENTS.filter((a) => all[a.id]?.status === "draft").slice(0, 3);
+              const recommendedAssess = ASSESSMENTS.filter(
+                (a) =>
+                  !all[a.id] &&
+                  (assessment?.recommendedCategories.includes(a.category) ?? true),
+              ).slice(0, inProgress.length ? 3 - inProgress.length : 3);
+              const list = [...inProgress, ...recommendedAssess];
+              return list.length ? (
+                <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+                  {list.map((a) => (
+                    <AssessmentCard key={a.id} assessment={a} submission={all[a.id]} />
+                  ))}
+                </div>
+              ) : (
+                <EmptyState label="You've started on every recommended assessment. Great work — head to the library for more." />
+              );
+            })()}
+          </Section>
+
+
           <Section title="Trending in your area" kicker="What neighbors are booking">
             <Grid opps={trending} />
           </Section>

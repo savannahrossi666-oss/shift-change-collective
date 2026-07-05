@@ -3,7 +3,9 @@ import { useEffect, useMemo, useState } from "react";
 import { Search, TrendingUp, Bookmark, Clock, Bell, Settings, User, ArrowRight, Plus, DollarSign, HeartHandshake, Zap } from "lucide-react";
 import { PageShell } from "@/components/page-shell";
 import { OpportunityCard } from "@/components/opportunity-card";
+import { AssessmentCard } from "@/components/assessment-card";
 import { OPPORTUNITIES, getOpportunity } from "@/lib/opportunities";
+import { ASSESSMENTS, submissions } from "@/lib/assessments";
 import { store, useStoreVersion } from "@/lib/store";
 
 export const Route = createFileRoute("/dashboard")({

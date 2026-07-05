@@ -18,6 +18,7 @@ export const Route = createFileRoute("/contact")({
 function Contact() {
   const [sent, setSent] = useState(false);
   const cls = "w-full rounded-xl border border-white/15 bg-white/[0.02] px-4 py-3 text-sm text-white placeholder:text-white/30 focus:border-white/50 focus:outline-none";
+  const labelCls = "block text-xs uppercase tracking-[0.3em] text-white/50 mb-1.5";
   return (
     <PageShell>
       <PageHeader kicker="Contact" title="Say hello." subtitle="Suggest a listing, propose a partnership, or just tell us what you're working on." />
@@ -32,17 +33,29 @@ function Contact() {
             onSubmit={(e) => { e.preventDefault(); setSent(true); }}
             className="space-y-5"
           >
-            <input required name="name" placeholder="Your name" className={cls} />
-            <input required type="email" name="email" placeholder="Email" className={cls} />
-            <select className={cls} defaultValue="">
-              <option value="" disabled>What's this about?</option>
-              <option>Suggest an opportunity</option>
-              <option>Partnership</option>
-              <option>Press</option>
-              <option>Feedback</option>
-              <option>Something else</option>
-            </select>
-            <textarea required name="msg" placeholder="A few sentences." rows={6} className={`${cls} resize-none`} />
+            <div>
+              <label htmlFor="contact-name" className={labelCls}>Your name</label>
+              <input id="contact-name" required name="name" placeholder="Your name" className={cls} />
+            </div>
+            <div>
+              <label htmlFor="contact-email" className={labelCls}>Email</label>
+              <input id="contact-email" required type="email" name="email" placeholder="Email" className={cls} />
+            </div>
+            <div>
+              <label htmlFor="contact-topic" className={labelCls}>What's this about?</label>
+              <select id="contact-topic" className={cls} defaultValue="">
+                <option value="" disabled>What's this about?</option>
+                <option>Suggest an opportunity</option>
+                <option>Partnership</option>
+                <option>Press</option>
+                <option>Feedback</option>
+                <option>Something else</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="contact-msg" className={labelCls}>Message</label>
+              <textarea id="contact-msg" required name="msg" placeholder="A few sentences." rows={6} className={`${cls} resize-none`} />
+            </div>
             <button type="submit" className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-xs uppercase tracking-[0.3em] text-black hover:bg-white/90 transition">
               <Send className="h-3 w-3" /> Send
             </button>

@@ -56,7 +56,7 @@ type Phase = "intro" | "taking" | "review" | "results";
 
 function AssessmentTake() {
   useStoreVersion();
-  const { assessment } = Route.useLoaderData();
+  const { assessment } = Route.useLoaderData() as { assessment: Assessment };
   const navigate = useNavigate();
 
   const existing = submissions.get(assessment.id);

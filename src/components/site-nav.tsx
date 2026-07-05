@@ -6,6 +6,7 @@ import logo from "@/assets/logo.png.asset.json";
 const links = [
   { to: "/opportunities", label: "Find Work" },
   { to: "/community", label: "Creators" },
+  { to: "/assessments", label: "Assessments" },
   { to: "/resources", label: "How It Works" },
   { to: "/about", label: "About" },
 ] as const;

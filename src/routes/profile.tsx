@@ -1,7 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Upload, Save } from "lucide-react";
 import { PageShell, PageHeader } from "@/components/page-shell";
+import { VerificationChecklist } from "@/components/verification-checklist";
+import { AssessmentBadge } from "@/components/assessment-badge";
+import { ASSESSMENTS, submissions } from "@/lib/assessments";
 import { store, useStoreVersion, type UserProfile } from "@/lib/store";
 
 export const Route = createFileRoute("/profile")({
@@ -129,15 +132,65 @@ function ProfilePage() {
           </div>
         </form>
 
-        {/* Assessment + saved recap */}
+        {/* Trust profile */}
         <div className="mt-16 grid grid-cols-1 gap-4 md:grid-cols-2">
+          <VerificationChecklist
+            items={[
+              { label: "Identity Verified", done: false, hint: "Coming soon" },
+              { label: "Craft Assessed", done: Object.values(submissions.all()).some((s) => s.status === "scored") },
+              { label: "Portfolio", done: Boolean(p.portfolio || p.website) },
+              { label: "Reviews", done: false },
+              { label: "Completed Projects", done: (store.getApplications().filter((a) => a.status === "Offer").length) > 0 },
+              { label: "Response Time", done: false },
+              { label: "Repeat Clients", done: false },
+              { label: "Community Favorite", done: false },
+            ]}
+          />
           <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6">
-            <div className="text-[10px] uppercase tracking-[0.35em] text-white/40">Assessment result</div>
+            <div className="flex items-center justify-between">
+              <div className="text-[10px] uppercase tracking-[0.35em] text-white/40">Earned badges</div>
+              <Link to="/assessments" className="text-[10px] uppercase tracking-[0.3em] text-white/50 hover:text-white">
+                Take more →
+              </Link>
+            </div>
+            {(() => {
+              const all = submissions.all();
+              const earned = ASSESSMENTS.filter((a) => all[a.id]?.score);
+              if (!earned.length)
+                return (
+                  <p className="mt-4 text-sm text-white/50">
+                    No assessments completed yet. Craft Assessments are optional — completing one earns
+                    you a verified level badge that clients see on your profile and applications.
+                  </p>
+                );
+              return (
+                <ul className="mt-4 space-y-3">
+                  {earned.map((a) => (
+                    <li key={a.id} className="flex items-center justify-between text-sm">
+                      <div>
+                        <div className="text-white">{a.category}</div>
+                        <div className="text-[10px] uppercase tracking-[0.3em] text-white/40">
+                          Scored {all[a.id].score!.overall}
+                        </div>
+                      </div>
+                      <AssessmentBadge level={all[a.id].score!.level} category={a.category} />
+                    </li>
+                  ))}
+                </ul>
+              );
+            })()}
+          </div>
+        </div>
+
+        {/* Legacy assessment + saved recap */}
+        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6">
+            <div className="text-[10px] uppercase tracking-[0.35em] text-white/40">Creator archetype</div>
             <div className="mt-2 text-xl font-light">{assessment?.archetype ?? "Not yet taken"}</div>
             {assessment && <p className="mt-2 text-sm text-white/60">{assessment.tagline}</p>}
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6">
-            <div className="text-[10px] uppercase tracking-[0.35em] text-white/40">Saved opportunities</div>
+            <div className="text-[10px] uppercase tracking-[0.35em] text-white/40">Saved gigs</div>
             <div className="mt-2 text-xl font-light">{savedCount}</div>
             <p className="mt-2 text-sm text-white/60">Bookmarks show up on your dashboard.</p>
           </div>

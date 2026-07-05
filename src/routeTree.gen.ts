@@ -115,8 +115,8 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ProfileRoute
   '/resources': typeof ResourcesRoute
   '/terms': typeof TermsRoute
-  '/opportunities/$id': typeof OpportunitiesIdRoute
   '/assessments/$id': typeof AssessmentsIdRoute
+  '/opportunities/$id': typeof OpportunitiesIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -132,8 +132,8 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileRoute
   '/resources': typeof ResourcesRoute
   '/terms': typeof TermsRoute
-  '/opportunities/$id': typeof OpportunitiesIdRoute
   '/assessments/$id': typeof AssessmentsIdRoute
+  '/opportunities/$id': typeof OpportunitiesIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -150,8 +150,8 @@ export interface FileRoutesById {
   '/profile': typeof ProfileRoute
   '/resources': typeof ResourcesRoute
   '/terms': typeof TermsRoute
-  '/opportunities/$id': typeof OpportunitiesIdRoute
   '/assessments/$id': typeof AssessmentsIdRoute
+  '/opportunities/$id': typeof OpportunitiesIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -169,8 +169,8 @@ export interface FileRouteTypes {
     | '/profile'
     | '/resources'
     | '/terms'
-    | '/opportunities/$id'
     | '/assessments/$id'
+    | '/opportunities/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -186,8 +186,8 @@ export interface FileRouteTypes {
     | '/profile'
     | '/resources'
     | '/terms'
-    | '/opportunities/$id'
     | '/assessments/$id'
+    | '/opportunities/$id'
   id:
     | '__root__'
     | '/'
@@ -203,8 +203,8 @@ export interface FileRouteTypes {
     | '/profile'
     | '/resources'
     | '/terms'
-    | '/opportunities/$id'
     | '/assessments/$id'
+    | '/opportunities/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -333,18 +333,6 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface OpportunitiesRouteChildren {
-  OpportunitiesIdRoute: typeof OpportunitiesIdRoute
-}
-
-const OpportunitiesRouteChildren: OpportunitiesRouteChildren = {
-  OpportunitiesIdRoute: OpportunitiesIdRoute,
-}
-
-const OpportunitiesRouteWithChildren = OpportunitiesRoute._addFileChildren(
-  OpportunitiesRouteChildren,
-)
-
 interface AssessmentsRouteChildren {
   AssessmentsIdRoute: typeof AssessmentsIdRoute
 }
@@ -355,6 +343,18 @@ const AssessmentsRouteChildren: AssessmentsRouteChildren = {
 
 const AssessmentsRouteWithChildren = AssessmentsRoute._addFileChildren(
   AssessmentsRouteChildren,
+)
+
+interface OpportunitiesRouteChildren {
+  OpportunitiesIdRoute: typeof OpportunitiesIdRoute
+}
+
+const OpportunitiesRouteChildren: OpportunitiesRouteChildren = {
+  OpportunitiesIdRoute: OpportunitiesIdRoute,
+}
+
+const OpportunitiesRouteWithChildren = OpportunitiesRoute._addFileChildren(
+  OpportunitiesRouteChildren,
 )
 
 const rootRouteChildren: RootRouteChildren = {

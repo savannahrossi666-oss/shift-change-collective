@@ -9,6 +9,7 @@ import {
   getAssessment,
   submissions,
   scoreSubmission,
+  type Assessment,
   type SubmissionAnswer,
 } from "@/lib/assessments";
 import { useStoreVersion } from "@/lib/store";

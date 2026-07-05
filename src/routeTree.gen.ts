@@ -18,10 +18,12 @@ import { Route as FaqRouteImport } from './routes/faq'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CommunityRouteImport } from './routes/community'
+import { Route as AssessmentsRouteImport } from './routes/assessments'
 import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as OpportunitiesIdRouteImport } from './routes/opportunities.$id'
+import { Route as AssessmentsIdRouteImport } from './routes/assessments.$id'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -68,6 +70,11 @@ const CommunityRoute = CommunityRouteImport.update({
   path: '/community',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AssessmentsRoute = AssessmentsRouteImport.update({
+  id: '/assessments',
+  path: '/assessments',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AssessmentRoute = AssessmentRouteImport.update({
   id: '/assessment',
   path: '/assessment',
@@ -88,11 +95,17 @@ const OpportunitiesIdRoute = OpportunitiesIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => OpportunitiesRoute,
 } as any)
+const AssessmentsIdRoute = AssessmentsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AssessmentsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/assessment': typeof AssessmentRoute
+  '/assessments': typeof AssessmentsRouteWithChildren
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
@@ -102,12 +115,14 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ProfileRoute
   '/resources': typeof ResourcesRoute
   '/terms': typeof TermsRoute
+  '/assessments/$id': typeof AssessmentsIdRoute
   '/opportunities/$id': typeof OpportunitiesIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/assessment': typeof AssessmentRoute
+  '/assessments': typeof AssessmentsRouteWithChildren
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
@@ -117,6 +132,7 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileRoute
   '/resources': typeof ResourcesRoute
   '/terms': typeof TermsRoute
+  '/assessments/$id': typeof AssessmentsIdRoute
   '/opportunities/$id': typeof OpportunitiesIdRoute
 }
 export interface FileRoutesById {
@@ -124,6 +140,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/assessment': typeof AssessmentRoute
+  '/assessments': typeof AssessmentsRouteWithChildren
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
@@ -133,6 +150,7 @@ export interface FileRoutesById {
   '/profile': typeof ProfileRoute
   '/resources': typeof ResourcesRoute
   '/terms': typeof TermsRoute
+  '/assessments/$id': typeof AssessmentsIdRoute
   '/opportunities/$id': typeof OpportunitiesIdRoute
 }
 export interface FileRouteTypes {
@@ -141,6 +159,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/assessment'
+    | '/assessments'
     | '/community'
     | '/contact'
     | '/dashboard'
@@ -150,12 +169,14 @@ export interface FileRouteTypes {
     | '/profile'
     | '/resources'
     | '/terms'
+    | '/assessments/$id'
     | '/opportunities/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/assessment'
+    | '/assessments'
     | '/community'
     | '/contact'
     | '/dashboard'
@@ -165,12 +186,14 @@ export interface FileRouteTypes {
     | '/profile'
     | '/resources'
     | '/terms'
+    | '/assessments/$id'
     | '/opportunities/$id'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/assessment'
+    | '/assessments'
     | '/community'
     | '/contact'
     | '/dashboard'
@@ -180,6 +203,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/resources'
     | '/terms'
+    | '/assessments/$id'
     | '/opportunities/$id'
   fileRoutesById: FileRoutesById
 }
@@ -187,6 +211,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AssessmentRoute: typeof AssessmentRoute
+  AssessmentsRoute: typeof AssessmentsRouteWithChildren
   CommunityRoute: typeof CommunityRoute
   ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRoute
@@ -263,6 +288,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CommunityRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/assessments': {
+      id: '/assessments'
+      path: '/assessments'
+      fullPath: '/assessments'
+      preLoaderRoute: typeof AssessmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/assessment': {
       id: '/assessment'
       path: '/assessment'
@@ -291,8 +323,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OpportunitiesIdRouteImport
       parentRoute: typeof OpportunitiesRoute
     }
+    '/assessments/$id': {
+      id: '/assessments/$id'
+      path: '/$id'
+      fullPath: '/assessments/$id'
+      preLoaderRoute: typeof AssessmentsIdRouteImport
+      parentRoute: typeof AssessmentsRoute
+    }
   }
 }
+
+interface AssessmentsRouteChildren {
+  AssessmentsIdRoute: typeof AssessmentsIdRoute
+}
+
+const AssessmentsRouteChildren: AssessmentsRouteChildren = {
+  AssessmentsIdRoute: AssessmentsIdRoute,
+}
+
+const AssessmentsRouteWithChildren = AssessmentsRoute._addFileChildren(
+  AssessmentsRouteChildren,
+)
 
 interface OpportunitiesRouteChildren {
   OpportunitiesIdRoute: typeof OpportunitiesIdRoute
@@ -310,6 +361,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AssessmentRoute: AssessmentRoute,
+  AssessmentsRoute: AssessmentsRouteWithChildren,
   CommunityRoute: CommunityRoute,
   ContactRoute: ContactRoute,
   DashboardRoute: DashboardRoute,

@@ -1,87 +1,98 @@
+## Craft Assessments — Build Plan
 
-# Shift Change → Instant Local Help & Earning Marketplace
+A modular, front-end-first trust system that plugs into existing profiles, search, and cards. Data stays client-side (localStorage via `store.ts`) to match the current app; the architecture is designed so a real backend + AI scoring can drop in later without rewrites.
 
-This is a full identity pivot, not a copy tweak. The current site is an AI-era opportunity discovery feed (fellowships, AI training, remote roles). You want a community-powered, hyper-local, same-day marketplace where one neighbor needs money and another needs help — connected instantly.
+### 1. Data model (`src/lib/assessments.ts` — new)
 
-Keeping the visual language you like (black luxury, glassmorphism, cinematic hero video, editorial sections, logo.png), but replacing the *meaning* of every page.
+```ts
+type AssessmentTask = {
+  id: string;
+  kind: "upload" | "prompt" | "timed" | "link" | "portfolio";
+  title: string;
+  brief: string;          // the creative challenge
+  deliverables: string[]; // what to submit
+  accepts?: ("image"|"video"|"audio"|"doc"|"link")[];
+  timeLimitMin?: number;
+};
 
-## New product model
+type Assessment = {
+  id: string;             // e.g. "graphic-design"
+  category: string;       // matches opportunities category
+  title: string;
+  tagline: string;
+  estMinutes: number;
+  skills: string[];       // rubric dimensions
+  tasks: AssessmentTask[];
+};
 
-Two sides, one platform:
-- **Earners** — open the app, see nearby tasks, accept, complete, get paid same-day.
-- **Neighbors needing help** — post a task, get matched with trusted local people in minutes.
+type Submission = {
+  assessmentId: string;
+  status: "draft" | "submitted" | "scored";
+  startedAt: string;
+  updatedAt: string;
+  answers: Record<string, { text?: string; links?: string[]; files?: {name:string;dataUrl:string;type:string}[] }>;
+  score?: { overall: number; level: Level; breakdown: Record<string, number>; strengths: string[]; improve: string[] };
+};
 
-Core data unit becomes a **Task** (was: Opportunity), with fields: title, category, pay, duration, distance, posted-time, poster, trust badges, description.
+type Level = "Emerging" | "Skilled" | "Advanced" | "Expert" | "Master";
+```
 
-Categories seeded from your list: Moving, Yard Work, Dog Walking, Cleaning, Grocery Pickup, Tech Help, Tutoring, Babysitting, Painting, Furniture Assembly, Snow Removal, Event Setup, Photography, Music Lessons, Computer Repair, House Sitting, Elder Assistance, Organization, Car Washing, Delivery, Seasonal Work.
+Seed ~10 assessments covering: Graphic Design, Logo Design, Photography, Video Editing, Music Production, Writing, Illustration, Motion Graphics, UI/UX, Creative Consulting. Framework supports unlimited more — a new category = one object.
 
-## Page-by-page rewrite
+Store submissions under `sc.assessments` via existing `store` helpers.
 
-**Home (`/`)**
-- Hero keeps the video + logo, but swaps taglines to a dual-question hero:
-  - "Need money today?" / "Need help today?" — two glass CTAs: **Find Work Now** and **Post a Task**
-  - Sub: "Real people helping real people. Paid same day. Right in your neighborhood."
-- Manifesto marquee: Fast · Simple · Human · Local · Same-Day Pay · Neighbors Helping Neighbors …
-- Three editorial sections rewritten:
-  - **01 — Earn Today** (was Discover): open app → accept nearby task → get paid.
-  - **02 — Get Help Today** (was Create): post task → trusted neighbor shows up → done in hours.
-  - **03 — Keep It Local** (was Earn): every task strengthens your local economy.
-- New "How it works" 3-step strip (Post / Match / Paid).
-- Category grid: 12–16 of the task types above as tappable chips.
-- "Nearby right now" — sample task cards (mock data) with distance + pay + posted time.
-- Trust section: identity check, skills verified, ratings, background checks — framed as *"tools that help neighbors trust neighbors"*, not gatekeeping.
-- Testimonials as short neighbor stories.
-- FAQ rewritten around speed, payment, safety, local.
-- Final CTA: "Your neighborhood is hiring. And helping."
+### 2. Scoring (mock, swappable)
 
-**Assessment (`/assessment`)**
-- Repurposed from "Opportunity Profile" to **Neighbor Profile** onboarding.
-- Branching: first question — *"Are you here to earn, to get help, or both?"*
-- Earner path: skills you have, categories you'll do, availability, radius, transportation, physical work OK?
-- Helper path: what you typically need help with, household context, budget comfort.
-- Both: ZIP/neighborhood, intro blurb, trust steps (ID, phone, optional background check) — each explained as *"so your neighbors know they can trust you."*
-- Result screen: "Welcome to the neighborhood" + archetype (e.g. *Handy Helper*, *Everyday Earner*, *Busy Household*, *Community Connector*) + next step CTA.
+`scoreSubmission()` in `assessments.ts` produces a deterministic mock score from submission completeness + self-rated confidence + rubric checks. Returns breakdown across: Creativity, Technical Skill, Communication, Professionalism, Attention to Detail, Problem Solving, Consistency. Wrapped in an `evaluator` interface so a real AI/human evaluator can replace it later without touching UI.
 
-**Dashboard (`/dashboard`)**
-- Two-mode toggle: **Earn** / **Get Help**.
-- Earn mode: "Tasks near you right now" feed, sorted by distance/pay/time; today's earnings; streak; saved tasks.
-- Help mode: your open posts, matched neighbors, active tasks, past helpers.
-- Quick actions: *Find Work Now*, *Post a Task*, *Invite a Neighbor*.
+Level thresholds: Emerging <50, Skilled 50–65, Advanced 65–80, Expert 80–92, Master 92+.
 
-**Opportunities → Tasks (`/opportunities`, `/opportunities/$id`)**
-- Rename in copy to "Tasks" (keep routes to avoid churn; add title/description swap). Optional: add `/tasks` as an alias later.
-- List page: search + filters for category, distance, pay, duration, same-day-only.
-- Detail page: task, poster card with trust badges, ETA, "Accept & Earn $X" CTA, related nearby tasks.
+### 3. Routes
 
-**Community (`/community`)** — neighbor stories, local heroes, community impact stats ($ kept in-neighborhood).
+- `src/routes/assessments.tsx` — **library**: grid of assessment cards by category, filter by "not started / in progress / verified", earned-level badges.
+- `src/routes/assessments.$id.tsx` — **detail + take**: intro screen (time, skills, instructions) → practice mode toggle → task-by-task flow with autosave every change → review & submit → results screen with breakdown, strengths, improvement notes, earned level & badge, share to profile.
+- Extend `src/routes/profile.tsx` — verification checklist (Identity, Craft Assessed, Portfolio, Reviews, Completed Projects, Response Time, Repeat Clients, Community Favorite) + earned badges wall.
+- Extend `src/routes/dashboard.tsx` — "Your assessments" module: in-progress resume, recommended next assessments based on skills.
 
-**Resources (`/resources`)** — practical guides: getting your first task, pricing your time, safety tips, tax basics, growing repeat clients.
+### 4. Components (`src/components/`)
 
-**About / Contact / FAQ / Privacy / Terms / Profile** — rewrite copy to the new mission. Profile emphasizes trust badges + neighborhood.
+- `assessment-card.tsx` — library tile with level badge, category, est. time, progress.
+- `assessment-badge.tsx` — reusable level badge (`Emerging`→`Master`) with icon + tooltip. Drops into `opportunity-card`, profile, search results.
+- `verification-checklist.tsx` — the 8-item trust list.
+- `submission-uploader.tsx` — drag-drop for images/video/audio/docs + link inputs, previews, base64 into localStorage (with a soft ~5MB cap warning; production would use Cloud storage).
+- `rubric-breakdown.tsx` — radar/bars for the 7 rubric dimensions on results.
 
-**Nav & Footer** — new primary items: *Find Work* · *Post a Task* · *How It Works* · *Community*. CTA in nav becomes **Post a Task** (secondary: **Find Work**).
+### 5. Search & discovery integration
 
-## Data changes
+Update `src/routes/opportunities.tsx` filter panel with:
+- Craft Assessed (toggle)
+- Assessment Level (Emerging+, Skilled+, Advanced+, Expert+, Master)
+- Verified Identity (toggle)
 
-- `src/lib/opportunities.ts` → replace seed with ~24 local task samples across the category list (title, category, pay, duration, distance, postedAgo, poster name/initials, trust badges). Keep the exported type name working via alias so existing imports don't break, or rename type to `Task` and update imports.
-- `src/lib/assessment.ts` → replace 18 AI-career questions with the neighbor onboarding flow above; new archetype computation.
-- `src/lib/store.ts` → keep shape; rename semantic fields where obvious (saved tasks, posted tasks). No backend added.
+Add matching filter logic against a `poster.trust` object on tasks (mocked). Show the level badge on `opportunity-card` next to the poster name.
 
-## Design (unchanged aesthetic, new symbols)
+### 6. Nav & copy
 
-- Keep black + white + glass + logo.png + hero video.
-- Add small emoji-free line icons per category (lucide: Truck, Leaf, Dog, Sparkles, ShoppingBag, Laptop, GraduationCap, Baby, PaintRoller, Wrench, Snowflake, PartyPopper, Camera, Music, Home, HeartHandshake, Boxes, Car, Package, Sun).
-- New reusable components: `TaskCard`, `CategoryChip`, `TrustBadges`, `HowItWorks`, `DualHero` block.
-- No new imagery generated unless you want it — reuse existing three AI artworks for the editorial sections (retitled), or I can generate warm community photography-style stills if you prefer.
+- Add "Assessments" link to `site-nav.tsx`.
+- Homepage: small trust strip mentioning "Prove your craft. Earn verified badges." linking to `/assessments` — no redesign of hero.
+- FAQ + About: one paragraph each explaining Craft Assessments as optional trust-building, not gatekeeping.
 
-## Out of scope for this pass
-- Real geolocation, real payments, real matching engine, real chat. All mock/local-state, same as today.
-- Backend/Cloud — none added.
-- Native mobile.
+### 7. Explicitly out of scope for this pass
 
-## Approvals I need before building
-1. **Confirm the pivot**: this replaces the AI-opportunities positioning entirely (not an added section). Yes?
-2. **Imagery**: reuse the 3 existing AI artworks retitled, or generate new community-style visuals?
-3. **Routes**: keep `/opportunities` URL and just relabel to "Tasks" in UI, or add `/tasks` as the new canonical path with a redirect?
+- Real AI evaluator, peer review queue, human moderator dashboard (interfaces are stubbed so they slot in later).
+- Real file storage — uploads stay as local base64 previews until Lovable Cloud is enabled.
+- Payment/paywall gating on assessments (they're free per your brief).
 
-Reply with answers (or "go" for: yes pivot / reuse existing art / keep `/opportunities` URL) and I'll build it in one pass.
+### 8. Order of implementation (single build turn)
+
+1. `assessments.ts` data + scoring + store helpers
+2. Components (`assessment-card`, `assessment-badge`, `verification-checklist`, `submission-uploader`, `rubric-breakdown`)
+3. `/assessments` library + `/assessments/$id` take-flow
+4. Profile + Dashboard integrations
+5. Opportunities filter + card badge
+6. Nav link + light homepage/FAQ mentions
+
+### Open questions
+
+1. **Payments** — you were mid-decision on Stripe. Do I keep it parked, or want the Phase-1 Stripe enable to happen after this?
+2. **Real file uploads** — assessments genuinely need real storage (images/video/audio submissions). Localstorage base64 works for a demo but will feel fake past ~5MB. Want me to enable Lovable Cloud now so uploads are real from day one, or ship the mock version first?

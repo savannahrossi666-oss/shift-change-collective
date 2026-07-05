@@ -1,7 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Upload, Save } from "lucide-react";
 import { PageShell, PageHeader } from "@/components/page-shell";
+import { VerificationChecklist } from "@/components/verification-checklist";
+import { AssessmentBadge } from "@/components/assessment-badge";
+import { ASSESSMENTS, submissions } from "@/lib/assessments";
 import { store, useStoreVersion, type UserProfile } from "@/lib/store";
 
 export const Route = createFileRoute("/profile")({

@@ -113,6 +113,7 @@ function AssessmentPage() {
                 onChange={(e) => setSingle(e.target.value)}
                 placeholder="A few words…"
                 rows={4}
+                aria-labelledby="question-prompt"
                 className="w-full rounded-2xl border border-white/15 bg-white/[0.02] px-5 py-4 text-base text-white placeholder:text-white/30 focus:border-white/50 focus:outline-none"
               />
             )}

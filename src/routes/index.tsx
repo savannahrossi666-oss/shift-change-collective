@@ -14,7 +14,7 @@ import earnImg from "@/assets/earn.jpg.asset.json";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { OpportunityCard } from "@/components/opportunity-card";
-import { OPPORTUNITIES } from "@/lib/opportunities";
+import { OPPORTUNITIES, shiftsToday, shiftsHighestPay, shiftsNearby, urgencyOf, urgencyLabel, formatPay, type Opportunity } from "@/lib/opportunities";
 
 export const Route = createFileRoute("/")({
   head: () => ({

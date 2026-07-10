@@ -135,14 +135,14 @@ function Index() {
         <div className="flex whitespace-nowrap gap-16 text-sm uppercase tracking-[0.4em] text-white/40 animate-[marquee_50s_linear_infinite]">
           {Array.from({ length: 2 }).map((_, i) => (
             <div key={i} className="flex gap-16">
-              <span>Earn today</span><span>•</span>
-              <span>Sell your creativity</span><span>•</span>
+              <span>Post a shift</span><span>•</span>
+              <span>Claim a shift</span><span>•</span>
+              <span>Paid today</span><span>•</span>
               <span>No resumes</span><span>•</span>
-              <span>Get discovered instantly</span><span>•</span>
-              <span>Human creativity has value</span><span>•</span>
-              <span>Fast</span><span>•</span>
-              <span>Trusted</span><span>•</span>
-              <span>Community over corporations</span><span>•</span>
+              <span>No interviews</span><span>•</span>
+              <span>Escrow held</span><span>•</span>
+              <span>Real-time</span><span>•</span>
+              <span>Same-day pay</span><span>•</span>
             </div>
           ))}
         </div>
@@ -376,6 +376,94 @@ function Index() {
         @keyframes float-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
       `}</style>
     </div>
+  );
+}
+
+function LiveRails() {
+  const rails: { key: string; label: string; icon: React.ComponentType<{ className?: string }>; items: Opportunity[]; pulse?: boolean }[] = [
+    { key: "today", label: "Shifts happening today", icon: Zap, items: shiftsToday(), pulse: true },
+    { key: "highest", label: "Highest-paying shifts", icon: DollarSign, items: shiftsHighestPay() },
+    { key: "nearby", label: "Nearby shifts", icon: Users, items: shiftsNearby() },
+  ];
+  return (
+    <section className="border-t border-white/10 py-24">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="flex items-end justify-between">
+          <div>
+            <div className="text-[10px] uppercase tracking-[0.4em] text-white/50 inline-flex items-center gap-2">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-75" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-300" />
+              </span>
+              Live now
+            </div>
+            <h2 className="mt-4 text-3xl md:text-5xl font-light tracking-tight">
+              The real-time home screen.
+            </h2>
+            <p className="mt-3 max-w-xl text-white/60">
+              What's happening today. Who's paying most. What's nearby. Claim any of them in a tap.
+            </p>
+          </div>
+          <Link to="/opportunities" className="hidden md:inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-white/60 hover:text-white">
+            All shifts <ArrowRight className="h-3 w-3" />
+          </Link>
+        </div>
+      </div>
+      <div className="mt-12 space-y-14">
+        {rails.map((r) => (
+          <div key={r.key}>
+            <div className="mx-auto flex max-w-7xl items-center justify-between px-6">
+              <div className="flex items-center gap-3 text-sm text-white">
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-white/[0.02]">
+                  <r.icon className="h-3.5 w-3.5 text-white/80" />
+                </span>
+                {r.label}
+              </div>
+              <span className="text-[10px] uppercase tracking-[0.3em] text-white/40">{r.items.length} open</span>
+            </div>
+            <div className="mt-4 overflow-x-auto scrollbar-none">
+              <div className="flex gap-4 px-6 pb-2 min-w-max">
+                {r.items.map((o) => (
+                  <MiniShiftCard key={r.key + o.id} o={o} />
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function MiniShiftCard({ o }: { o: Opportunity }) {
+  const u = urgencyOf(o);
+  return (
+    <Link
+      to="/opportunities/$id"
+      params={{ id: o.id }}
+      className="group flex w-72 shrink-0 flex-col rounded-2xl border border-white/10 bg-white/[0.02] p-5 backdrop-blur-sm transition hover:border-white/30 hover:bg-white/[0.05]"
+    >
+      <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.3em] text-white/40">
+        <span className="truncate">{o.category}</span>
+        <span
+          className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 ${
+            u === "now"
+              ? "border-emerald-400/40 bg-emerald-400/10 text-emerald-300"
+              : u === "today"
+              ? "border-amber-300/40 bg-amber-300/10 text-amber-200"
+              : "border-white/15 text-white/60"
+          }`}
+        >
+          {urgencyLabel(u)}
+        </span>
+      </div>
+      <div className="mt-4 line-clamp-2 text-base font-light leading-snug text-white">{o.title}</div>
+      <div className="mt-2 text-xs text-white/50">Posted by {o.company}</div>
+      <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-3 text-xs">
+        <span className="font-medium text-white/85">{formatPay(o)}</span>
+        <span className="text-white/50 group-hover:text-white transition">Claim →</span>
+      </div>
+    </Link>
   );
 }
 

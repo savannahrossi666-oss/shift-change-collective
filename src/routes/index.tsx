@@ -180,13 +180,13 @@ function Index() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="flex items-end justify-between">
             <div>
-              <div className="text-[10px] uppercase tracking-[0.4em] text-white/50">Everyone has a creative skill</div>
+              <div className="text-[10px] uppercase tracking-[0.4em] text-white/50">Every craft has a shift</div>
               <h2 className="mt-4 text-3xl md:text-5xl font-light tracking-tight">
-                Every craft. Every medium. Instant income.
+                Every category. Every medium. Ready to claim.
               </h2>
             </div>
             <Link to="/opportunities" className="hidden md:inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-white/60 hover:text-white">
-              See all gigs <ArrowRight className="h-3 w-3" />
+              See all shifts <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
           <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
@@ -284,33 +284,33 @@ function Index() {
       <section className="border-t border-white/10 py-24">
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 px-6 md:grid-cols-2">
           <Link
-            to="/opportunities"
+            to="/available"
             className="group flex flex-col rounded-3xl border border-white/15 bg-white/[0.03] p-10 transition hover:border-white/40 hover:bg-white/[0.06]"
           >
-            <DollarSign className="h-6 w-6 text-white/80" />
+            <Zap className="h-6 w-6 text-white/80" />
             <div className="mt-8 text-3xl md:text-4xl font-light tracking-tight">
-              Need money today?
+              I want to work.
             </div>
             <p className="mt-3 text-white/60">
-              Skip resumes. Skip interviews. Open the feed, showcase what you create, and get paid the same day.
+              Flip on Available Now. Matched shifts push to the top. Claim in a tap, deliver, get paid same day.
             </p>
             <div className="mt-8 inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-white group-hover:translate-x-1 transition-transform">
-              Find work now <ArrowRight className="h-3 w-3" />
+              Claim a shift now <ArrowRight className="h-3 w-3" />
             </div>
           </Link>
           <Link
-            to="/assessment"
+            to="/post"
             className="group flex flex-col rounded-3xl border border-white/15 bg-white p-10 text-black transition hover:bg-white/90"
           >
             <Plus className="h-6 w-6" />
             <div className="mt-8 text-3xl md:text-4xl font-light tracking-tight">
-              Need creative help today?
+              I need help.
             </div>
             <p className="mt-3 text-black/70">
-              Post a gig in 60 seconds. A talented creator accepts in minutes. Delivered, paid, moving on.
+              Post a shift in 60 seconds. A shifter claims in minutes. Payment held in escrow, released on delivery.
             </p>
             <div className="mt-8 inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] group-hover:translate-x-1 transition-transform">
-              Post a gig <ArrowRight className="h-3 w-3" />
+              Post a shift <ArrowRight className="h-3 w-3" />
             </div>
           </Link>
         </div>
@@ -343,27 +343,27 @@ function Index() {
       {/* FINAL CTA */}
       <section className="relative border-t border-white/10 py-32">
         <div className="mx-auto max-w-4xl px-6 text-center">
-          <p className="text-xs uppercase tracking-[0.4em] text-white/50">Your creativity deserves immediate opportunity</p>
+          <p className="text-xs uppercase tracking-[0.4em] text-white/50">A real-time marketplace</p>
           <h2 className="mt-6 text-4xl md:text-6xl font-light tracking-tight">
-            One person needs money. <em className="italic font-serif">Another</em> needs creativity. We connect them instantly.
+            One person needs help. <em className="italic font-serif">Another</em> needs a shift. We match them in minutes.
           </h2>
           <p className="mt-6 text-white/60 max-w-xl mx-auto">
-            Talent shouldn't have to wait weeks to earn. Ideas shouldn't have to wait weeks to find the right person. Shift Change is where creativity becomes instant income.
+            No resumes. No interviews. No two-week wait. Post a shift or claim one — same day, paid on delivery.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row justify-center gap-3">
             <Link
               to="/opportunities"
               className="group inline-flex items-center justify-center gap-3 rounded-full border border-white/25 bg-white/5 px-8 py-4 text-sm uppercase tracking-[0.3em] text-white backdrop-blur-md transition hover:bg-white/10"
             >
-              Find work now
+              Claim a shift
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
-              to="/assessment"
+              to="/post"
               className="group inline-flex items-center justify-center gap-3 rounded-full bg-white px-8 py-4 text-sm uppercase tracking-[0.3em] text-black transition hover:bg-white/90"
             >
               <Plus className="h-4 w-4" />
-              Post a gig
+              Post a shift
             </Link>
           </div>
         </div>

@@ -36,6 +36,19 @@ export type Application = {
   notes?: string;
 };
 
+export type PostedShift = {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  pay: number;
+  payType: "fixed" | "hourly";
+  location: string;
+  when: string;
+  urgency: "now" | "today" | "this_week";
+  createdAt: string;
+};
+
 const KEYS = {
   profile: "sc.profile",
   assessment: "sc.assessment",
@@ -43,6 +56,10 @@ const KEYS = {
   apps: "sc.applications",
   viewed: "sc.viewed",
   auth: "sc.auth",
+  availableNow: "sc.availableNow",
+  travelMi: "sc.travelMi",
+  posted: "sc.postedShifts",
+  claimed: "sc.claimedShifts",
 } as const;
 
 const isBrowser = () => typeof window !== "undefined";
@@ -97,7 +114,25 @@ export const store = {
 
   isAuthed: () => read<boolean>(KEYS.auth, false),
   setAuthed: (v: boolean) => write(KEYS.auth, v),
+
+  // Shifts marketplace
+  isAvailableNow: () => read<boolean>(KEYS.availableNow, false),
+  setAvailableNow: (v: boolean) => write(KEYS.availableNow, v),
+  getTravelMi: () => read<number>(KEYS.travelMi, 15),
+  setTravelMi: (v: number) => write(KEYS.travelMi, v),
+
+  getPostedShifts: (): PostedShift[] => read<PostedShift[]>(KEYS.posted, []),
+  addPostedShift: (s: PostedShift) => {
+    const cur = store.getPostedShifts();
+    write(KEYS.posted, [s, ...cur]);
+  },
+  getClaimedShifts: (): string[] => read<string[]>(KEYS.claimed, []),
+  claimShift: (id: string) => {
+    const cur = store.getClaimedShifts();
+    if (!cur.includes(id)) write(KEYS.claimed, [id, ...cur]);
+  },
 };
+
 
 import { useSyncExternalStore } from "react";
 

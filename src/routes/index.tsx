@@ -411,39 +411,40 @@ function Hero() {
           />
         </div>
         <h1 className="mt-8 text-xs md:text-sm uppercase tracking-[0.6em] text-white/70 animate-[fade-in_1.6s_ease-out]">
-          Sell your creativity • Earn today
+          Post a Shift • Claim a Shift • Get paid today
         </h1>
 
         {/* Dual question hero */}
         <div className="mt-12 grid w-full max-w-3xl grid-cols-1 gap-3 sm:grid-cols-2 animate-[fade-in_2s_ease-out]">
           <Link
-            to="/opportunities"
-            className="group flex flex-col items-start gap-3 rounded-2xl border border-white/20 bg-white/[0.06] p-6 text-left backdrop-blur-xl transition hover:border-white/50 hover:bg-white/[0.1]"
-          >
-            <DollarSign className="h-5 w-5 text-white/80" />
-            <div className="text-xl md:text-2xl font-light text-white">Need money today?</div>
-            <div className="text-xs uppercase tracking-[0.3em] text-white/60">Find creative work →</div>
-          </Link>
-          <Link
-            to="/assessment"
+            to="/post"
             className="group flex flex-col items-start gap-3 rounded-2xl bg-white p-6 text-left text-black transition hover:bg-white/90"
           >
-            <Sparkles className="h-5 w-5" />
-            <div className="text-xl md:text-2xl font-light">Need creative help today?</div>
-            <div className="text-xs uppercase tracking-[0.3em] text-black/70">Post a gig →</div>
+            <Plus className="h-5 w-5" />
+            <div className="text-xl md:text-2xl font-light">I need help.</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-black/70">Post a shift in 60s →</div>
+          </Link>
+          <Link
+            to="/available"
+            className="group flex flex-col items-start gap-3 rounded-2xl border border-white/20 bg-white/[0.06] p-6 text-left backdrop-blur-xl transition hover:border-white/50 hover:bg-white/[0.1]"
+          >
+            <Zap className="h-5 w-5 text-white/80" />
+            <div className="text-xl md:text-2xl font-light text-white">I want to work.</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-white/60">Claim a shift now →</div>
           </Link>
         </div>
 
         <p className="mt-10 max-w-xl text-sm md:text-base text-white/70 animate-[fade-in_2.2s_ease-out]">
-          One person needs money. Another needs creativity. We connect them instantly — paid the same day.
+          A real-time marketplace. Post a shift, get it claimed in minutes, pay on delivery — same day.
         </p>
 
         <div className="mt-10 flex items-center gap-6 text-[10px] uppercase tracking-[0.35em] text-white/50 animate-[fade-in_2.4s_ease-out]">
-          <span className="inline-flex items-center gap-2"><Zap className="h-3 w-3" /> Same-day pay</span>
-          <span className="inline-flex items-center gap-2"><ShieldCheck className="h-3 w-3" /> Trusted creators</span>
-          <span className="hidden md:inline-flex items-center gap-2"><Sparkles className="h-3 w-3" /> Local + digital</span>
+          <span className="inline-flex items-center gap-2"><Zap className="h-3 w-3" /> Claim in minutes</span>
+          <span className="inline-flex items-center gap-2"><ShieldCheck className="h-3 w-3" /> Escrow held</span>
+          <span className="hidden md:inline-flex items-center gap-2"><Sparkles className="h-3 w-3" /> Paid same-day</span>
         </div>
       </div>
+
 
       <div className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-[10px] uppercase tracking-[0.5em] text-white/50">
         <div className="flex flex-col items-center gap-2">

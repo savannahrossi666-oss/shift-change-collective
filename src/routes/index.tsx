@@ -86,13 +86,14 @@ const sections = [
   },
   {
     id: "community",
-    kicker: "03 — Community Over Corporations",
-    title: "Money that stays with creators.",
-    body: "Every dollar earned here goes to the person doing the work — not a distant corporation with a headquarters two thousand miles away. Human creativity is rewarded immediately, and communities grow by investing in one another. That's the whole point.",
+    kicker: "03 — Real-time marketplace",
+    title: "Shifts, not applications.",
+    body: "Post a shift when you need help. Claim a shift when you want to work. No resumes, no interviews, no waiting weeks. See what's happening today, who's available now, what pays best, what's nearby — and move on it in a tap.",
     image: earnImg.url,
     icon: Users,
     motion: "zoom",
   },
+
 ];
 
 const stories = [
@@ -203,20 +204,23 @@ function Index() {
         </div>
       </section>
 
-      {/* LIVE NOW */}
+      {/* LIVE RAILS — the real-time home screen */}
+      <LiveRails />
+
+      {/* FEATURED */}
       <section className="border-t border-white/10 py-24">
         <div className="mx-auto max-w-7xl px-6">
           <div className="flex items-end justify-between">
             <div>
               <div className="text-[10px] uppercase tracking-[0.4em] text-white/50 inline-flex items-center gap-2">
-                <Zap className="h-3 w-3" /> Open gigs right now
+                <Zap className="h-3 w-3" /> Featured shifts today
               </div>
               <h2 className="mt-4 text-3xl md:text-5xl font-light tracking-tight">
-                Real creators. Real briefs. Real pay — today.
+                Real shifters. Real briefs. Real pay — today.
               </h2>
             </div>
             <Link to="/opportunities" className="hidden md:inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-white/60 hover:text-white">
-              Find work now <ArrowRight className="h-3 w-3" />
+              Claim a shift <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
           <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -226,6 +230,7 @@ function Index() {
           </div>
         </div>
       </section>
+
 
       {/* TRUST */}
       <section className="border-t border-white/10 py-24">

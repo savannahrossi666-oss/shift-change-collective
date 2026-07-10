@@ -16,10 +16,10 @@ export const Route = createFileRoute("/opportunities")({
   }),
   head: () => ({
     meta: [
-      { title: "Creative gigs — Shift Change" },
-      { name: "description", content: "Creative work posted by real clients. Same-day pay, no resumes, no interviews. Sell your creativity today." },
-      { property: "og:title", content: "Creative gigs — Shift Change" },
-      { property: "og:description", content: "Find paid creative work right now." },
+      { title: "Claim a shift — Shift Change" },
+      { name: "description", content: "Real-time shifts posted by real requesters. Claim in a tap, deliver, get paid same day." },
+      { property: "og:title", content: "Claim a shift — Shift Change" },
+      { property: "og:description", content: "Live shifts, open right now." },
     ],
   }),
   component: OpportunitiesPage,
@@ -65,9 +65,9 @@ function OpportunitiesPage() {
   return (
     <PageShell>
       <PageHeader
-        kicker="Creative gigs"
-        title="Real work, posted by real clients."
-        subtitle="No applications. No interviews. Accept a gig and get paid the same day you deliver."
+        kicker="Live shifts"
+        title="Real shifts, posted by real requesters."
+        subtitle="No applications. No interviews. Claim a shift and get paid the same day you deliver."
       />
       <div className="mx-auto max-w-7xl px-6 py-12">
         {/* Search */}
@@ -79,7 +79,7 @@ function OpportunitiesPage() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               onKeyDown={(e) => { if (e.key === "Enter") nav({ search: (s: SearchParams) => ({ ...s, q }) }); }}
-              placeholder="Search gigs, categories, tools…"
+              placeholder="Search shifts, categories, tools…"
               className="w-full bg-transparent text-sm text-white placeholder:text-white/40 focus:outline-none"
             />
             {q && (
@@ -147,7 +147,7 @@ function OpportunitiesPage() {
             </select>
           </div>
           <div className="ml-auto text-white/50 normal-case tracking-normal">
-            {results.length} {results.length === 1 ? "gig" : "gigs"} open
+            {results.length} {results.length === 1 ? "shift" : "shifts"} open
           </div>
         </div>
 
@@ -159,7 +159,7 @@ function OpportunitiesPage() {
         </div>
         {results.length === 0 && (
           <div className="mt-12 rounded-2xl border border-dashed border-white/15 p-12 text-center text-sm text-white/50">
-            No gigs match those filters yet. Try broadening — or post one yourself and get creative help today.
+            No shifts match those filters yet. Broaden them, or post a shift and someone will claim it in minutes.
           </div>
         )}
       </div>

@@ -14,22 +14,22 @@ import earnImg from "@/assets/earn.jpg.asset.json";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { OpportunityCard } from "@/components/opportunity-card";
-import { OPPORTUNITIES } from "@/lib/opportunities";
+import { OPPORTUNITIES, shiftsToday, shiftsHighestPay, shiftsNearby, urgencyOf, urgencyLabel, formatPay, type Opportunity } from "@/lib/opportunities";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Shift Change — Sell your creativity. Get paid today." },
+      { title: "Shift Change — Post a shift. Claim a shift. Paid today." },
       {
         name: "description",
         content:
-          "A creative marketplace where talented people earn from their skills instantly. No resumes, no interviews, no waiting weeks. Human creativity, paid the same day.",
+          "A real-time marketplace for same-day work. Post a shift, get it claimed in minutes, pay on delivery. No resumes, no interviews, no waiting weeks.",
       },
-      { property: "og:title", content: "Shift Change — Your creativity deserves immediate opportunity." },
+      { property: "og:title", content: "Shift Change — Post a shift. Claim a shift. Paid today." },
       {
         property: "og:description",
         content:
-          "Post a creative gig, get discovered instantly, earn from your talent today. AI is creating opportunity — not replacing people.",
+          "Real-time shifts, claimed in minutes, paid on delivery. Post a shift or start working now.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -86,13 +86,14 @@ const sections = [
   },
   {
     id: "community",
-    kicker: "03 — Community Over Corporations",
-    title: "Money that stays with creators.",
-    body: "Every dollar earned here goes to the person doing the work — not a distant corporation with a headquarters two thousand miles away. Human creativity is rewarded immediately, and communities grow by investing in one another. That's the whole point.",
+    kicker: "03 — Real-time marketplace",
+    title: "Shifts, not applications.",
+    body: "Post a shift when you need help. Claim a shift when you want to work. No resumes, no interviews, no waiting weeks. See what's happening today, who's available now, what pays best, what's nearby — and move on it in a tap.",
     image: earnImg.url,
     icon: Users,
     motion: "zoom",
   },
+
 ];
 
 const stories = [
@@ -134,14 +135,14 @@ function Index() {
         <div className="flex whitespace-nowrap gap-16 text-sm uppercase tracking-[0.4em] text-white/40 animate-[marquee_50s_linear_infinite]">
           {Array.from({ length: 2 }).map((_, i) => (
             <div key={i} className="flex gap-16">
-              <span>Earn today</span><span>•</span>
-              <span>Sell your creativity</span><span>•</span>
+              <span>Post a shift</span><span>•</span>
+              <span>Claim a shift</span><span>•</span>
+              <span>Paid today</span><span>•</span>
               <span>No resumes</span><span>•</span>
-              <span>Get discovered instantly</span><span>•</span>
-              <span>Human creativity has value</span><span>•</span>
-              <span>Fast</span><span>•</span>
-              <span>Trusted</span><span>•</span>
-              <span>Community over corporations</span><span>•</span>
+              <span>No interviews</span><span>•</span>
+              <span>Escrow held</span><span>•</span>
+              <span>Real-time</span><span>•</span>
+              <span>Same-day pay</span><span>•</span>
             </div>
           ))}
         </div>
@@ -179,13 +180,13 @@ function Index() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="flex items-end justify-between">
             <div>
-              <div className="text-[10px] uppercase tracking-[0.4em] text-white/50">Everyone has a creative skill</div>
+              <div className="text-[10px] uppercase tracking-[0.4em] text-white/50">Every craft has a shift</div>
               <h2 className="mt-4 text-3xl md:text-5xl font-light tracking-tight">
-                Every craft. Every medium. Instant income.
+                Every category. Every medium. Ready to claim.
               </h2>
             </div>
             <Link to="/opportunities" className="hidden md:inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-white/60 hover:text-white">
-              See all gigs <ArrowRight className="h-3 w-3" />
+              See all shifts <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
           <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
@@ -203,20 +204,23 @@ function Index() {
         </div>
       </section>
 
-      {/* LIVE NOW */}
+      {/* LIVE RAILS — the real-time home screen */}
+      <LiveRails />
+
+      {/* FEATURED */}
       <section className="border-t border-white/10 py-24">
         <div className="mx-auto max-w-7xl px-6">
           <div className="flex items-end justify-between">
             <div>
               <div className="text-[10px] uppercase tracking-[0.4em] text-white/50 inline-flex items-center gap-2">
-                <Zap className="h-3 w-3" /> Open gigs right now
+                <Zap className="h-3 w-3" /> Featured shifts today
               </div>
               <h2 className="mt-4 text-3xl md:text-5xl font-light tracking-tight">
-                Real creators. Real briefs. Real pay — today.
+                Real shifters. Real briefs. Real pay — today.
               </h2>
             </div>
             <Link to="/opportunities" className="hidden md:inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-white/60 hover:text-white">
-              Find work now <ArrowRight className="h-3 w-3" />
+              Claim a shift <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
           <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -226,6 +230,7 @@ function Index() {
           </div>
         </div>
       </section>
+
 
       {/* TRUST */}
       <section className="border-t border-white/10 py-24">
@@ -279,33 +284,33 @@ function Index() {
       <section className="border-t border-white/10 py-24">
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 px-6 md:grid-cols-2">
           <Link
-            to="/opportunities"
+            to="/available"
             className="group flex flex-col rounded-3xl border border-white/15 bg-white/[0.03] p-10 transition hover:border-white/40 hover:bg-white/[0.06]"
           >
-            <DollarSign className="h-6 w-6 text-white/80" />
+            <Zap className="h-6 w-6 text-white/80" />
             <div className="mt-8 text-3xl md:text-4xl font-light tracking-tight">
-              Need money today?
+              I want to work.
             </div>
             <p className="mt-3 text-white/60">
-              Skip resumes. Skip interviews. Open the feed, showcase what you create, and get paid the same day.
+              Flip on Available Now. Matched shifts push to the top. Claim in a tap, deliver, get paid same day.
             </p>
             <div className="mt-8 inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-white group-hover:translate-x-1 transition-transform">
-              Find work now <ArrowRight className="h-3 w-3" />
+              Claim a shift now <ArrowRight className="h-3 w-3" />
             </div>
           </Link>
           <Link
-            to="/assessment"
+            to="/post"
             className="group flex flex-col rounded-3xl border border-white/15 bg-white p-10 text-black transition hover:bg-white/90"
           >
             <Plus className="h-6 w-6" />
             <div className="mt-8 text-3xl md:text-4xl font-light tracking-tight">
-              Need creative help today?
+              I need help.
             </div>
             <p className="mt-3 text-black/70">
-              Post a gig in 60 seconds. A talented creator accepts in minutes. Delivered, paid, moving on.
+              Post a shift in 60 seconds. A shifter claims in minutes. Payment held in escrow, released on delivery.
             </p>
             <div className="mt-8 inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] group-hover:translate-x-1 transition-transform">
-              Post a gig <ArrowRight className="h-3 w-3" />
+              Post a shift <ArrowRight className="h-3 w-3" />
             </div>
           </Link>
         </div>
@@ -338,27 +343,27 @@ function Index() {
       {/* FINAL CTA */}
       <section className="relative border-t border-white/10 py-32">
         <div className="mx-auto max-w-4xl px-6 text-center">
-          <p className="text-xs uppercase tracking-[0.4em] text-white/50">Your creativity deserves immediate opportunity</p>
+          <p className="text-xs uppercase tracking-[0.4em] text-white/50">A real-time marketplace</p>
           <h2 className="mt-6 text-4xl md:text-6xl font-light tracking-tight">
-            One person needs money. <em className="italic font-serif">Another</em> needs creativity. We connect them instantly.
+            One person needs help. <em className="italic font-serif">Another</em> needs a shift. We match them in minutes.
           </h2>
           <p className="mt-6 text-white/60 max-w-xl mx-auto">
-            Talent shouldn't have to wait weeks to earn. Ideas shouldn't have to wait weeks to find the right person. Shift Change is where creativity becomes instant income.
+            No resumes. No interviews. No two-week wait. Post a shift or claim one — same day, paid on delivery.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row justify-center gap-3">
             <Link
               to="/opportunities"
               className="group inline-flex items-center justify-center gap-3 rounded-full border border-white/25 bg-white/5 px-8 py-4 text-sm uppercase tracking-[0.3em] text-white backdrop-blur-md transition hover:bg-white/10"
             >
-              Find work now
+              Claim a shift
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
-              to="/assessment"
+              to="/post"
               className="group inline-flex items-center justify-center gap-3 rounded-full bg-white px-8 py-4 text-sm uppercase tracking-[0.3em] text-black transition hover:bg-white/90"
             >
               <Plus className="h-4 w-4" />
-              Post a gig
+              Post a shift
             </Link>
           </div>
         </div>
@@ -371,6 +376,94 @@ function Index() {
         @keyframes float-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
       `}</style>
     </div>
+  );
+}
+
+function LiveRails() {
+  const rails: { key: string; label: string; icon: React.ComponentType<{ className?: string }>; items: Opportunity[]; pulse?: boolean }[] = [
+    { key: "today", label: "Shifts happening today", icon: Zap, items: shiftsToday(), pulse: true },
+    { key: "highest", label: "Highest-paying shifts", icon: DollarSign, items: shiftsHighestPay() },
+    { key: "nearby", label: "Nearby shifts", icon: Users, items: shiftsNearby() },
+  ];
+  return (
+    <section className="border-t border-white/10 py-24">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="flex items-end justify-between">
+          <div>
+            <div className="text-[10px] uppercase tracking-[0.4em] text-white/50 inline-flex items-center gap-2">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-75" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-300" />
+              </span>
+              Live now
+            </div>
+            <h2 className="mt-4 text-3xl md:text-5xl font-light tracking-tight">
+              The real-time home screen.
+            </h2>
+            <p className="mt-3 max-w-xl text-white/60">
+              What's happening today. Who's paying most. What's nearby. Claim any of them in a tap.
+            </p>
+          </div>
+          <Link to="/opportunities" className="hidden md:inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-white/60 hover:text-white">
+            All shifts <ArrowRight className="h-3 w-3" />
+          </Link>
+        </div>
+      </div>
+      <div className="mt-12 space-y-14">
+        {rails.map((r) => (
+          <div key={r.key}>
+            <div className="mx-auto flex max-w-7xl items-center justify-between px-6">
+              <div className="flex items-center gap-3 text-sm text-white">
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-white/[0.02]">
+                  <r.icon className="h-3.5 w-3.5 text-white/80" />
+                </span>
+                {r.label}
+              </div>
+              <span className="text-[10px] uppercase tracking-[0.3em] text-white/40">{r.items.length} open</span>
+            </div>
+            <div className="mt-4 overflow-x-auto scrollbar-none">
+              <div className="flex gap-4 px-6 pb-2 min-w-max">
+                {r.items.map((o) => (
+                  <MiniShiftCard key={r.key + o.id} o={o} />
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function MiniShiftCard({ o }: { o: Opportunity }) {
+  const u = urgencyOf(o);
+  return (
+    <Link
+      to="/opportunities/$id"
+      params={{ id: o.id }}
+      className="group flex w-72 shrink-0 flex-col rounded-2xl border border-white/10 bg-white/[0.02] p-5 backdrop-blur-sm transition hover:border-white/30 hover:bg-white/[0.05]"
+    >
+      <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.3em] text-white/40">
+        <span className="truncate">{o.category}</span>
+        <span
+          className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 ${
+            u === "now"
+              ? "border-emerald-400/40 bg-emerald-400/10 text-emerald-300"
+              : u === "today"
+              ? "border-amber-300/40 bg-amber-300/10 text-amber-200"
+              : "border-white/15 text-white/60"
+          }`}
+        >
+          {urgencyLabel(u)}
+        </span>
+      </div>
+      <div className="mt-4 line-clamp-2 text-base font-light leading-snug text-white">{o.title}</div>
+      <div className="mt-2 text-xs text-white/50">Posted by {o.company}</div>
+      <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-3 text-xs">
+        <span className="font-medium text-white/85">{formatPay(o)}</span>
+        <span className="text-white/50 group-hover:text-white transition">Claim →</span>
+      </div>
+    </Link>
   );
 }
 
@@ -411,39 +504,40 @@ function Hero() {
           />
         </div>
         <h1 className="mt-8 text-xs md:text-sm uppercase tracking-[0.6em] text-white/70 animate-[fade-in_1.6s_ease-out]">
-          Sell your creativity • Earn today
+          Post a Shift • Claim a Shift • Get paid today
         </h1>
 
         {/* Dual question hero */}
         <div className="mt-12 grid w-full max-w-3xl grid-cols-1 gap-3 sm:grid-cols-2 animate-[fade-in_2s_ease-out]">
           <Link
-            to="/opportunities"
-            className="group flex flex-col items-start gap-3 rounded-2xl border border-white/20 bg-white/[0.06] p-6 text-left backdrop-blur-xl transition hover:border-white/50 hover:bg-white/[0.1]"
-          >
-            <DollarSign className="h-5 w-5 text-white/80" />
-            <div className="text-xl md:text-2xl font-light text-white">Need money today?</div>
-            <div className="text-xs uppercase tracking-[0.3em] text-white/60">Find creative work →</div>
-          </Link>
-          <Link
-            to="/assessment"
+            to="/post"
             className="group flex flex-col items-start gap-3 rounded-2xl bg-white p-6 text-left text-black transition hover:bg-white/90"
           >
-            <Sparkles className="h-5 w-5" />
-            <div className="text-xl md:text-2xl font-light">Need creative help today?</div>
-            <div className="text-xs uppercase tracking-[0.3em] text-black/70">Post a gig →</div>
+            <Plus className="h-5 w-5" />
+            <div className="text-xl md:text-2xl font-light">I need help.</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-black/70">Post a shift in 60s →</div>
+          </Link>
+          <Link
+            to="/available"
+            className="group flex flex-col items-start gap-3 rounded-2xl border border-white/20 bg-white/[0.06] p-6 text-left backdrop-blur-xl transition hover:border-white/50 hover:bg-white/[0.1]"
+          >
+            <Zap className="h-5 w-5 text-white/80" />
+            <div className="text-xl md:text-2xl font-light text-white">I want to work.</div>
+            <div className="text-xs uppercase tracking-[0.3em] text-white/60">Claim a shift now →</div>
           </Link>
         </div>
 
         <p className="mt-10 max-w-xl text-sm md:text-base text-white/70 animate-[fade-in_2.2s_ease-out]">
-          One person needs money. Another needs creativity. We connect them instantly — paid the same day.
+          A real-time marketplace. Post a shift, get it claimed in minutes, pay on delivery — same day.
         </p>
 
         <div className="mt-10 flex items-center gap-6 text-[10px] uppercase tracking-[0.35em] text-white/50 animate-[fade-in_2.4s_ease-out]">
-          <span className="inline-flex items-center gap-2"><Zap className="h-3 w-3" /> Same-day pay</span>
-          <span className="inline-flex items-center gap-2"><ShieldCheck className="h-3 w-3" /> Trusted creators</span>
-          <span className="hidden md:inline-flex items-center gap-2"><Sparkles className="h-3 w-3" /> Local + digital</span>
+          <span className="inline-flex items-center gap-2"><Zap className="h-3 w-3" /> Claim in minutes</span>
+          <span className="inline-flex items-center gap-2"><ShieldCheck className="h-3 w-3" /> Escrow held</span>
+          <span className="hidden md:inline-flex items-center gap-2"><Sparkles className="h-3 w-3" /> Paid same-day</span>
         </div>
       </div>
+
 
       <div className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-[10px] uppercase tracking-[0.5em] text-white/50">
         <div className="flex flex-col items-center gap-2">

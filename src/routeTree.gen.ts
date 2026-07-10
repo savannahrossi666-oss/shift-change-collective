@@ -13,11 +13,13 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PostRouteImport } from './routes/post'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CommunityRouteImport } from './routes/community'
+import { Route as AvailableRouteImport } from './routes/available'
 import { Route as AssessmentsRouteImport } from './routes/assessments'
 import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as AboutRouteImport } from './routes/about'
@@ -45,6 +47,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PostRoute = PostRouteImport.update({
+  id: '/post',
+  path: '/post',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OpportunitiesRoute = OpportunitiesRouteImport.update({
   id: '/opportunities',
   path: '/opportunities',
@@ -68,6 +75,11 @@ const ContactRoute = ContactRouteImport.update({
 const CommunityRoute = CommunityRouteImport.update({
   id: '/community',
   path: '/community',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AvailableRoute = AvailableRouteImport.update({
+  id: '/available',
+  path: '/available',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AssessmentsRoute = AssessmentsRouteImport.update({
@@ -106,11 +118,13 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/assessment': typeof AssessmentRoute
   '/assessments': typeof AssessmentsRouteWithChildren
+  '/available': typeof AvailableRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/faq': typeof FaqRoute
   '/opportunities': typeof OpportunitiesRouteWithChildren
+  '/post': typeof PostRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/resources': typeof ResourcesRoute
@@ -123,11 +137,13 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/assessment': typeof AssessmentRoute
   '/assessments': typeof AssessmentsRouteWithChildren
+  '/available': typeof AvailableRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/faq': typeof FaqRoute
   '/opportunities': typeof OpportunitiesRouteWithChildren
+  '/post': typeof PostRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/resources': typeof ResourcesRoute
@@ -141,11 +157,13 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/assessment': typeof AssessmentRoute
   '/assessments': typeof AssessmentsRouteWithChildren
+  '/available': typeof AvailableRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/dashboard': typeof DashboardRoute
   '/faq': typeof FaqRoute
   '/opportunities': typeof OpportunitiesRouteWithChildren
+  '/post': typeof PostRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/resources': typeof ResourcesRoute
@@ -160,11 +178,13 @@ export interface FileRouteTypes {
     | '/about'
     | '/assessment'
     | '/assessments'
+    | '/available'
     | '/community'
     | '/contact'
     | '/dashboard'
     | '/faq'
     | '/opportunities'
+    | '/post'
     | '/privacy'
     | '/profile'
     | '/resources'
@@ -177,11 +197,13 @@ export interface FileRouteTypes {
     | '/about'
     | '/assessment'
     | '/assessments'
+    | '/available'
     | '/community'
     | '/contact'
     | '/dashboard'
     | '/faq'
     | '/opportunities'
+    | '/post'
     | '/privacy'
     | '/profile'
     | '/resources'
@@ -194,11 +216,13 @@ export interface FileRouteTypes {
     | '/about'
     | '/assessment'
     | '/assessments'
+    | '/available'
     | '/community'
     | '/contact'
     | '/dashboard'
     | '/faq'
     | '/opportunities'
+    | '/post'
     | '/privacy'
     | '/profile'
     | '/resources'
@@ -212,11 +236,13 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AssessmentRoute: typeof AssessmentRoute
   AssessmentsRoute: typeof AssessmentsRouteWithChildren
+  AvailableRoute: typeof AvailableRoute
   CommunityRoute: typeof CommunityRoute
   ContactRoute: typeof ContactRoute
   DashboardRoute: typeof DashboardRoute
   FaqRoute: typeof FaqRoute
   OpportunitiesRoute: typeof OpportunitiesRouteWithChildren
+  PostRoute: typeof PostRoute
   PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
   ResourcesRoute: typeof ResourcesRoute
@@ -253,6 +279,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/post': {
+      id: '/post'
+      path: '/post'
+      fullPath: '/post'
+      preLoaderRoute: typeof PostRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/opportunities': {
       id: '/opportunities'
       path: '/opportunities'
@@ -286,6 +319,13 @@ declare module '@tanstack/react-router' {
       path: '/community'
       fullPath: '/community'
       preLoaderRoute: typeof CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/available': {
+      id: '/available'
+      path: '/available'
+      fullPath: '/available'
+      preLoaderRoute: typeof AvailableRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/assessments': {
@@ -362,11 +402,13 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AssessmentRoute: AssessmentRoute,
   AssessmentsRoute: AssessmentsRouteWithChildren,
+  AvailableRoute: AvailableRoute,
   CommunityRoute: CommunityRoute,
   ContactRoute: ContactRoute,
   DashboardRoute: DashboardRoute,
   FaqRoute: FaqRoute,
   OpportunitiesRoute: OpportunitiesRouteWithChildren,
+  PostRoute: PostRoute,
   PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
   ResourcesRoute: ResourcesRoute,

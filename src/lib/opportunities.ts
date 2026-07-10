@@ -498,3 +498,29 @@ export function postedLabel(hoursAgo: number) {
   const d = Math.round(hoursAgo / 24);
   return d === 1 ? "1 day ago" : `${d} days ago`;
 }
+
+/** Derived urgency band — feeds "Happening today" / "This week" rails. */
+export type Urgency = "now" | "today" | "this_week";
+export function urgencyOf(o: Opportunity): Urgency {
+  const s = (o.tags.join(" ") + " " + o.deadline).toLowerCase();
+  if (/same-day|today|24-hr|24 hr|next hour|now/.test(s)) return "now";
+  if (/48-hr|48 hr|tomorrow|this week|same-week/.test(s)) return "today";
+  return "this_week";
+}
+export function urgencyLabel(u: Urgency) {
+  return u === "now" ? "Live now" : u === "today" ? "Today" : "This week";
+}
+
+/** Rails for the homepage live feed. */
+export function shiftsToday() {
+  return OPPORTUNITIES.filter((o) => urgencyOf(o) !== "this_week").slice(0, 8);
+}
+export function shiftsHighestPay() {
+  return [...OPPORTUNITIES].sort((a, b) => b.payMax - a.payMax).slice(0, 8);
+}
+export function shiftsNearby() {
+  return OPPORTUNITIES.filter((o) => !o.remote || /local/i.test(o.location)).concat(
+    OPPORTUNITIES.filter((o) => o.remote).slice(0, 4),
+  ).slice(0, 8);
+}
+

@@ -141,30 +141,32 @@ function OpportunityDetail() {
 
           <div className="mt-12 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <button
-              onClick={() => store.setApplicationStatus(o.id, "Applied")}
+              onClick={() => {
+                store.claimShift(o.id);
+                store.setApplicationStatus(o.id, "Applied");
+              }}
               className="group inline-flex items-center justify-center gap-3 rounded-full bg-white px-8 py-4 text-xs uppercase tracking-[0.3em] text-black transition hover:bg-white/90"
             >
-              Accept & Earn {formatPay(o).split(" ")[0]}
+              {store.getClaimedShifts().includes(o.id) ? "Shift claimed" : `Claim shift — earn ${formatPay(o).split(" ")[0]}`}
               <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </button>
-            <select
-              value={currentStatus}
-              onChange={(e) => store.setApplicationStatus(o.id, e.target.value as never)}
-              className="rounded-full border border-white/20 bg-black px-4 py-4 text-xs uppercase tracking-[0.3em] text-white/80 focus:outline-none"
+            <button
+              onClick={() => store.toggleSaved(o.id)}
+              className="rounded-full border border-white/20 bg-white/5 px-6 py-4 text-xs uppercase tracking-[0.3em] text-white/80 hover:bg-white/10"
             >
-              {(["Saved", "Applied", "Interview", "Offer", "Archived"] as const).map((s) => {
-                const label = ({ Saved: "Saved for later", Applied: "Accepted", Interview: "Chatting", Offer: "Matched", Archived: "Archived" } as const)[s];
-                return <option key={s} value={s}>Track as: {label}</option>;
-              })}
-            </select>
+              {saved ? "Saved" : "Save for later"}
+            </button>
           </div>
 
           <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.02] p-6 text-sm text-white/70 leading-relaxed">
-            <div className="text-[10px] uppercase tracking-[0.35em] text-white/40">Safety first</div>
+            <div className="text-[10px] uppercase tracking-[0.35em] text-white/40 inline-flex items-center gap-2">
+              <ShieldCheck className="h-3 w-3" /> Payment secured in escrow
+            </div>
             <p className="mt-3">
-              We'll text you before, during, and after this task. Meet at the door, agree on the scope, and release payment when it's done. If anything feels off, tap Report and we're on it.
+              The requester's payment is held the moment you claim this shift. Deliver the work, they release, you get paid — same day. If anything feels off, tap Report and a human is on it.
             </p>
           </div>
+
         </div>
 
         <div className="mx-auto max-w-7xl px-6 mt-24">

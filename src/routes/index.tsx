@@ -19,17 +19,17 @@ import { OPPORTUNITIES, shiftsToday, shiftsHighestPay, shiftsNearby, urgencyOf, 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Shift Change — Sell your creativity. Get paid today." },
+      { title: "Shift Change — Post a shift. Claim a shift. Paid today." },
       {
         name: "description",
         content:
-          "A creative marketplace where talented people earn from their skills instantly. No resumes, no interviews, no waiting weeks. Human creativity, paid the same day.",
+          "A real-time marketplace for same-day work. Post a shift, get it claimed in minutes, pay on delivery. No resumes, no interviews, no waiting weeks.",
       },
-      { property: "og:title", content: "Shift Change — Your creativity deserves immediate opportunity." },
+      { property: "og:title", content: "Shift Change — Post a shift. Claim a shift. Paid today." },
       {
         property: "og:description",
         content:
-          "Post a creative gig, get discovered instantly, earn from your talent today. AI is creating opportunity — not replacing people.",
+          "Real-time shifts, claimed in minutes, paid on delivery. Post a shift or start working now.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

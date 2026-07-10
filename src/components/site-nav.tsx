@@ -1,19 +1,22 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Menu, X, ArrowRight, Plus } from "lucide-react";
+import { Menu, X, ArrowRight, Plus, Zap } from "lucide-react";
 import logo from "@/assets/logo.png.asset.json";
+import { store, useStoreVersion } from "@/lib/store";
 
 const links = [
-  { to: "/opportunities", label: "Find Work" },
-  { to: "/community", label: "Creators" },
+  { to: "/opportunities", label: "Claim Shifts" },
+  { to: "/available", label: "Available Now" },
   { to: "/assessments", label: "Assessments" },
-  { to: "/resources", label: "How It Works" },
+  { to: "/community", label: "Shifters" },
   { to: "/about", label: "About" },
 ] as const;
 
 export function SiteNav({ transparent = false }: { transparent?: boolean }) {
+  useStoreVersion();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const availableNow = store.isAvailableNow();
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     onScroll();
@@ -49,19 +52,28 @@ export function SiteNav({ transparent = false }: { transparent?: boolean }) {
           ))}
         </nav>
         <div className="flex items-center gap-3">
+          {availableNow && (
+            <span className="hidden md:inline-flex items-center gap-2 rounded-full border border-emerald-400/40 bg-emerald-400/10 px-3 py-1 text-[10px] uppercase tracking-[0.3em] text-emerald-300">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-75" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-300" />
+              </span>
+              On shift
+            </span>
+          )}
           <Link
-            to="/assessment"
+            to="/post"
             className="group hidden md:inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs uppercase tracking-[0.25em] text-black transition hover:bg-white/90"
           >
             <Plus className="h-3 w-3" />
-            Post a Gig
+            Post a Shift
           </Link>
           <Link
             to="/opportunities"
             className="hidden md:inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.25em] backdrop-blur-md transition hover:bg-white/10"
           >
-            Earn Today
-            <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+            <Zap className="h-3 w-3" />
+            Claim a Shift
           </Link>
           <button
             aria-label="Toggle menu"
@@ -97,14 +109,14 @@ export function SiteNav({ transparent = false }: { transparent?: boolean }) {
               onClick={() => setOpen(false)}
               className="mt-2 inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-3 text-xs"
             >
-              Find Work Now <ArrowRight className="h-3 w-3" />
+              Claim a Shift <ArrowRight className="h-3 w-3" />
             </Link>
             <Link
-              to="/assessment"
+              to="/post"
               onClick={() => setOpen(false)}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-4 py-3 text-xs text-black"
             >
-              <Plus className="h-3 w-3" /> Post a Gig
+              <Plus className="h-3 w-3" /> Post a Shift
             </Link>
           </div>
         </div>

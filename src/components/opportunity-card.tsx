@@ -1,29 +1,43 @@
 import { Link } from "@tanstack/react-router";
 import { Bookmark, MapPin, Clock, ArrowUpRight, ShieldCheck, Zap } from "lucide-react";
-import { formatPay, postedLabel, type Opportunity } from "@/lib/opportunities";
+import { formatPay, postedLabel, urgencyOf, urgencyLabel, type Opportunity } from "@/lib/opportunities";
 import { store, useStoreVersion } from "@/lib/store";
 
 /**
- * TaskCard — used everywhere we surface a local task.
+ * ShiftCard — used everywhere we surface a shift.
  * Component name stays "OpportunityCard" to keep imports stable.
  */
 export function OpportunityCard({ o }: { o: Opportunity }) {
   useStoreVersion();
   const saved = store.isSaved(o.id);
-  const sameDay = /today|same-day/i.test(o.tags.join(" ")) || /today/i.test(o.deadline);
+  const claimed = store.getClaimedShifts().includes(o.id);
+  const u = urgencyOf(o);
   const verified = /verified|trust|vetted/i.test(o.tags.join(" "));
+
+  const urgencyChipClass =
+    u === "now"
+      ? "border-emerald-400/40 bg-emerald-400/10 text-emerald-300"
+      : u === "today"
+      ? "border-amber-300/40 bg-amber-300/10 text-amber-200"
+      : "border-white/15 text-white/60";
 
   return (
     <div className="group relative flex h-full flex-col rounded-2xl border border-white/10 bg-white/[0.02] p-6 backdrop-blur-sm transition hover:border-white/25 hover:bg-white/[0.04]">
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
           <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.35em] text-white/40">
-            <span>{o.category}</span>
-            {sameDay && (
-              <span className="inline-flex items-center gap-1 rounded-full border border-white/20 px-2 py-0.5 text-white/70">
-                <Zap className="h-2.5 w-2.5" /> Today
-              </span>
-            )}
+            <span className="truncate">{o.category}</span>
+            <span
+              className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 ${urgencyChipClass}`}
+            >
+              {u === "now" && (
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-75" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-300" />
+                </span>
+              )}
+              {urgencyLabel(u)}
+            </span>
           </div>
           <Link
             to="/opportunities/$id"
@@ -42,7 +56,7 @@ export function OpportunityCard({ o }: { o: Opportunity }) {
             e.preventDefault();
             store.toggleSaved(o.id);
           }}
-          aria-label={saved ? "Remove bookmark" : "Save task"}
+          aria-label={saved ? "Remove bookmark" : "Save shift"}
           className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition ${
             saved
               ? "border-white bg-white text-black"
@@ -72,12 +86,20 @@ export function OpportunityCard({ o }: { o: Opportunity }) {
           <span className="inline-flex items-center gap-1"><MapPin className="h-3 w-3" />{o.location}</span>
           <span className="text-white/40">{postedLabel(o.postedDaysAgo)}</span>
         </div>
+      </div>
+
+      <div className="mt-4 flex items-center gap-2">
         <Link
           to="/opportunities/$id"
           params={{ id: o.id }}
-          className="inline-flex items-center gap-1 text-white/70 hover:text-white"
+          className={`inline-flex flex-1 items-center justify-center gap-2 rounded-full px-4 py-2.5 text-xs uppercase tracking-[0.25em] transition ${
+            claimed
+              ? "border border-white/20 bg-white/5 text-white/60"
+              : "bg-white text-black hover:bg-white/90"
+          }`}
         >
-          Open <ArrowUpRight className="h-3 w-3" />
+          {claimed ? "Claimed" : "Claim shift"}
+          {!claimed && <ArrowUpRight className="h-3 w-3" />}
         </Link>
       </div>
     </div>

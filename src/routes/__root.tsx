@@ -10,7 +10,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import heroVideo from "../assets/hero.mp4.asset.json";
+import webpageVideo from "../assets/webpage.mp4.asset.json";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 
@@ -120,16 +120,18 @@ function RootShell({ children }: { children: ReactNode }) {
       <body>
         <video
           className="background-video"
-          src={heroVideo.url}
           autoPlay
           loop
           muted
           playsInline
           preload="auto"
           aria-hidden="true"
-        />
+        >
+          <source src="/webpage.mp4" type="video/mp4" />
+          <source src={webpageVideo.url} type="video/mp4" />
+        </video>
         <div className="background-overlay" aria-hidden="true" />
-        {children}
+        <div className="site-content">{children}</div>
         <Scripts />
       </body>
     </html>

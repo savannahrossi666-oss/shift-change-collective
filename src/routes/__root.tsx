@@ -118,12 +118,24 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
+        <video
+          className="background-video"
+          src={heroVideo.url}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+        />
+        <div className="background-overlay" aria-hidden="true" />
         {children}
         <Scripts />
       </body>
     </html>
   );
 }
+
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();

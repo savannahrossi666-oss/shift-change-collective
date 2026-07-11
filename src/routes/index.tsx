@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 
 import logo from "@/assets/logo.png.asset.json";
-import heroVideo from "@/assets/hero.mp4.asset.json";
+// hero video is now rendered globally in __root.tsx as a fixed background
 import discoverImg from "@/assets/discover.jpg.asset.json";
 import createImg from "@/assets/create.jpg.asset.json";
 import earnImg from "@/assets/earn.jpg.asset.json";

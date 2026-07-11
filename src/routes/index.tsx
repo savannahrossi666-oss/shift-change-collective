@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef } from "react";
+// react hooks not needed in this module
 import {
   ArrowRight, Plus, ShieldCheck, Zap, Sparkles, Palette, Type as TypeIcon, Video, Film, Music,
   Mic, Camera, Image as ImageIcon, Brush, Layers, Box, Play, Layout, Code, Globe, PenTool,

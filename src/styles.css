@@ -137,8 +137,40 @@
     border-color: var(--color-border);
   }
 
+  html {
+    background-color: #000;
+  }
+
   body {
-    background-color: var(--color-background);
+    background-color: transparent;
     color: var(--color-foreground);
   }
 }
+
+.background-video {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -2;
+  pointer-events: none;
+}
+
+.background-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: -1;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .background-video {
+    display: none;
+  }
+  html {
+    background: #000 radial-gradient(ellipse at top, #101018, #000 70%);
+  }
+}
+

@@ -126,12 +126,12 @@ function Index() {
   const featured = OPPORTUNITIES.filter((o) => o.featured).slice(0, 6);
 
   return (
-    <div className="min-h-screen bg-black text-white antialiased selection:bg-white selection:text-black">
+    <div className="min-h-screen bg-transparent text-white antialiased selection:bg-white selection:text-black">
       <SiteNav transparent />
       <Hero />
 
       {/* MANIFESTO STRIP */}
-      <section className="relative border-y border-white/10 bg-black py-10 overflow-hidden">
+      <section className="relative border-y border-white/10 bg-black/45 py-10 overflow-hidden backdrop-blur-[1px]">
         <div className="flex whitespace-nowrap gap-16 text-sm uppercase tracking-[0.4em] text-white/40 animate-[marquee_50s_linear_infinite]">
           {Array.from({ length: 2 }).map((_, i) => (
             <div key={i} className="flex gap-16">

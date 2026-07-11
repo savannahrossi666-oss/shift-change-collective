@@ -38,7 +38,7 @@ const groups = [
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-white/10 bg-black">
+    <footer className="border-t border-white/10 bg-black/70 backdrop-blur-sm">
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-10 px-6 py-16 md:grid-cols-6">
         <div className="col-span-2 md:col-span-2">
           <img src={logo.url} alt="Shift Change" className="h-6 w-auto invert brightness-0" />

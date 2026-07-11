@@ -12,7 +12,7 @@ export function PageShell({
   hideFooter?: boolean;
 }) {
   return (
-    <div className="min-h-screen bg-black text-white antialiased selection:bg-white selection:text-black">
+    <div className="min-h-screen bg-transparent text-white antialiased selection:bg-white selection:text-black">
       <SiteNav transparent={transparentNav} />
       <main>{children}</main>
       {!hideFooter && <SiteFooter />}

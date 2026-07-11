@@ -468,20 +468,9 @@ function MiniShiftCard({ o }: { o: Opportunity }) {
 }
 
 function Hero() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  useEffect(() => { videoRef.current?.play().catch(() => {}); }, []);
-
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
-      <video
-        ref={videoRef}
-        src={heroVideo.url}
-        autoPlay muted loop playsInline preload="auto"
-        className="absolute inset-0 h-full w-full object-cover"
-        style={{ filter: "blur(1px)" }}
-      />
-      <div className="absolute inset-0 bg-black/70" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80 pointer-events-none" />
       <div
         className="absolute inset-0 opacity-[0.12] mix-blend-overlay pointer-events-none"
         style={{
@@ -493,6 +482,7 @@ function Hero() {
         className="absolute inset-0 opacity-[0.18] mix-blend-overlay pointer-events-none"
         style={{ backgroundImage: "radial-gradient(circle at 50% 40%, rgba(255,255,255,0.35), transparent 60%)" }}
       />
+
 
       <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 pt-24 pb-16 text-center">
         <div className="animate-[fade-in_1.2s_ease-out]">

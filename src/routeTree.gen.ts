@@ -20,11 +20,13 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as AvailableRouteImport } from './routes/available'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AssessmentsRouteImport } from './routes/assessments'
 import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as OpportunitiesIdRouteImport } from './routes/opportunities.$id'
+import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AssessmentsIdRouteImport } from './routes/assessments.$id'
 
 const TermsRoute = TermsRouteImport.update({
@@ -82,6 +84,11 @@ const AvailableRoute = AvailableRouteImport.update({
   path: '/available',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AssessmentsRoute = AssessmentsRouteImport.update({
   id: '/assessments',
   path: '/assessments',
@@ -107,6 +114,11 @@ const OpportunitiesIdRoute = OpportunitiesIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => OpportunitiesRoute,
 } as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/callback',
+  path: '/callback',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AssessmentsIdRoute = AssessmentsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -118,6 +130,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/assessment': typeof AssessmentRoute
   '/assessments': typeof AssessmentsRouteWithChildren
+  '/auth': typeof AuthRouteWithChildren
   '/available': typeof AvailableRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
@@ -130,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/resources': typeof ResourcesRoute
   '/terms': typeof TermsRoute
   '/assessments/$id': typeof AssessmentsIdRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/opportunities/$id': typeof OpportunitiesIdRoute
 }
 export interface FileRoutesByTo {
@@ -137,6 +151,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/assessment': typeof AssessmentRoute
   '/assessments': typeof AssessmentsRouteWithChildren
+  '/auth': typeof AuthRouteWithChildren
   '/available': typeof AvailableRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
@@ -149,6 +164,7 @@ export interface FileRoutesByTo {
   '/resources': typeof ResourcesRoute
   '/terms': typeof TermsRoute
   '/assessments/$id': typeof AssessmentsIdRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/opportunities/$id': typeof OpportunitiesIdRoute
 }
 export interface FileRoutesById {
@@ -157,6 +173,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/assessment': typeof AssessmentRoute
   '/assessments': typeof AssessmentsRouteWithChildren
+  '/auth': typeof AuthRouteWithChildren
   '/available': typeof AvailableRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
@@ -169,6 +186,7 @@ export interface FileRoutesById {
   '/resources': typeof ResourcesRoute
   '/terms': typeof TermsRoute
   '/assessments/$id': typeof AssessmentsIdRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/opportunities/$id': typeof OpportunitiesIdRoute
 }
 export interface FileRouteTypes {
@@ -178,6 +196,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/assessment'
     | '/assessments'
+    | '/auth'
     | '/available'
     | '/community'
     | '/contact'
@@ -190,6 +209,7 @@ export interface FileRouteTypes {
     | '/resources'
     | '/terms'
     | '/assessments/$id'
+    | '/auth/callback'
     | '/opportunities/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -197,6 +217,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/assessment'
     | '/assessments'
+    | '/auth'
     | '/available'
     | '/community'
     | '/contact'
@@ -209,6 +230,7 @@ export interface FileRouteTypes {
     | '/resources'
     | '/terms'
     | '/assessments/$id'
+    | '/auth/callback'
     | '/opportunities/$id'
   id:
     | '__root__'
@@ -216,6 +238,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/assessment'
     | '/assessments'
+    | '/auth'
     | '/available'
     | '/community'
     | '/contact'
@@ -228,6 +251,7 @@ export interface FileRouteTypes {
     | '/resources'
     | '/terms'
     | '/assessments/$id'
+    | '/auth/callback'
     | '/opportunities/$id'
   fileRoutesById: FileRoutesById
 }
@@ -236,6 +260,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AssessmentRoute: typeof AssessmentRoute
   AssessmentsRoute: typeof AssessmentsRouteWithChildren
+  AuthRoute: typeof AuthRouteWithChildren
   AvailableRoute: typeof AvailableRoute
   CommunityRoute: typeof CommunityRoute
   ContactRoute: typeof ContactRoute
@@ -328,6 +353,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AvailableRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/assessments': {
       id: '/assessments'
       path: '/assessments'
@@ -363,6 +395,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OpportunitiesIdRouteImport
       parentRoute: typeof OpportunitiesRoute
     }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/assessments/$id': {
       id: '/assessments/$id'
       path: '/$id'
@@ -385,6 +424,16 @@ const AssessmentsRouteWithChildren = AssessmentsRoute._addFileChildren(
   AssessmentsRouteChildren,
 )
 
+interface AuthRouteChildren {
+  AuthCallbackRoute: typeof AuthCallbackRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthCallbackRoute: AuthCallbackRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
 interface OpportunitiesRouteChildren {
   OpportunitiesIdRoute: typeof OpportunitiesIdRoute
 }
@@ -402,6 +451,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AssessmentRoute: AssessmentRoute,
   AssessmentsRoute: AssessmentsRouteWithChildren,
+  AuthRoute: AuthRouteWithChildren,
   AvailableRoute: AvailableRoute,
   CommunityRoute: CommunityRoute,
   ContactRoute: ContactRoute,

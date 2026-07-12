@@ -20,11 +20,14 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as AvailableRouteImport } from './routes/available'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AssessmentsRouteImport } from './routes/assessments'
 import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ShiftsIdRouteImport } from './routes/shifts.$id'
 import { Route as OpportunitiesIdRouteImport } from './routes/opportunities.$id'
+import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AssessmentsIdRouteImport } from './routes/assessments.$id'
 
 const TermsRoute = TermsRouteImport.update({
@@ -82,6 +85,11 @@ const AvailableRoute = AvailableRouteImport.update({
   path: '/available',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AssessmentsRoute = AssessmentsRouteImport.update({
   id: '/assessments',
   path: '/assessments',
@@ -102,10 +110,20 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShiftsIdRoute = ShiftsIdRouteImport.update({
+  id: '/shifts/$id',
+  path: '/shifts/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OpportunitiesIdRoute = OpportunitiesIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => OpportunitiesRoute,
+} as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/callback',
+  path: '/callback',
+  getParentRoute: () => AuthRoute,
 } as any)
 const AssessmentsIdRoute = AssessmentsIdRouteImport.update({
   id: '/$id',
@@ -118,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/assessment': typeof AssessmentRoute
   '/assessments': typeof AssessmentsRouteWithChildren
+  '/auth': typeof AuthRouteWithChildren
   '/available': typeof AvailableRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
@@ -130,13 +149,16 @@ export interface FileRoutesByFullPath {
   '/resources': typeof ResourcesRoute
   '/terms': typeof TermsRoute
   '/assessments/$id': typeof AssessmentsIdRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/opportunities/$id': typeof OpportunitiesIdRoute
+  '/shifts/$id': typeof ShiftsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/assessment': typeof AssessmentRoute
   '/assessments': typeof AssessmentsRouteWithChildren
+  '/auth': typeof AuthRouteWithChildren
   '/available': typeof AvailableRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
@@ -149,7 +171,9 @@ export interface FileRoutesByTo {
   '/resources': typeof ResourcesRoute
   '/terms': typeof TermsRoute
   '/assessments/$id': typeof AssessmentsIdRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/opportunities/$id': typeof OpportunitiesIdRoute
+  '/shifts/$id': typeof ShiftsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -157,6 +181,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/assessment': typeof AssessmentRoute
   '/assessments': typeof AssessmentsRouteWithChildren
+  '/auth': typeof AuthRouteWithChildren
   '/available': typeof AvailableRoute
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
@@ -169,7 +194,9 @@ export interface FileRoutesById {
   '/resources': typeof ResourcesRoute
   '/terms': typeof TermsRoute
   '/assessments/$id': typeof AssessmentsIdRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/opportunities/$id': typeof OpportunitiesIdRoute
+  '/shifts/$id': typeof ShiftsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -178,6 +205,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/assessment'
     | '/assessments'
+    | '/auth'
     | '/available'
     | '/community'
     | '/contact'
@@ -190,13 +218,16 @@ export interface FileRouteTypes {
     | '/resources'
     | '/terms'
     | '/assessments/$id'
+    | '/auth/callback'
     | '/opportunities/$id'
+    | '/shifts/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/assessment'
     | '/assessments'
+    | '/auth'
     | '/available'
     | '/community'
     | '/contact'
@@ -209,13 +240,16 @@ export interface FileRouteTypes {
     | '/resources'
     | '/terms'
     | '/assessments/$id'
+    | '/auth/callback'
     | '/opportunities/$id'
+    | '/shifts/$id'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/assessment'
     | '/assessments'
+    | '/auth'
     | '/available'
     | '/community'
     | '/contact'
@@ -228,7 +262,9 @@ export interface FileRouteTypes {
     | '/resources'
     | '/terms'
     | '/assessments/$id'
+    | '/auth/callback'
     | '/opportunities/$id'
+    | '/shifts/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -236,6 +272,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AssessmentRoute: typeof AssessmentRoute
   AssessmentsRoute: typeof AssessmentsRouteWithChildren
+  AuthRoute: typeof AuthRouteWithChildren
   AvailableRoute: typeof AvailableRoute
   CommunityRoute: typeof CommunityRoute
   ContactRoute: typeof ContactRoute
@@ -247,6 +284,7 @@ export interface RootRouteChildren {
   ProfileRoute: typeof ProfileRoute
   ResourcesRoute: typeof ResourcesRoute
   TermsRoute: typeof TermsRoute
+  ShiftsIdRoute: typeof ShiftsIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -328,6 +366,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AvailableRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/assessments': {
       id: '/assessments'
       path: '/assessments'
@@ -356,12 +401,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/shifts/$id': {
+      id: '/shifts/$id'
+      path: '/shifts/$id'
+      fullPath: '/shifts/$id'
+      preLoaderRoute: typeof ShiftsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/opportunities/$id': {
       id: '/opportunities/$id'
       path: '/$id'
       fullPath: '/opportunities/$id'
       preLoaderRoute: typeof OpportunitiesIdRouteImport
       parentRoute: typeof OpportunitiesRoute
+    }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof AuthRoute
     }
     '/assessments/$id': {
       id: '/assessments/$id'
@@ -385,6 +444,16 @@ const AssessmentsRouteWithChildren = AssessmentsRoute._addFileChildren(
   AssessmentsRouteChildren,
 )
 
+interface AuthRouteChildren {
+  AuthCallbackRoute: typeof AuthCallbackRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthCallbackRoute: AuthCallbackRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
 interface OpportunitiesRouteChildren {
   OpportunitiesIdRoute: typeof OpportunitiesIdRoute
 }
@@ -402,6 +471,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AssessmentRoute: AssessmentRoute,
   AssessmentsRoute: AssessmentsRouteWithChildren,
+  AuthRoute: AuthRouteWithChildren,
   AvailableRoute: AvailableRoute,
   CommunityRoute: CommunityRoute,
   ContactRoute: ContactRoute,
@@ -413,17 +483,8 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileRoute: ProfileRoute,
   ResourcesRoute: ResourcesRoute,
   TermsRoute: TermsRoute,
+  ShiftsIdRoute: ShiftsIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

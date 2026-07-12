@@ -1,10 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, MapPin, Zap } from "lucide-react";
 import { PageShell, PageHeader } from "@/components/page-shell";
 import { OpportunityCard } from "@/components/opportunity-card";
 import { OPPORTUNITIES, urgencyOf } from "@/lib/opportunities";
 import { store, useStoreVersion } from "@/lib/store";
+import { listOpenShifts } from "@/lib/shifts.functions";
+
 
 export const Route = createFileRoute("/available")({
   head: () => ({
@@ -99,16 +102,12 @@ function AvailablePage() {
           />
         </div>
 
-        <div className="mt-10 flex items-center justify-between">
+        <LiveDbShifts />
+
+        <div className="mt-14 flex items-center justify-between">
           <div>
-            <div className="text-[10px] uppercase tracking-[0.4em] text-white/40 inline-flex items-center gap-2">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-75" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-300" />
-              </span>
-              Live shifts
-            </div>
-            <h2 className="mt-3 text-2xl font-light">{filtered.length} open right now</h2>
+            <div className="text-[10px] uppercase tracking-[0.4em] text-white/40">Featured shifts</div>
+            <h2 className="mt-3 text-2xl font-light">{filtered.length} in the catalog</h2>
           </div>
           <Link to="/opportunities" className="text-xs uppercase tracking-[0.3em] text-white/60 hover:text-white">
             See all <ArrowRight className="inline h-3 w-3" />
@@ -124,3 +123,64 @@ function AvailablePage() {
     </PageShell>
   );
 }
+
+function formatPay(cents: number, type: "fixed" | "hourly") {
+  const dollars = (cents / 100).toLocaleString(undefined, { maximumFractionDigits: 0 });
+  return type === "hourly" ? `$${dollars}/hr` : `$${dollars}`;
+}
+
+function LiveDbShifts() {
+  const { data, isLoading } = useQuery({
+    queryKey: ["shifts", "open"],
+    queryFn: () => listOpenShifts(),
+    refetchInterval: 15_000,
+  });
+  const shifts = data ?? [];
+  return (
+    <div className="mt-10">
+      <div className="flex items-center justify-between">
+        <div>
+          <div className="text-[10px] uppercase tracking-[0.4em] text-white/40 inline-flex items-center gap-2">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-75" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-300" />
+            </span>
+            Live from the community
+          </div>
+          <h2 className="mt-3 text-2xl font-light">{isLoading ? "Loading…" : `${shifts.length} shifts open right now`}</h2>
+        </div>
+        <Link to="/post" className="text-xs uppercase tracking-[0.3em] text-white/60 hover:text-white">
+          Post one <ArrowRight className="inline h-3 w-3" />
+        </Link>
+      </div>
+      {shifts.length === 0 && !isLoading ? (
+        <div className="mt-6 rounded-3xl border border-white/10 bg-white/[0.02] p-8 text-center text-white/60">
+          No live shifts yet. <Link to="/post" className="text-white underline underline-offset-4">Be the first to post one.</Link>
+        </div>
+      ) : (
+        <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {shifts.map((s) => (
+            <Link key={s.id} to="/shifts/$id" params={{ id: s.id }}
+              className="group rounded-3xl border border-white/10 bg-white/[0.03] p-6 transition hover:border-white/30 hover:bg-white/[0.06]">
+              <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.3em] text-white/40">
+                <span>{s.category}</span>
+                {s.urgency === "now" && (
+                  <span className="inline-flex items-center gap-1 rounded-full border border-emerald-400/40 bg-emerald-400/10 px-2 py-0.5 text-emerald-300">
+                    <Zap className="h-2.5 w-2.5" /> Now
+                  </span>
+                )}
+              </div>
+              <h3 className="mt-3 text-lg font-light leading-snug text-white">{s.title}</h3>
+              <p className="mt-2 line-clamp-2 text-sm text-white/60">{s.description}</p>
+              <div className="mt-5 flex items-center justify-between text-xs text-white/60">
+                <span className="inline-flex items-center gap-1"><MapPin className="h-3 w-3" /> {s.location_text}</span>
+                <span className="font-medium text-white">{formatPay(s.pay_cents, s.pay_type as "fixed" | "hourly")}</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+

@@ -25,6 +25,7 @@ import { Route as AssessmentsRouteImport } from './routes/assessments'
 import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ShiftsIdRouteImport } from './routes/shifts.$id'
 import { Route as OpportunitiesIdRouteImport } from './routes/opportunities.$id'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AssessmentsIdRouteImport } from './routes/assessments.$id'
@@ -109,6 +110,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShiftsIdRoute = ShiftsIdRouteImport.update({
+  id: '/shifts/$id',
+  path: '/shifts/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OpportunitiesIdRoute = OpportunitiesIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -145,6 +151,7 @@ export interface FileRoutesByFullPath {
   '/assessments/$id': typeof AssessmentsIdRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/opportunities/$id': typeof OpportunitiesIdRoute
+  '/shifts/$id': typeof ShiftsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -166,6 +173,7 @@ export interface FileRoutesByTo {
   '/assessments/$id': typeof AssessmentsIdRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/opportunities/$id': typeof OpportunitiesIdRoute
+  '/shifts/$id': typeof ShiftsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -188,6 +196,7 @@ export interface FileRoutesById {
   '/assessments/$id': typeof AssessmentsIdRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/opportunities/$id': typeof OpportunitiesIdRoute
+  '/shifts/$id': typeof ShiftsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -211,6 +220,7 @@ export interface FileRouteTypes {
     | '/assessments/$id'
     | '/auth/callback'
     | '/opportunities/$id'
+    | '/shifts/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -232,6 +242,7 @@ export interface FileRouteTypes {
     | '/assessments/$id'
     | '/auth/callback'
     | '/opportunities/$id'
+    | '/shifts/$id'
   id:
     | '__root__'
     | '/'
@@ -253,6 +264,7 @@ export interface FileRouteTypes {
     | '/assessments/$id'
     | '/auth/callback'
     | '/opportunities/$id'
+    | '/shifts/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -272,6 +284,7 @@ export interface RootRouteChildren {
   ProfileRoute: typeof ProfileRoute
   ResourcesRoute: typeof ResourcesRoute
   TermsRoute: typeof TermsRoute
+  ShiftsIdRoute: typeof ShiftsIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -388,6 +401,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/shifts/$id': {
+      id: '/shifts/$id'
+      path: '/shifts/$id'
+      fullPath: '/shifts/$id'
+      preLoaderRoute: typeof ShiftsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/opportunities/$id': {
       id: '/opportunities/$id'
       path: '/$id'
@@ -463,6 +483,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileRoute: ProfileRoute,
   ResourcesRoute: ResourcesRoute,
   TermsRoute: TermsRoute,
+  ShiftsIdRoute: ShiftsIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

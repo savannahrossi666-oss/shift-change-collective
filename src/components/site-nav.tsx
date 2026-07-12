@@ -1,8 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Menu, X, ArrowRight, Plus, Zap } from "lucide-react";
+import { Menu, X, ArrowRight, Plus, Zap, LogOut, User } from "lucide-react";
 import logo from "@/assets/logo.png.asset.json";
 import { store, useStoreVersion } from "@/lib/store";
+import { useAuth } from "@/hooks/use-auth";
+import { supabase } from "@/integrations/supabase/client";
 
 const links = [
   { to: "/opportunities", label: "Claim Shifts" },
@@ -14,8 +16,15 @@ const links = [
 
 export function SiteNav({ transparent = false }: { transparent?: boolean }) {
   useStoreVersion();
+  const { user, isAuthed } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [menu, setMenu] = useState(false);
+  async function signOut() {
+    await supabase.auth.signOut();
+    setMenu(false);
+    if (typeof window !== "undefined") window.location.href = "/";
+  }
   const availableNow = store.isAvailableNow();
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -69,12 +78,38 @@ export function SiteNav({ transparent = false }: { transparent?: boolean }) {
             Post a Shift
           </Link>
           <Link
-            to="/opportunities"
+            to="/available"
             className="hidden md:inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.25em] backdrop-blur-md transition hover:bg-white/10"
           >
             <Zap className="h-3 w-3" />
             Claim a Shift
           </Link>
+          {isAuthed ? (
+            <div className="relative hidden md:block">
+              <button
+                onClick={() => setMenu((v) => !v)}
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-white/5 text-xs text-white/80 hover:bg-white/10"
+                aria-label="Account menu"
+              >
+                {(user?.email?.[0] ?? "U").toUpperCase()}
+              </button>
+              {menu && (
+                <div className="absolute right-0 mt-2 w-56 rounded-2xl border border-white/10 bg-black/90 p-2 backdrop-blur-xl">
+                  <div className="px-3 py-2 text-[10px] uppercase tracking-[0.3em] text-white/40 truncate">{user?.email}</div>
+                  <Link to="/dashboard" onClick={() => setMenu(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-white/80 hover:bg-white/5"><User className="h-3.5 w-3.5" /> Dashboard</Link>
+                  <Link to="/profile" onClick={() => setMenu(false)} className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-white/80 hover:bg-white/5"><User className="h-3.5 w-3.5" /> Profile</Link>
+                  <button onClick={signOut} className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-sm text-white/80 hover:bg-white/5"><LogOut className="h-3.5 w-3.5" /> Sign out</button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link
+              to="/auth"
+              className="hidden md:inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-xs uppercase tracking-[0.25em] text-white/80 hover:bg-white/10"
+            >
+              Sign in
+            </Link>
+          )}
           <button
             aria-label="Toggle menu"
             className="md:hidden inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white/80"

@@ -1,82 +1,60 @@
 
-# Shift Change MVP — "Shifts" Marketplace Pivot
+# Shift Change — Backend & Marketplace Foundations
 
-Keep the current black/glass aesthetic, logo, video, AI artwork, Craft Assessments, and route structure. Rewrite data model + copy so everything speaks "Shifts," and add the two core flows: **Post a Shift** and **Claim a Shift**.
+Big scope, so I'll stage it in four phases and ship them in order. Each phase leaves the app fully working before the next begins.
 
-## Language changes (site-wide)
-- Job / Task / Opportunity / Gig → **Shift**
-- Post a Task / Post a Gig → **Post a Shift**
-- Apply / Accept → **Claim**
-- Worker / Freelancer → **Shifter**
-- Client / Poster → **Requester**
+## Phase 1 — Accounts (Lovable Cloud + Auth)
 
-## Data model (src/lib/opportunities.ts → shifts.ts)
-Extend the `Opportunity` type to a `Shift`:
-- `title, description, pay (number + type: fixed|hourly), location {city, lat?, lng?, distanceMi?}`
-- `startAt (ISO, defaults to today), duration`
-- `photos: string[]`
-- `status: 'open' | 'claimed' | 'in_progress' | 'complete'`
-- `claimedBy?: shifterId`
-- `requester: { id, name, rating, verified }`
-- `category` (keep existing creative + add practical: Help Moving, Delivery, Cleaning, Handywork, Photography, Tutoring, Event Help, etc.)
-- `urgency: 'now' | 'today' | 'this_week'`
+- Enable Lovable Cloud (Postgres + Auth).
+- Email/password sign-in + Google sign-in (defaults).
+- Route structure:
+  - `/auth` — public sign-in / sign-up card, preserves `?redirect=` param.
+  - `_authenticated/` layout gate (integration-managed) for anything user-scoped.
+- Tables:
+  - `profiles` (id → auth.users, display_name, avatar_url, bio, city, created_at) with auto-insert trigger on signup.
+  - `user_roles` + `app_role` enum + `has_role()` security-definer (for future admin/moderation).
+- Header shows account menu / Sign out when signed in; "Sign in" CTA when not.
+- Migrate current localStorage saved-shifts + applications to a `saved_shifts` table keyed by `user_id` (kept simple; existing UI keeps working).
 
-Seed ~20 realistic same-day shifts across categories, mixed urgency.
+## Phase 2 — Real Shifts (post + claim)
 
-## New / rewritten routes
+- `shifts` table:
+  - id, poster_id, title, description, category, city, location_text, pay_cents, urgency (`now`/`today`/`this_week`), duration_minutes, status (`open`/`claimed`/`in_progress`/`completed`/`cancelled`), claimed_by, claimed_at, completed_at, created_at.
+- RLS:
+  - anon + authenticated can SELECT open shifts (public catalog).
+  - poster can SELECT/UPDATE/DELETE own shifts.
+  - claimer can SELECT their claimed shifts.
+- `/post` stepper writes to `shifts` via `createServerFn` (authenticated). Redirects to the shift detail page on success.
+- `/available` + home feeds read live `shifts` (server publishable client for anon reads, narrow `TO anon` SELECT policy on `status = 'open'`).
+- `/shifts/$id` detail page with a **Claim** button:
+  - Authenticated `createServerFn` that atomically flips `status open → claimed` and sets `claimed_by = auth.uid()` in a single `UPDATE ... WHERE status='open'` (race-safe).
+  - After claim, both poster and claimer see it in their dashboards.
+- Dashboard split into **Posted** and **Claimed** tabs backed by real data.
 
-**`/` (home)** — keep hero, replace section 03 CTAs and add a live feed strip:
-- 🔥 Shifts happening today
-- 🟢 Shifters available now
-- 📍 Nearby shifts
-- 💰 Highest-paying shifts today
-  Each is a horizontal-scroll rail of cards, glass style.
+## Phase 3 — Payments (Stripe Connect, escrow-style)
 
-**`/post`** (new) — "Post a Shift in 60 seconds"
-- Stepper form: Title → Description → Pay → Location → Date/Time (default Today) → Photos (optional) → Review → Publish
-- Client-side validation w/ zod, saves to store, redirects to `/shifts/$id`.
+- Enable Lovable's Stripe integration.
+- Helpers onboard as Stripe **Connect Express** accounts (stored on `profiles.stripe_account_id`).
+- Post-a-shift flow captures a **PaymentIntent** with `capture_method: manual` at claim time (funds held, not charged). Helper sees "Payment Verified".
+- On completion (poster taps "Mark complete"): capture the PaymentIntent, transfer 100% to helper's connected account. Platform charges $0 commission.
+- "Strong Signal" boosts ($2.99 / $5.99) = standard one-off Stripe Checkout on the poster, not tied to helper payout. Adds `boost_tier` + `boost_expires_at` on the shift and bumps ranking in feeds.
+- Optional tip after completion → additional transfer to helper.
+- Webhook route at `/api/public/webhooks/stripe` verifies signature, updates `payments` table.
 
-**`/shifts`** (rename of `/opportunities` route file kept for links; add new `/shifts.tsx` and redirect old)
-- Filters: category, urgency (Now/Today/This week), max distance, min pay, sort
-- Search + card grid, "Claim" button on each card.
+## Phase 4 — Messaging
 
-**`/shifts/$id`** — detail with Claim CTA, requester profile card, message button (stub), photos gallery.
+- `conversations` (shift_id, poster_id, claimer_id, unique per shift) + `messages` (conversation_id, sender_id, body, created_at).
+- Conversation auto-created when a shift is claimed.
+- RLS: only the two participants can read/write.
+- Realtime via Supabase channel subscription on `messages` for the open conversation.
+- Simple thread UI at `/messages` (list) and `/messages/$conversationId` (thread).
 
-**`/available`** (new) — "I Want to Work"
-- Toggle: **Available Now** (persisted in store)
-- Travel distance slider
-- Skills multi-select
-- Live list of matching nearby shifts
+## Technical notes
 
-**`/dashboard`** — split into two tabs: **Earn** (claimed shifts, available toggle, nearby feed) and **Requests** (posted shifts, status pipeline).
+- All writes go through `createServerFn` + `requireSupabaseAuth`; RLS is the source of truth.
+- Public reads (opportunity catalog, shift detail for anon) go through a server publishable client with narrow `TO anon` SELECT policies — never the service-role client.
+- No service-role usage outside verified Stripe webhooks.
+- Existing localStorage code stays as a thin fallback for unauthenticated visitors browsing the catalog; anything that mutates requires sign-in.
+- Shipping order in-thread: **Phase 1 → 2** first (accounts + real shifts working end-to-end), then I'll check in before wiring Stripe Connect and messaging so you can confirm the payment split model and messaging scope.
 
-## New components
-- `ShiftCard` (replaces OpportunityCard, adds urgency chip, pay badge, distance, Claim button)
-- `AvailableNowToggle`
-- `LiveFeedRail` (horizontal-scroll section)
-- `PostShiftStepper`
-- `UrgencyBadge` (Now = pulsing green, Today = amber, This week = muted)
-
-## Store additions (src/lib/store.ts)
-- `availableNow: boolean`, `travelDistance: number`, `skills: string[]`
-- `postedShifts: Shift[]`, `claimedShifts: string[]`
-- Actions: `postShift`, `claimShift`, `toggleAvailable`
-
-## Trust & safety surfaces (design only, no backend)
-- Verified checkmark on requester/shifter cards
-- Star ratings on profile + shift detail
-- "Secure payment held in escrow" badge on detail page
-- Message button (opens stub modal)
-
-## Preserved
-- Craft Assessments system — badges now render on Shifter profile & detail
-- Existing logo, hero video, AI artwork, glass aesthetic, animations
-- Route files kept where possible; `/opportunities` becomes an alias/redirect to `/shifts`
-
-## Out of scope for this pass
-- Real geolocation / live map (design placeholder card)
-- Push notifications (in-app toast only)
-- Payments implementation (visual escrow only)
-- Realtime backend (all state client-side via store)
-
-Ready to build on approval.
+Ready to start with Phase 1?

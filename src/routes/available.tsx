@@ -1,10 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, MapPin, Zap } from "lucide-react";
 import { PageShell, PageHeader } from "@/components/page-shell";
 import { OpportunityCard } from "@/components/opportunity-card";
 import { OPPORTUNITIES, urgencyOf } from "@/lib/opportunities";
 import { store, useStoreVersion } from "@/lib/store";
+import { listOpenShifts } from "@/lib/shifts.functions";
+
 
 export const Route = createFileRoute("/available")({
   head: () => ({

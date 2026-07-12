@@ -43,7 +43,7 @@ export const getShiftById = createServerFn({ method: "GET" })
     const supa = publicClient();
     const { data: row, error } = await supa
       .from("shifts")
-      .select(`${SHIFT_COLUMNS}, poster:profiles!shifts_poster_id_fkey(display_name, avatar_url, city)`)
+      .select(SHIFT_COLUMNS)
       .eq("id", data.id)
       .maybeSingle();
     if (error) throw new Error(error.message);
